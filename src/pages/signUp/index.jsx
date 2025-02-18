@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import GoogleButton from "../components/googleLogin/googleLogin";
 const SignUpPage = () => {
   return (
     <>
@@ -24,10 +25,7 @@ const SignUpPage = () => {
           <img src="public/signup.png" className="w-1/2 mx-auto sm:block hidden" alt="" />
           {/* Form */}
           <div id="form" className="flex flex-col w-full">
-            <button className="w-full bg-white px-0 py-3 rounded-xl hover:bg-white/60 duration-300 flex flex-row items-center justify-center gap-4">
-              <img src="public/googleLogo.svg" className="w-6" alt="" />
-              Sign Up With Google
-            </button>
+            <GoogleButton />
             <div className="p-4">
               <h1 className="text-center text-white">Atau</h1>
             </div>
