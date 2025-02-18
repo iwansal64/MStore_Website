@@ -1,10 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaClient } from "@prisma/client";
-import dotenv from "dotenv";
+import { googleSignUp } from "../student";
 
-dotenv.config();
-const prisma = new PrismaClient();
 
 const nextAuthOption: NextAuthOptions = {
     session: {
@@ -23,28 +20,12 @@ const nextAuthOption: NextAuthOptions = {
             
             console.log(profile);
             
-            if(!profile?.email) {
+            if(!profile?.email || !profile?.name) {
                 console.log("USER NOT CONSENT TO GIVING THE EMAIL INFORMATION");
                 throw new Error("User should consent to giving email address!");
             }
 
-            await prisma.$connect();
-
-            await prisma.student.upsert({
-                where: {
-                    email: profile.email
-                },
-                create: {
-                    email: profile.email,
-                    fullname: profile.name!,
-                    username: profile.name!,
-                },
-                update: {
-                    username: profile.name!
-                }
-            })
-
-            await prisma.$disconnect();
+            googleSignUp({ email: profile.email, name: profile.name });
             
             return true;
         },
