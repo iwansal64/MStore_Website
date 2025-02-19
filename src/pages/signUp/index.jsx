@@ -22,7 +22,7 @@ const SignUpPage = () => {
           className=" flex flex-row justify-center items-center gap-8 sm:px-4 px-1 mt-8"
         >
           {/* Image */}
-          <img src="public/signup.png" className="w-1/2 mx-auto sm:block hidden" alt="" />
+          <img src="/signup.png" className="w-1/2 mx-auto sm:block hidden" alt="" />
           {/* Form */}
           <div id="form" className="flex flex-col w-full">
             <GoogleButton />

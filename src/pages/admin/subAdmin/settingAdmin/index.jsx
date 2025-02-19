@@ -6,7 +6,7 @@ const SettingsAdmin = () => {
       <div className="flex sm:flex-row flex-col gap-4">
         <section id="imgCard" className="space-y-4">
           <div className="bg-white/10 backdrop-blur-md rounded-lg sm:w-[300px] w-full h-fit p-5">
-            <img src="../public/avatar.svg" className="w-1/2 h-full mx-auto" alt="" />
+            <img src="/avatar.svg" className="w-1/2 h-full mx-auto" alt="" />
             <div id="titleCard" className="text-center p-4 space-y-2 w-full">
               <h1 className="text-white tracking-wide">Admin MStore</h1>
             </div>

@@ -1,7 +1,7 @@
 const CustomersList = () => {
   return (
     <div>
-      <img src="/public/wip_bg.jpg" className="w-[50rem] mx-auto" alt="" />
+      <img src="/wip_bg.jpg" className="w-[50rem] mx-auto" alt="" />
     </div>
   );
 };
