@@ -43,8 +43,6 @@ export async function manualSignUp({ email, password } : { email: string, passwo
             })
         })).json();
 
-        console.log(response);
-
         return {
             success: true,
             response
@@ -68,16 +66,25 @@ export async function getStudentData() {
             },
         })).json();
 
-        console.log(response);
-
-        return {
-            success: true,
-            response
-        };
+        if(response.error_code && response.error_code == "004") {
+            return {
+                success: false,
+                server_error: false
+            };
+        }
+    
+        if(response.result) {
+            const userData = response.result;
+            return {
+                success: true,
+                result: userData
+            };
+        }
     }
     catch (error) {
         return {
             success: false,
+            server_error: true,
             error
         };
     }

@@ -64,25 +64,22 @@ const NavigateBar = () => {
   }
 
   useEffect(() => {
-    getStudentData().then((value) => {
-      if(!value.success) {
-        return;
-      }
-
-      if(value.response.error_code && value.response.error_code == "004") {
-        return;
-      }
-
-      if(value.response.result) {
-        const userData = value.response.result;
-        setUser({
-          username: userData.username,
-          imgProfile: "/avatar.svg",
-          coin: userData.balance
-        });
-      }
-    });
-  }, [])
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    if(userData) {
+      setUser({
+        username: userData.username,
+        imgProfile: "/avatar.svg",
+        coin: userData.balance
+      });
+    }
+    else {
+      setUser({
+        username: "Not sign in.",
+        imgProfile: "/signin_profile.svg",
+        coin: -1
+      })
+    }
+  }, []);
 
   return (
     <>

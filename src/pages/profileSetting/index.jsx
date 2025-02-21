@@ -14,18 +14,20 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { LuBellRing } from "react-icons/lu";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { SessionProvider } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { getStudentData } from "../api/student";
 
 
 const ProfileSetting = () => {
   const navigate = useNavigate();
 
-  const user = {
-    imgProfile: "/avatar.svg",
-    username: "Muhammad Rifqi Hamza",
-    number: "08123456789",
-    email: "userEmail@gmail.com",
-    coin: 1000,
-  };
+  const [user, setUser] = useState({
+    imgProfile: "/signup_profile.svg",
+    username: "Loading..",
+    number: "...",
+    email: "...",
+    coin: 0,
+  });
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -35,6 +37,26 @@ const ProfileSetting = () => {
   const handleBack = () => {
     navigate("/home");
   };
+
+  
+  useEffect(() => {
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    if(userData) {
+      setUser({
+        username: userData.username,
+        imgProfile: "/avatar.svg",
+        coin: userData.balance
+      });
+    }
+    else {
+      setUser({
+        username: "Not sign in.",
+        imgProfile: "/signin_profile.svg",
+        coin: -1
+      });
+    }
+  }, []);
+
   return (
     <>
       <div className="sm:block hidden">

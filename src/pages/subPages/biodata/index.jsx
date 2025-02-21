@@ -1,12 +1,39 @@
+import { useEffect, useState } from "react";
+
 const Biodata = () => {
-  const user = {
+  const [user, setUser] = useState({
     imgProfile: "/avatar.svg",
     username: "Muhammad Rifqi Hamza",
     born: "27 December 2100",
     gender: "Laki-laki",
     angkatan: 11,
     coin: 1000,
-  };
+  });
+
+  
+  useEffect(() => {
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    if(userData) {
+      setUser({
+        username: userData.username,
+        imgProfile: "/avatar.svg",
+        coin: userData.balance,
+        angkatan: 12,
+        born: "21 January 2020",
+        gender: "Laki-laki"
+      });
+    }
+    else {
+      setUser({
+        username: "Not sign in.",
+        imgProfile: "/signin_profile.svg",
+        coin: -1,
+        angkatan: -1,
+        born: "",
+        gender: ""
+      });
+    }
+  }, []);
   return (
     <>
       <section id="desktopView">

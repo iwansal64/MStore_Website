@@ -33,6 +33,13 @@ const LoginPage = () => {
         return;
     }
 
+    if(!response.response.data) {
+        alert("There's an error when trying to sign you in. Please contact developer.");
+        return;
+    }
+
+    sessionStorage.setItem("userData", JSON.stringify(response.response.data));
+
     navigate("/home");
   };
 
