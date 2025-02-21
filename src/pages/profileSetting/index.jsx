@@ -51,7 +51,7 @@ const ProfileSetting = () => {
     else {
       setUser({
         username: "Not sign in.",
-        imgProfile: "/signin_profile.svg",
+        imgProfile: "/signup_profile.svg",
         coin: -1
       });
     }

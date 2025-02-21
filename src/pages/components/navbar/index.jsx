@@ -11,7 +11,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { itemsCart } from "../../variables/itemsCart";
 import { useSession, signOut } from "next-auth/react";
-import { getStudentData } from "../../api/student";
+import { getStudentData, logoutStudent } from "../../api/student";
 
 const NavigateBar = () => {
   const session = useSession();
@@ -52,11 +52,12 @@ const NavigateBar = () => {
     }
   }, [menuOpen]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    sessionStorage.clear();
+    await logoutStudent();
     signOut({
         callbackUrl: "/"
     });
-    sessionStorage.clear();
   };
 
   const handleLogin = () => {

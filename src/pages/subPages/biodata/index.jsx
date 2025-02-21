@@ -26,7 +26,7 @@ const Biodata = () => {
     else {
       setUser({
         username: "Not sign in.",
-        imgProfile: "/signin_profile.svg",
+        imgProfile: "/signup_profile.svg",
         coin: -1,
         angkatan: -1,
         born: "",
