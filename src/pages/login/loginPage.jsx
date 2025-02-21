@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import GoogleButton from "../components/googleLogin/googleLogin";
+import { manualSignUp } from "../api/student";
+import { SessionProvider, useSession } from "next-auth/react";
+import CheckLogin from "../components/checkLogin/checkLogin";
 
 const dummyData = [
   { email: "user@mstore.com", password: "user", type: "regular" },
@@ -12,24 +15,30 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
+  const handleLogin = async () => {
+    const response = await manualSignUp({
+        email: email,
+        password, password
+    });
 
-  const handleLogin = () => {
-    const user = dummyData.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (user) {
-      if (user.type === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/regular");
-      }
-    } else {
-      alert("There's something wrong!");
+    
+    if(!response.success) {
+        alert("There's an error when trying to sign you in. Please contact developer.");
+        return;
     }
+
+    if(!response.response.result) {
+        alert("Email or Password is incorrect!");
+        return;
+    }
+
+    navigate("/home");
   };
 
   return (
     <>
+      <SessionProvider><CheckLogin /></SessionProvider>
       <div id="containerLogin" className="w-full sm:w-1/2 p-6 ">
         <div id="title" className="flex flex-row justify-between">
           <div className="">

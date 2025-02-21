@@ -10,10 +10,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { itemsCart } from "../../variables/itemsCart";
+import { useSession, signOut } from "next-auth/react";
+import { getStudentData } from "../../api/student";
 
 const NavigateBar = () => {
+  const session = useSession();
+    
   const [elevated, setElevated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState({
+    imgProfile: "/signup_profile.svg",
+    username: "Loading..",
+    coin: -1,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,15 +53,36 @@ const NavigateBar = () => {
   }, [menuOpen]);
 
   const handleLogout = () => {
+    signOut({
+        callbackUrl: "/"
+    });
     sessionStorage.clear();
-    navigate("/");
   };
 
-  const user = {
-    imgProfile: "/avatar.svg",
-    username: "Muhammad Rifqi Hamza",
-    coin: 1000,
-  };
+  const handleLogin = () => {
+    navigate("/");
+  }
+
+  useEffect(() => {
+    getStudentData().then((value) => {
+      if(!value.success) {
+        return;
+      }
+
+      if(value.response.error_code && value.response.error_code == "004") {
+        return;
+      }
+
+      if(value.response.result) {
+        const userData = value.response.result;
+        setUser({
+          username: userData.username,
+          imgProfile: "/avatar.svg",
+          coin: userData.balance
+        });
+      }
+    });
+  }, [])
 
   return (
     <>
@@ -63,14 +93,14 @@ const NavigateBar = () => {
             : "bg-transparent relative"
         }`}
       >
-        <Link to="/regular" className="text-white px-4 font-bold sm:hidden">
+        <Link to="/home" className="text-white px-4 font-bold sm:hidden">
           MitraStore
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex md:flex-row items-center gap-4 relative">
           <Link
-            to="/regular"
+            to="/home"
             className="text-white px-4 font-bold fixed left-4"
           >
             MitraStore
@@ -173,10 +203,14 @@ const NavigateBar = () => {
                   />
                   <div className="flex flex-col">
                     <p className="text-xs truncate">{user.username}</p>
-                    <div className="flex items-center gap-1 text-yellow-400 text-xs">
-                      <FaCoins />
-                      <span>{user.coin}</span>
-                    </div>
+                    {(() => {
+                       return (user.coin>=0)?
+                       <div className="flex items-center gap-1 text-yellow-400 text-xs">
+                         <FaCoins />
+                         <span>{user.coin}</span>
+                       </div>:<></> 
+                    })()
+                    }
                   </div>
                 </Link>
               </MenuItem>
@@ -206,13 +240,20 @@ const NavigateBar = () => {
               </MenuItem>
               <MenuItem>
                 {({ active }) => (
-                  <button
-                    onClick={handleLogout}
+                  user.coin>=0?<button
+                  onClick={handleLogout}
+                  className={`w-full text-left px-4 py-2 text-xs rounded-md uppercase font-bold transition ${
+                    active ? "bg-red-600" : "bg-transparent"
+                  }`}
+                >
+                  Logout
+                </button>:<button
+                    onClick={handleLogin}
                     className={`w-full text-left px-4 py-2 text-xs rounded-md uppercase font-bold transition ${
-                      active ? "bg-red-600" : "bg-transparent"
+                      active ? "bg-green-600" : "bg-transparent"
                     }`}
                   >
-                    Logout
+                    Login
                   </button>
                 )}
               </MenuItem>
@@ -247,7 +288,7 @@ const NavigateBar = () => {
 
             <div className="flex-1 p-6 space-y-8">
               <Link
-                to="/regular"
+                to="/home"
                 className="block text-white text-xl uppercase"
                 onClick={() => setMenuOpen(false)}
               >

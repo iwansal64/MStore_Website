@@ -2,6 +2,8 @@ import { FaTrashCan, FaMinus, FaPlus } from "react-icons/fa6";
 import NavigateBar from "../components/navbar";
 import { allProduct } from "../variables/allProduct";
 import { useState } from "react";
+import { SessionProvider } from "next-auth/react";
+
 const KeranjangBelanja = () => {
   const [quantity, setQuantity] = useState(0);
 
@@ -19,7 +21,7 @@ const KeranjangBelanja = () => {
 
   return (
     <>
-      <NavigateBar />
+      <SessionProvider><NavigateBar /></SessionProvider>
       <div className="max-w-7xl mx-auto">
         <div id="title" className="text-white ">
           <h1>Keranjang Belanja</h1>

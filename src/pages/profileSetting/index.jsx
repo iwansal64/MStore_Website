@@ -13,6 +13,8 @@ import {
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { LuBellRing } from "react-icons/lu";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { SessionProvider } from "next-auth/react";
+
 
 const ProfileSetting = () => {
   const navigate = useNavigate();
@@ -31,12 +33,12 @@ const ProfileSetting = () => {
   };
 
   const handleBack = () => {
-    navigate("/regular");
+    navigate("/home");
   };
   return (
     <>
       <div className="sm:block hidden">
-        <NavigateBar />
+        <SessionProvider><NavigateBar /></SessionProvider>
       </div>
       <section
         id="profileSetting"

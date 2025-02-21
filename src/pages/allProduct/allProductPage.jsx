@@ -3,11 +3,12 @@ import { category } from "../variables/kategori";
 import { allProduct } from "../variables/allProduct";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { SessionProvider } from "next-auth/react";
 
 const AllProductPage = () => {
   return (
     <>
-      <NavigateBar />
+      <SessionProvider><NavigateBar /></SessionProvider>
       <div className="container translate-y-[2rem] mx-auto px-6">
         <div
           id="searchbar"

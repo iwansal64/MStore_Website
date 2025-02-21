@@ -28,7 +28,7 @@ function ClientRouter() {
         <Router>
             <Routes>
                 <Route path="/" element={<LoginPage />} />
-                <Route path="/regular" element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/allProduct" element={<AllProductPage />} />
                 <Route path="/keranjangBelanja" element={<KeranjangBelanja />} />
                 <Route path="/signUp" element={<SignUpPage />} />

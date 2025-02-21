@@ -25,9 +25,16 @@ const nextAuthOption: NextAuthOptions = {
                 throw new Error("User should consent to giving email address!");
             }
 
-            googleSignUp({ email: profile.email, name: profile.name });
-            
-            return true;
+            const result = await googleSignUp({ email: profile.email, name: profile.name });
+
+            if(result["success"]) {
+                console.info(`SUCCESS. MESSAGE: ${JSON.stringify(result["response"])}`);
+                return true;
+            }
+            else {
+                console.error(`ERROR WHEN TRYING TO REQUEST GOOGLE SIGN UP/IN. ERROR: ${result["error"]}`);
+                return false;
+            }
         },
     },
 };
