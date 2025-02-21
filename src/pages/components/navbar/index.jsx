@@ -64,6 +64,7 @@ const NavigateBar = () => {
     navigate("/");
   }
 
+  //- Update User Data
   useEffect(() => {
     const userData = JSON.parse(sessionStorage.getItem("userData"));
     if(userData) {
@@ -74,11 +75,22 @@ const NavigateBar = () => {
       });
     }
     else {
-      setUser({
-        username: "Not sign in.",
-        imgProfile: "/signin_profile.svg",
-        coin: -1
+      getStudentData().then(value => {
+        if(!value.success) {
+          return;
+        }
+
+        const userData = value.result;
+
+        sessionStorage.setItem("userData", JSON.stringify(userData));
+        window.location.reload();
       })
+      
+      setUser({
+        username: "Loading...",
+        imgProfile: "/signup_profile.svg",
+        coin: -1
+      });
     }
   }, []);
 
