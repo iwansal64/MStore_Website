@@ -89,3 +89,28 @@ export async function getStudentData() {
         };
     }
 }
+
+export async function logoutStudent() {
+    try {
+        const response = await (await fetch(Student.LogoutEndpoint, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Authorization": "90ySD1y9fH299gH90ChOZgvdasoi",
+            },
+        })).json();
+
+        if(response.result) {
+            return {
+                success: true,
+                error: null
+            };
+        }
+    }
+    catch (e) {
+        return {
+            success: false,
+            error: e
+        };
+    }
+}
