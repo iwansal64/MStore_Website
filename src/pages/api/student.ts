@@ -106,6 +106,12 @@ export async function logoutStudent() {
                 error: null
             };
         }
+        else {
+            return {
+                success: false,
+                error: response.message
+            };
+        }
     }
     catch (e) {
         return {
