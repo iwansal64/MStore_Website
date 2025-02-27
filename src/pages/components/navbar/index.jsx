@@ -58,7 +58,7 @@ const NavigateBar = () => {
       alert("There's internal server error when trying to logout. Please contact developer.");
       return;
     }
-    sessionStorage.clear();
+    localStorage.clear();
     signOut({
         callbackUrl: "/"
     });
@@ -70,7 +70,7 @@ const NavigateBar = () => {
 
   //- Update User Data
   useEffect(() => {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
     if(userData) {
       setUser({
         username: userData.username,
@@ -86,8 +86,14 @@ const NavigateBar = () => {
 
         const userData = value.result;
 
-        sessionStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("userData", JSON.stringify(userData));
         window.location.reload();
+      }).finally(() => {
+        setUser({
+          username: "Guest",
+          imgProfile: "/signup_profile.svg",
+          coin: -1
+        });
       })
       
       setUser({

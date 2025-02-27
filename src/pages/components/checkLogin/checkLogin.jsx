@@ -6,7 +6,7 @@ export default function CheckLogin() {
     const navigate = useNavigate();
     
     const session = useSession();
-    const rawUserData = JSON.parse(sessionStorage.getItem("userData"));
+    const rawUserData = JSON.parse(localStorage.getItem("userData"));
     if(rawUserData || session.data) {
         if(rawUserData.user.password !== null) {
             manualSignUp({

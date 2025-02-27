@@ -30,7 +30,7 @@ const ProfileSetting = () => {
   });
 
   const handleLogout = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     navigate("/");
   };
 
@@ -40,7 +40,7 @@ const ProfileSetting = () => {
 
   
   useEffect(() => {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
     if(userData) {
       setUser({
         username: userData.username,

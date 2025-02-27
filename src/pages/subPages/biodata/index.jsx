@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 
 const Biodata = () => {
   const [user, setUser] = useState({
-    imgProfile: "/avatar.svg",
-    username: "Muhammad Rifqi Hamza",
-    born: "27 December 2100",
-    gender: "Laki-laki",
-    angkatan: 11,
-    coin: 1000,
+    imgProfile: "/signup_profile.svg",
+    username: "",
+    born: "",
+    gender: "",
+    angkatan: 0,
+    coin: -1,
   });
 
   
   useEffect(() => {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
     if(userData) {
       setUser({
         username: userData.username,
@@ -131,6 +131,7 @@ const Biodata = () => {
               </div>
             </div>
             {/* Information Data */}
+            {}
             <div id="title">
               <h1 className="text-white/80 text-2xl">Ubah Biodata Diri</h1>
               <table className="text-white flex flex-row justify-center items-center gap-10 mt-4">

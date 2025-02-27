@@ -38,7 +38,7 @@ const LoginPage = () => {
         return;
     }
 
-    sessionStorage.setItem("userData", JSON.stringify(response.response.data));
+    localStorage.setItem("userData", JSON.stringify(response.response.data));
 
     navigate("/home");
   };

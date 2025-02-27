@@ -15,7 +15,7 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     navigate("/");
   };
   return (
