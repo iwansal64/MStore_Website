@@ -1,24 +1,34 @@
 import { Student } from "./base";
 
-export async function googleSignUp({ email, name }: { email: string, name: string }) {
+const authorization_string = "90ySD1y9fH299gH90ChOZgvdasoi";
+
+export async function googleSignUp({ next_auth_token, email, fullname }: { next_auth_token: string, email: string, fullname: string }) {
     try {
-        const response = await (await fetch(Student.RegisterEndpoint, {
+        const response_login = await (await fetch(Student.GoogleEndpoint, {
             method: "POST",
-            credentials: "include",
             headers: {
-                "Authorization": "90ySD1y9fH299gH90ChOZgvdasoi",
+                "Authorization": authorization_string,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "fullname": name,
-                "email": email
+                "next_auth_token": next_auth_token,
+                "email": email,
+                "fullname": fullname
             })
         })).json();
 
-        return {
-            success: true,
-            response
-        };
+        if(response_login.result) {
+            return {
+                success: true,
+                data: response_login.result
+            }
+        }
+        else {
+            return {
+                success: false,
+                error: response_login.error_code||response_login.error
+            }
+        }
     }
     catch (error) {
         return {
@@ -34,7 +44,7 @@ export async function manualSignUp({ email, password } : { email: string, passwo
             method: "POST",
             credentials: "include",
             headers: {
-                "Authorization": "90ySD1y9fH299gH90ChOZgvdasoi",
+                "Authorization": authorization_string,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -62,7 +72,7 @@ export async function getStudentData() {
             method: "POST",
             credentials: "include",
             headers: {
-                "Authorization": "90ySD1y9fH299gH90ChOZgvdasoi",
+                "Authorization": authorization_string,
             },
         })).json();
 
@@ -96,7 +106,7 @@ export async function logoutStudent() {
             method: "POST",
             credentials: "include",
             headers: {
-                "Authorization": "90ySD1y9fH299gH90ChOZgvdasoi",
+                "Authorization": authorization_string,
             },
         })).json();
 

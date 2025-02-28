@@ -15,24 +15,26 @@ const nextAuthOption: NextAuthOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async signIn({ profile }) {
-            console.log("====PROFILE====");
-            
-            console.log(profile);
-            
-            if(!profile?.email || !profile?.name) {
+        async jwt({ token, account }) {
+            if (account) {
+                token.accessToken = account.access_token; // Store access token in JWT
+            }
+            return token;
+        },
+        async signIn({ profile, account }) {
+            if(!profile?.email || !profile?.name || !account?.access_token) {
                 console.log("USER NOT CONSENT TO GIVING THE EMAIL INFORMATION");
                 throw new Error("User should consent to giving email address!");
             }
 
-            const result = await googleSignUp({ email: profile.email, name: profile.name });
+            const result = await googleSignUp({ next_auth_token: account?.access_token, email: profile.email, fullname: profile.name });
 
-            if(result["success"]) {
-                console.info(`SUCCESS. MESSAGE: ${JSON.stringify(result["response"])}`);
+            if(result.success) {
+                console.log("SUCCESS");
                 return true;
             }
             else {
-                console.error(`ERROR WHEN TRYING TO REQUEST GOOGLE SIGN UP/IN. ERROR: ${result["error"]}`);
+                console.log(`ERROR: ${result.error}`);
                 return false;
             }
         },

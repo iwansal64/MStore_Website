@@ -83,6 +83,7 @@ const LoginPage = () => {
               placeholder="Masukkan Passwordmu..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
               className="loginInput outline-none px-4 py-3 w-full bg-white/10 backdrop-blur-md rounded-lg placeholder:text-white/60 "
             />
             <div

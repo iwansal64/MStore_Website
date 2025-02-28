@@ -76,7 +76,9 @@ const AllProductPage = () => {
                 </div>
 
                 <div id="btn" className="flex flex-row gap-2 text-sm">
-                  <button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300">
+                  <button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300" onClick={() => {
+                    console.log(product.name);
+                  }}>
                     Buy
                   </button>
                   <button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300">

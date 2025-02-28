@@ -8,12 +8,12 @@ export const seragam = [
 ];
 
 export const celana = [
-    { id: 1, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
-    { id: 2, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
-    { id: 3, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
-    { id: 4, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
-    { id: 5, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
-    { id: 6, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
+    { id: 7, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
+    { id: 8, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
+    { id: 9, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
+    { id: 10, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
+    { id: 11, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
+    { id: 12, imgUrl: "/pants.svg", name: "List Items", price: 12345678 },
 ];
 
 export const wearpack = [
