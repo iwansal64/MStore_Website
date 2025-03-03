@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { googleSignUp } from "../student";
+import { googleLogin } from "../student";
 
 
 const nextAuthOption: NextAuthOptions = {
@@ -27,7 +27,7 @@ const nextAuthOption: NextAuthOptions = {
                 throw new Error("User should consent to giving email address!");
             }
 
-            const result = await googleSignUp({ next_auth_token: account?.access_token, email: profile.email, fullname: profile.name });
+            const result = await googleLogin({ next_auth_token: account?.access_token, email: profile.email, fullname: profile.name });
 
             if(result.success) {
                 console.log("SUCCESS");

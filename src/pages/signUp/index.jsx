@@ -1,6 +1,31 @@
 import { Link } from "react-router-dom";
 import GoogleButton from "../components/googleLogin/googleLogin";
+import { is_email_valid, manualSignUp } from "../api/student";
+import { useState } from "react";
+
 const SignUpPage = () => {
+  const [email, setEmail] = useState("");
+
+  async function signup() {
+    console.log("Manual SignUp!");
+
+    try {
+      const response = await manualSignUp({ email: email });
+      console.log(response);
+      if(response.success) {
+        alert("Please open your gmail and confirm!");
+      }
+      else {
+        console.error(`Error: ${response.error}`);
+        alert(`There's an unexpected error! Please contact developer.`);
+      }
+    }
+    catch(error) {
+      console.error(`Error: ${response.error}`);
+      alert(`There's an unexpected error. Please contact developer.`);
+    }
+  }
+  
   return (
     <>
       <div id="containerSignup" className="p-6 sm:w-1/2 w-full">
@@ -34,10 +59,17 @@ const SignUpPage = () => {
                 type="email"
                 placeholder="Masukkan Emailmu"
                 className="signUpInput placeholder:text-white px-4 py-3 rounded-lg"
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
               />
-              <button className="text-white w-full border border-white p-2 rounded-lg mt-8 hover:bg-white hover:text-black duration-300 uppercase tracking-wider">
+              <button 
+                className="text-white w-full border border-white p-2 rounded-lg mt-8 hover:bg-white hover:text-black duration-300 uppercase tracking-wider disabled:opacity-50 disabled:pointer-events-none" 
+                onClick={signup}
+                disabled={!is_email_valid(email)}
+              >
                 Daftar
-              </button>
+              </button> 
             </form>
             <div className="text-white text-center mt-6">
               <p className="text-xs">

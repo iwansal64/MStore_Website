@@ -2,7 +2,51 @@ import { Student } from "./base";
 
 const authorization_string = "90ySD1y9fH299gH90ChOZgvdasoi";
 
-export async function googleSignUp({ next_auth_token, email, fullname }: { next_auth_token: string, email: string, fullname: string }) {
+export function is_email_valid(email: string) {
+    if(!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        return false;
+    }
+    return true;
+}
+
+export async function manualSignUp({ email }: { email: string }) {
+    try {
+        const response_register = await (await fetch(Student.RegisterEndpoint, {
+            method: "POST",
+            headers: {
+                "Authorization": authorization_string,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "email": email,
+            }),
+            
+        })).json();
+
+        
+        if(response_register.result) {
+            return {
+                success: true,
+                data: response_register.result
+            }
+        }
+        else {
+            return {
+                success: false,
+                error: response_register.error_code||response_register.error
+            }
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return {
+            success: false,
+            error
+        }
+    }
+}
+
+export async function googleLogin({ next_auth_token, email, fullname }: { next_auth_token: string, email: string, fullname: string }) {
     try {
         const response_login = await (await fetch(Student.GoogleEndpoint, {
             method: "POST",
@@ -38,7 +82,7 @@ export async function googleSignUp({ next_auth_token, email, fullname }: { next_
     }
 }
 
-export async function manualSignUp({ email, password } : { email: string, password: string }) {
+export async function manualLogin({ email, password } : { email: string, password: string }) {
     try {
         const response = await (await fetch(Student.ValidateEndpoint, {
             method: "POST",

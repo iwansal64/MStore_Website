@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import GoogleButton from "../components/googleLogin/googleLogin";
-import { manualSignUp } from "../api/student";
+import { manualLogin } from "../api/student";
 import { SessionProvider, useSession } from "next-auth/react";
 import CheckLogin from "../components/checkLogin/checkLogin";
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   
   const handleLogin = async () => {
-    const response = await manualSignUp({
+    const response = await manualLogin({
         email: email,
         password, password
     });
