@@ -20,7 +20,6 @@ export async function manualSignUp({ email }: { email: string }) {
             body: JSON.stringify({
                 "email": email,
             }),
-            
         })).json();
 
         
@@ -35,6 +34,43 @@ export async function manualSignUp({ email }: { email: string }) {
                 success: false,
                 error: response_register.error_code||response_register.error
             }
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return {
+            success: false,
+            error
+        }
+    }
+}
+
+export async function verifyRegistration({ token, password, fullname }: { token: string, password: string, fullname: string }) {
+    try {
+        const response_verification = await (await fetch(Student.VerifyRegisterEndpoint, {
+            method: "POST",
+            headers: {
+                "Authorization": authorization_string,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "fullname": fullname,
+                "password": password,
+                "token": token,
+            }),
+        })).json();
+
+        if(response_verification.result) {
+            return {
+                success: true,
+                data: response_verification.data
+            }
+        }
+        else {
+            return {
+                success: false,
+                error: response_verification.error_code||response_verification.error
+            }    
         }
     }
     catch (error) {
