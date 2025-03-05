@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import strftime from "strftime";
 
 const Biodata = () => {
   const [user, setUser] = useState({
@@ -15,12 +16,12 @@ const Biodata = () => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     if(userData) {
       setUser({
-        username: userData.username,
-        imgProfile: "/avatar.svg",
+        username: userData.fullname,
+        imgProfile: userData.imageUrl || "/avatar.svg",
         coin: userData.balance,
-        angkatan: 12,
-        born: "21 January 2020",
-        gender: "Laki-laki"
+        angkatan: userData.generation || "-",
+        born: userData.dateOfBirth ? strftime("%d %B %Y", new Date(userData.dateOfBirth)) : "-",
+        gender: userData.gender !== null ? (userData.gender == 1 ? "Male" : "Female" ) : "-"
       });
     }
     else {
