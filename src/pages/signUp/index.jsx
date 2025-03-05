@@ -7,12 +7,14 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
+  const [isProcess, setIsProcess] = useState(false);
   const [searchParams] = useSearchParams();
 
   //? Check for token (for validating account registration)
   const token = searchParams.get("token");
 
   async function signup() {
+    setIsProcess(true);
     console.log("Manual SignUp!");
 
     try {
@@ -22,20 +24,24 @@ const SignUpPage = () => {
         window.location.href = "/";
       }
       else if(response.error == "001") {
+        setIsProcess(false);
         alert("There's someone that already registered with the same email");
       }
       else {
+        setIsProcess(false);
         console.error(`Error: ${response.error}`);
         alert(`There's an unexpected error! Please contact developer.`);
       }
     }
     catch(error) {
+      setIsProcess(false);
       console.error(`Error: ${response.error}`);
       alert(`Sorry, There's an unexpected error. Please contact developer.`);
     }
   }
 
   async function verify() {
+    setIsProcess(true);
     console.log("Email Verification!");
     
     try {
@@ -45,10 +51,12 @@ const SignUpPage = () => {
         window.location.href = "/";
       }
       else {
+        setIsProcess(false);
         alert("There's a problem when trying to verify the account registration!");
       }
     }
     catch(error) {
+      setIsProcess(false);
       console.error(error);
       alert("Sorry, There's an unexpected error. Please contact developer.");
     }
@@ -102,6 +110,7 @@ const SignUpPage = () => {
                       <button 
                         className="text-white w-full border border-white p-2 rounded-lg mt-8 hover:bg-white hover:text-black duration-300 uppercase tracking-wider disabled:opacity-50 disabled:pointer-events-none" 
                         onClick={verify}
+                        disabled={isProcess}
                       >
                         Daftar
                       </button> 
@@ -127,7 +136,7 @@ const SignUpPage = () => {
                       <button 
                         className="text-white w-full border border-white p-2 rounded-lg mt-8 hover:bg-white hover:text-black duration-300 uppercase tracking-wider disabled:opacity-50 disabled:pointer-events-none" 
                         onClick={signup}
-                        disabled={!is_email_valid(email)}
+                        disabled={!is_email_valid(email)||isProcess}
                       >
                         Daftar
                       </button> 

@@ -14,26 +14,33 @@ const dummyData = [
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isProcess, setIsProcess] = useState(false);
   const navigate = useNavigate();
   
   const handleLogin = async () => {
+    setIsProcess(true);
+
     const response = await manualLogin({
         email: email,
         password, password
     });
 
     
+    
     if(!response.success) {
+        setIsProcess(false);
         alert("There's an error when trying to sign you in. Please contact developer.");
         return;
     }
 
     if(!response.response.result) {
+        setIsProcess(false);
         alert("Email or Password is incorrect!");
         return;
     }
 
     if(!response.response.data) {
+        setIsProcess(false);
         alert("There's an error when trying to sign you in. Please contact developer.");
         return;
     }
@@ -93,7 +100,8 @@ const LoginPage = () => {
               <button
                 type="button"
                 onClick={handleLogin}
-                className="w-full border border-white rounded-lg py-3 hover:bg-white hover:text-black duration-300 uppercase tracking-wider"
+                className="w-full border border-white rounded-lg py-3 hover:bg-white hover:text-black duration-300 uppercase tracking-wider disabled:opacity-50 disabled:pointer-events-none"
+                disabled={isProcess}
               >
                 Login
               </button>
