@@ -45,14 +45,18 @@ const ProfileSetting = () => {
       setUser({
         username: userData.username,
         imgProfile: "/avatar.svg",
-        coin: userData.balance
+        coin: userData.balance,
+        email: userData.email,
+        number: userData.phone_number
       });
     }
     else {
       setUser({
         username: "Not sign in.",
         imgProfile: "/signup_profile.svg",
-        coin: -1
+        coin: -1,
+        email: "-",
+        number: "-"
       });
     }
   }, []);

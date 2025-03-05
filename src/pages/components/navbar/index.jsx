@@ -70,7 +70,13 @@ const NavigateBar = () => {
 
   //- Update User Data
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    const expire = localStorage.getItem('userDataExpire');
+    if(expire && ((new Date()).valueOf() > expire)) {
+      localStorage.removeItem("userDataExpire");
+      userData = null;
+    }
+
     if(userData) {
       setUser({
         username: userData.username,
@@ -87,6 +93,8 @@ const NavigateBar = () => {
         const userData = value.result;
 
         localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("userDataExpire", (new Date()).valueOf() + 10000);
+        
         window.location.reload();
       }).finally(() => {
         setUser({
