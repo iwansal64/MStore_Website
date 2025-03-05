@@ -6,3 +6,7 @@ export class Student {
     static LogoutEndpoint: string = "http://localhost:5500/api/student/logout";
     static GoogleEndpoint: string = "http://localhost:5500/api/student/google";
 }
+
+export class Product {
+    static GetAllProductEndpoint: string = "http://localhost:5500/api/product/get_all";
+}

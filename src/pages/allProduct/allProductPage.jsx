@@ -1,11 +1,26 @@
 import NavigateBar from "../components/navbar";
 import { category } from "../variables/kategori";
-import { allProduct } from "../variables/allProduct";
+// import { allProduct } from "../variables/allProduct";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { SessionProvider } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { getAllProducts } from "../api/product";
 
 const AllProductPage = () => {
+  const [allProduct, setAllProduct] = useState([]);
+
+  useEffect(() => {
+    getAllProducts().then(result => {
+      if(result.success) {
+        setAllProduct(result.result);
+      }
+    }).catch(error => {
+      console.error(error);
+      alert("Sorry but, There's an error when trying to get product!");
+    });
+  }, []);
+  
   return (
     <>
       <SessionProvider><NavigateBar /></SessionProvider>
@@ -61,7 +76,7 @@ const AllProductPage = () => {
               className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl"
             >
               <img
-                src={product.imgUrl}
+                src={product.imageUrl}
                 alt={product.name}
                 className="w-full h-1/2 object-contain rounded-md m-auto"
               />
