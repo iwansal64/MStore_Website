@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import GoogleButton from "../components/googleLogin/googleLogin";
+import GoogleButton from "../components/loginComponents/googleLogin";
 import { is_email_valid, manualSignUp, verifyRegistration } from "../api/student";
 import { useState } from "react";
 

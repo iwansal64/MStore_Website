@@ -1,58 +1,32 @@
+'use client';
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import GoogleButton from "../components/googleLogin/googleLogin";
-import { manualLogin } from "../api/student";
-import { SessionProvider, useSession } from "next-auth/react";
-import CheckLogin from "../components/checkLogin/checkLogin";
-
-const dummyData = [
-  { email: "user@mstore.com", password: "user", type: "regular" },
-  { email: "admin@mstore.com", password: "admin", type: "admin" },
-];
+import GoogleButton from "../components/loginComponents/googleLogin";
+import LoginTrigger from "../components/loginComponents/loginTrigger";
+import { SessionProvider, signIn } from "next-auth/react";
+import CheckLogin from "../components/loginComponents/checkLogin";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isProcess, setIsProcess] = useState(false);
-  const navigate = useNavigate();
   
   const handleLogin = async () => {
     setIsProcess(true);
-
-    const response = await manualLogin({
-        email: email,
-        password, password
+    
+    await signIn("credentials", {
+        username_or_email: email,
+        password: password,
+        callbackUrl: "/?login",
     });
-
-    
-    
-    if(!response.success) {
-        setIsProcess(false);
-        alert("There's an error when trying to sign you in. Please contact developer.");
-        return;
-    }
-
-    if(!response.response.result) {
-        setIsProcess(false);
-        alert("Email or Password is incorrect!");
-        return;
-    }
-
-    if(!response.response.data) {
-        setIsProcess(false);
-        alert("There's an error when trying to sign you in. Please contact developer.");
-        return;
-    }
-
-    localStorage.setItem("userData", JSON.stringify(response.response.data));
-
-    navigate("/home");
   };
 
   return (
     <>
-      <SessionProvider><CheckLogin /></SessionProvider>
+      <CheckLogin />
+      <SessionProvider>
+        <LoginTrigger />
+      </SessionProvider>
       <div id="containerLogin" className="w-full sm:w-1/2 p-6 ">
         <div id="title" className="flex flex-row justify-between">
           <div className="">

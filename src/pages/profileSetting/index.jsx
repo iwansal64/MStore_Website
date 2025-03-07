@@ -15,7 +15,6 @@ import { LuBellRing } from "react-icons/lu";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { getStudentData } from "../api/student";
 
 
 const ProfileSetting = () => {
@@ -221,7 +220,7 @@ const ProfileSetting = () => {
               <p className="text-white/60 text-xs">{user.email}</p>
             </div>
           </div>
-          <FaPen className="text-white" />
+          <FaPen className="text-white" onClick={() => { window.location.href = "./"; }} />
         </div>
         {/* Mitra Coins */}
         <div className="text-white flex flex-row justify-between items-center px-6">

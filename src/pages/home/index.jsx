@@ -14,12 +14,16 @@ import "swiper/css/pagination";
 // Import required Swiper modules
 import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
 import { SessionProvider } from "next-auth/react";
+import CheckLogin from "../components/loginComponents/checkLogin";
 
 const HomePage = () => {
   usePreventBackNavigation();
   return (
     <>
-      <SessionProvider><NavigateBar /></SessionProvider>
+      <SessionProvider>
+        <CheckLogin />
+        <NavigateBar />
+      </SessionProvider>
       <section id="heroSection">
         {/* Desktop View */}
         <div className="absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] w-full">

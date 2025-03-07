@@ -11,7 +11,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { itemsCart } from "../../variables/itemsCart";
 import { useSession, signOut } from "next-auth/react";
-import { getStudentData, logoutStudent } from "../../api/student";
+import { getStudentData, logoutAPI } from "../../api/student";
 
 const NavigateBar = () => {
   const session = useSession();
@@ -53,15 +53,11 @@ const NavigateBar = () => {
   }, [menuOpen]);
 
   const handleLogout = async () => {
-    const response = await logoutStudent();
+    const response = await logoutAPI();
     if(!response.success) {
       alert("There's internal server error when trying to logout. Please contact developer.");
       return;
     }
-    localStorage.clear();
-    signOut({
-        callbackUrl: "/"
-    });
   };
 
   const handleLogin = () => {
@@ -79,35 +75,9 @@ const NavigateBar = () => {
 
     if(userData) {
       setUser({
-        username: userData.username,
+        username: userData.fullname,
         imgProfile: "/avatar.svg",
         coin: userData.balance
-      });
-    }
-    else {
-      getStudentData().then(value => {
-        if(!value.success) {
-          return;
-        }
-
-        const userData = value.result;
-
-        localStorage.setItem("userData", JSON.stringify(userData));
-        localStorage.setItem("userDataExpire", (new Date()).valueOf() + 10000);
-        
-        window.location.reload();
-      }).finally(() => {
-        setUser({
-          username: "Guest",
-          imgProfile: "/signup_profile.svg",
-          coin: -1
-        });
-      })
-      
-      setUser({
-        username: "Loading...",
-        imgProfile: "/signup_profile.svg",
-        coin: -1
       });
     }
   }, []);

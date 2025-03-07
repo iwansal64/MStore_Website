@@ -3,8 +3,12 @@ export class Student {
     static VerifyRegisterEndpoint: string = "http://localhost:5500/api/student/verify_register";
     static ValidateEndpoint: string = "http://localhost:5500/api/student/validate";
     static GetEndpoint: string = "http://localhost:5500/api/student/get";
-    static LogoutEndpoint: string = "http://localhost:5500/api/student/logout";
-    static GoogleEndpoint: string = "http://localhost:5500/api/student/google";
+    static UpdateEndpoint: string = "http://localhost:5500/api/student/update";
+}
+
+export class General {
+    static LogoutEndpoint: string = "http://localhost:5500/api/logout";
+    static LoginEndpoint: string = "http://localhost:5500/api/login";
 }
 
 export class Product {
