@@ -6,15 +6,18 @@ export default function LoginTrigger() {
   const searchParams = useSearchParams();
   const session = useSession();
 
-  const is_google_param_exist = searchParams.has("login");
-  console.log(session.data);
-  if(is_google_param_exist && session.data) {
-    console.log(session.data.access_token);
+  const is_login_param_exist = searchParams.has("login");
+  if(is_login_param_exist && session.data) {
     getLoginToken({ user_data_token: session.data.access_token }).then(result => {
-      console.log(result);
       if(result.success) {
-        console.log("SUCCESSFULLY LOGIN WITH GOOGLE");
-        window.location.href = "/home";
+        if(result.is_admin) {
+            console.log("SUCCESSFULLY LOGIN AS ADMIN");
+            window.location.href = "/admin";
+        }
+        else {
+            console.log("SUCCESSFULLY LOGIN AS STUDENT");
+            window.location.href = "/home";
+        }
       }
       else {
         console.error(`THERE'S AN ERROR WHEN TRYING TO LOGIN WITH GOOGLE. error: ${result.error}`);

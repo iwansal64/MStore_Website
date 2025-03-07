@@ -60,14 +60,19 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                 }
                 return session;
             },
-            signIn: async ({ credentials, profile, account }) =>  {
+            async signIn({ credentials, profile, account }) {
+                // If using credentials, the credentials will be used to authorized
                 if(credentials) {
                     return true;
                 }
 
-                if(!profile?.email || !profile?.name || !account?.access_token) {
+                // Check if the user consent giving the username and email. And also check if the session doesn't give access_token
+                if(!profile?.email || !profile?.name) {
                     console.log("USER NOT CONSENT TO GIVING THE EMAIL INFORMATION");
                     throw new Error("User should consent to giving email address!");
+                }
+                if(!account?.access_token) {
+                    throw new Error("Access token doesn't generated when doing session!");
                 }
                 return true;
             }

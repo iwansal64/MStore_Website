@@ -100,7 +100,8 @@ export async function getLoginToken({ user_data_token }: { user_data_token: stri
         if(response_login.result) {
             return {
                 success: true,
-                data: response_login.result
+                data: response_login.result,
+                is_admin: response_login.is_admin
             }
         }
         else {
