@@ -52,3 +52,30 @@ export async function addProductAPI({ name, price, stock }: { name: string, pric
     }
   }
 }
+
+export async function addToCartAPI({ product_id }: { product_id: string }) {
+    const addToCartResponse = await (await fetch(Product.AddToCartEndpoint, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Authorization": authorization_string,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        product_id: product_id
+      })
+    })).json();
+  
+    if(addToCartResponse.result) {
+      return {
+        success: true,
+        result: addToCartResponse.result
+      }
+    }
+    else {
+      return {
+        success: false,
+        error: addToCartResponse.error_code || addToCartResponse.error
+      }
+    }
+}
