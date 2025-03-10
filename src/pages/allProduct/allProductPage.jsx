@@ -5,13 +5,14 @@ import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { getAllProducts } from "../api/product";
+import { getAllProductsAPI } from "../api/product";
 
 const AllProductPage = () => {
   const [allProduct, setAllProduct] = useState([]);
 
+  //? Get All Product Through API
   useEffect(() => {
-    getAllProducts().then(result => {
+    getAllProductsAPI().then(result => {
       if(result.success) {
         setAllProduct(result.result);
       }

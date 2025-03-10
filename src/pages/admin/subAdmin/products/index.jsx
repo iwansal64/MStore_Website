@@ -1,8 +1,43 @@
 import { category } from "../../../variables/kategori";
-import { allProduct } from "../../../variables/allProduct";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { addProductAPI, getAllProductsAPI } from "../../../api/product";
+import { useEffect, useState } from "react";
+import Popup from "reactjs-popup";
+
 const AdminProducts = () => {
+  const [allProduct, setAllProducts] = useState([]);
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState(0);
+  const [productStock, setProductStock] = useState(0);
+
+  useEffect(() => {
+    getAllProductsAPI().then(result => {
+      if(result.success) {
+        setAllProducts(result.result);
+      }
+      else {
+        console.error(result);
+        alert("There's an error retrieving all products. Please contact developer.");
+      }
+    }).catch(error => {
+      console.error(error);
+      alert("There's an error retrieving all products. Please contact developer.");
+    });
+  }, [])
+
+  async function addProduct() {
+    const result = await addProductAPI({ name: productName, price: productPrice, stock: productStock });
+    if(result.success) {
+      alert("Successfully add the product!");
+      window.location.reload();
+    }
+    else {
+      console.error(result);
+      alert("There's an error when trying to add the product. Please contact developer!");
+    }
+  }
+    
   return (
     <>
       <section id="Action">
@@ -46,9 +81,44 @@ const AdminProducts = () => {
                   ))}
                 </MenuItems>
               </Menu>
-              <button className="w-full whitespace-nowrap text-white font-bold uppercase bg-zinc-900 shadow-inner shadow-white/10 px-4 py-2 rounded-xl tracking-wider">
-                Add Product
-              </button>
+              <Popup trigger={
+                <button className="w-full whitespace-nowrap text-white font-bold uppercase bg-zinc-900 shadow-inner shadow-white/10 px-4 py-2 rounded-xl tracking-wider">
+                  Add Product
+                </button>
+              } position={"right center"} modal nested closeOnDocumentClick={false}>
+                {
+                  close => (
+                    <div className="bg-neutral-900/100 p-14 flex flex-col">
+                      <div className="grid gap-2">
+                        <div className="grid grid-cols-2 place-items-center">
+                          <label htmlFor="product-name">Product Name :</label>
+                          <input className="bg-transparent border border-1 border-white p-2" type="text" defaultValue={""} name="product-name" id="product-name" onChange={(event) => {setProductName(event.target.value)}} />
+                        </div>
+                        <div className="grid grid-cols-2 place-items-center">
+                          <label htmlFor="product-price">Product Price :</label>
+                          <input className="bg-transparent border border-1 border-white p-2" type="number" defaultValue={0} name="product-price" id="product-price" onChange={(event) => {setProductPrice(Number.parseInt(event.target.value))}}/>
+                        </div>
+                        <div className="grid grid-cols-2 place-items-center">
+                          <label htmlFor="product-stock">Product Stock :</label>
+                          <input className="bg-transparent border border-1 border-white p-2" type="number" defaultValue={1} name="product-stock" id="product-stock" onChange={(event) => {setProductStock(Number.parseInt(event.target.value))}}/>
+                        </div>
+                      </div>
+                      <button className="mt-8 text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide disabled:opacity-25 disabled:pointer-events-none" 
+                        disabled={!((productName != "") && (productPrice > 0))}
+                        onClick={async () => {
+                          await addProduct();
+                          close();
+                        }}
+                      >Add Product</button>
+                      <button className="mt-2 text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide disabled:opacity-25 disabled:pointer-events-none" 
+                        onClick={async () => {
+                          close();
+                        }}
+                      >Back</button>
+                    </div>
+                  )
+                }
+              </Popup>
             </div>
           </div>
         </div>
@@ -64,7 +134,7 @@ const AdminProducts = () => {
               className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl"
             >
               <img
-                src={product.imgUrl}
+                src={product.imageUrl}
                 alt={product.name}
                 className="w-full h-1/2 object-contain rounded-md m-auto"
               />
