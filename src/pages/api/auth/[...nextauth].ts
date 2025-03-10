@@ -41,7 +41,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                     
                     //? If the fetching success return the user data
                     const user = user_data.response.data;
-                    return { id: user.id, email: user.email, fullname: user.fullname };
+                    return { id: user.id, email: user.email, name: user.fullname };
                 },
             })
         ],
