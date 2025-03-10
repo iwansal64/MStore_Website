@@ -19,6 +19,7 @@ const AllProductPage = () => {
     }).catch(error => {
       console.error(error);
       alert("Sorry but, There's an error when trying to get product!");
+      window.location.href = "/home";
     });
   }, []);
   

@@ -79,3 +79,29 @@ export async function addToCartAPI({ product_id }: { product_id: string }) {
       }
     }
 }
+
+export async function getCartAPI() {
+    //? Request from get cart endpoint
+    const getCartResponse = await (await fetch(Product.GetCartEndpoint, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+        }
+    })).json();
+
+
+    //? Check if the result is success or not
+    if(getCartResponse.result) {
+        return {
+            success: true,
+            result: getCartResponse.result
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: getCartResponse.error_code || getCartResponse.error
+        };
+    }
+}

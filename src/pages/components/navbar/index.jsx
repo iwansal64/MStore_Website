@@ -9,13 +9,11 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
-import { itemsCart } from "../../variables/itemsCart";
-import { useSession, signOut } from "next-auth/react";
-import { getStudentData, logoutAPI } from "../../api/student";
+import { logoutAPI } from "../../api/student";
+import { getCartAPI } from "../../api/product";
 
 const NavigateBar = () => {
-  const session = useSession();
-    
+  const [itemsCart, setItemsCart] = useState([]);
   const [elevated, setElevated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState({
@@ -25,6 +23,7 @@ const NavigateBar = () => {
   });
   const navigate = useNavigate();
 
+  //? Handle scroll
   useEffect(() => {
     const handleScroll = () => {
       setElevated(window.scrollY > 50);
@@ -33,6 +32,7 @@ const NavigateBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  //? Handle menu
   useEffect(() => {
     if (menuOpen) {
       // Store current scroll position
@@ -52,6 +52,7 @@ const NavigateBar = () => {
     }
   }, [menuOpen]);
 
+  //? Handle logout
   const handleLogout = async () => {
     const response = await logoutAPI();
     if(!response.success) {
@@ -60,11 +61,12 @@ const NavigateBar = () => {
     }
   };
 
+  //? Handle login
   const handleLogin = () => {
     navigate("/");
   }
 
-  //- Update User Data
+  //? Update User Data
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
     const expire = localStorage.getItem('userDataExpire');
@@ -81,6 +83,18 @@ const NavigateBar = () => {
       });
     }
   }, []);
+
+  //? Update Items Cart
+  useEffect(() => {
+    getCartAPI().then(cartData => {
+        if(cartData.success) {
+            setItemsCart(cartData.result);
+        }
+        else {
+            console.error(`There's an error when trying to get cart data. Error: ${cartData.error}`);
+        }
+    });
+  }, [])
 
   return (
     <>
@@ -127,16 +141,16 @@ const NavigateBar = () => {
                     <MenuItem key={produkCart.id} as="div">
                       <div className="flex items-center gap-4 p-2 hover:bg-zinc-800 rounded-lg">
                         <img
-                          src={produkCart.imgUrl}
+                          src={produkCart.product_image_url}
                           className="w-12 h-12 object-cover rounded-md"
-                          alt={produkCart.name}
+                          alt={produkCart.product_name}
                         />
                         <div className="flex flex-col gap-1 justify-center w-[12rem]">
                           <p className="text-[14px] font-medium truncate">
-                            {produkCart.name}
+                            {produkCart.product_name}
                           </p>
                           <p className="text-[12px] text-white font-semibold truncate font-sans">
-                            Rp. {produkCart.price}
+                            Rp. {produkCart.product_price}
                           </p>
                           <p className="text-[10px] text-gray-300">
                             Quantity :{" "}
@@ -390,14 +404,14 @@ const NavigateBar = () => {
                             <img
                               src={produkCart.imgUrl}
                               className="w-12 h-12 object-cover rounded-md"
-                              alt={produkCart.name}
+                              alt={produkCart.product_name}
                             />
                             <div className="flex flex-col w-[12rem]">
                               <p className="text-sm font-medium truncate">
-                                {produkCart.name}
+                                {produkCart.product_name}
                               </p>
                               <p className="text-md text-white font-semibold truncate">
-                                Rp. {produkCart.price}
+                                Rp. {produkCart.product_price}
                               </p>
                               <p className="text-xs text-gray-300">
                                 Quantity :{" "}
