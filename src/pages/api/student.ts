@@ -83,7 +83,7 @@ export async function verifyRegistration({ token, password, fullname }: { token:
     }
 }
 
-export async function getLoginToken({ user_data_token }: { user_data_token: string }) {
+export async function getLoginToken({ nextauth_data_token }: { nextauth_data_token: string }) {
     try {
         const response_login = await (await fetch(General.LoginEndpoint, {
             method: "POST",
@@ -93,7 +93,7 @@ export async function getLoginToken({ user_data_token }: { user_data_token: stri
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                user_data_token: user_data_token
+                nextauth_data_token: nextauth_data_token
             })
         })).json();
 

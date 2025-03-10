@@ -8,7 +8,7 @@ export default function LoginTrigger() {
 
   const is_login_param_exist = searchParams.has("login");
   if(is_login_param_exist && session.data) {
-    getLoginToken({ user_data_token: session.data.access_token }).then(result => {
+    getLoginToken({ nextauth_data_token: session.data.access_token }).then(result => {
       if(result.success) {
         if(result.is_admin) {
             console.log("SUCCESSFULLY LOGIN AS ADMIN");
