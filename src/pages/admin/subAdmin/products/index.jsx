@@ -1,7 +1,7 @@
 import { category } from "../../../variables/kategori";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { addProductAPI, getAllProductsAPI } from "../../../api/product";
+import { addProductAPI, deleteProductAPI, getAllProductsAPI } from "../../../api/product";
 import { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 
@@ -149,11 +149,24 @@ const AdminProducts = () => {
                 </div>
 
                 <div id="btn" className="flex flex-row gap-2 text-sm">
-                  <button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300">
-                    Buy
+                  <button 
+                    className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300"
+                    onClick={() => {
+                      deleteProductAPI({ product_id: product.id }).then(result => {
+                        if(!result.success) {
+                          console.error(`An error just occured when trying to delete product. Error: ${result.error}`);
+                          return;
+                        }
+                        
+                        alert("Product successfully deleted!");
+                        window.location.reload();
+                      });
+                    }}
+                  >
+                    Delete
                   </button>
                   <button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300">
-                    Add To Cart
+                    Edit
                   </button>
                 </div>
               </div>

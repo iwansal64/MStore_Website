@@ -105,3 +105,33 @@ export async function getCartAPI() {
         };
     }
 }
+
+export async function deleteProductAPI({ product_id }: { product_id: string }) {
+    //? Request from get cart endpoint
+    const deleteProductResponse = await (await fetch(Product.DeleteProduct, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_id: product_id
+        })
+    })).json();
+
+
+    //? Check if the result is success or not
+    if(deleteProductResponse.result) {
+        return {
+            success: true,
+            result: deleteProductResponse.result
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: deleteProductResponse.error_code || deleteProductResponse.error
+        };
+    }
+}

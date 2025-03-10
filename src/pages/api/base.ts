@@ -16,4 +16,5 @@ export class Product {
     static AddProductEndpoint: string = "http://localhost:5500/api/product/add";
     static AddToCartEndpoint: string = "http://localhost:5500/api/product/add_to_cart";
     static GetCartEndpoint: string = "http://localhost:5500/api/product/get_cart";
+    static DeleteProduct: string = "http://localhost:5500/api/product/delete";
 }
