@@ -10,16 +10,22 @@ import {
 } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { logoutAPI } from "../api/student";
+import CheckMustLogin from "../components/loginComponents/checkMustLogin";
 const AdminPage = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
+  const handleLogout = async () => {
+    const response = await logoutAPI();
+    if(!response.success) {
+        alert("There's internal server error when trying to logout. Please contact developer.");
+        return;
+    }
   };
+
   return (
     <>
+      <CheckMustLogin />
       {/* Toggle Button */}
       <nav className="bg-zinc-950 p-4 flex flex-row justify-between items-center">
         <button
@@ -35,9 +41,10 @@ const AdminPage = () => {
           <MenuItems className="absolute right-0 mt-4 w-[15rem] p-2 text-white rounded-lg bg-zinc-800 shadow-inner shadow-zinc-900 z-50">
             <MenuItem
               as="div"
-              className="hover:bg-red-500 p-2 rounded-lg duration-300"
+              className="hover:bg-red-500 p-2 rounded-lg duration-300 cursor-pointer"
+              onClick={handleLogout}
             >
-              <button onClick={handleLogout}>Logout</button>
+              <button>Logout</button>
             </MenuItem>
           </MenuItems>
         </Menu>
