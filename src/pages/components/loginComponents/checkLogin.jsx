@@ -1,4 +1,4 @@
-import { getAccountData } from "../../api/student";
+import { getAccountData } from "../../api/account";
 
 export default function CheckLogin() {
     let userData = JSON.parse(localStorage.getItem("userData"));

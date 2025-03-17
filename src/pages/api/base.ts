@@ -1,11 +1,11 @@
 export class Student {
-    static GetEndpoint: string = "http://localhost:5500/api/student/get";
     static UpdateEndpoint: string = "http://localhost:5500/api/student/update";
     static AddToCartEndpoint: string = "http://localhost:5500/api/student/add_to_cart";
     static GetCartEndpoint: string = "http://localhost:5500/api/student/get_cart";
 }
 
 export class Account {
+    static GetEndpoint: string = "http://localhost:5500/api/account/get";
     static LogoutEndpoint: string = "http://localhost:5500/api/account/logout";
     static LoginEndpoint: string = "http://localhost:5500/api/account/login";
     static RegisterEndpoint: string = "http://localhost:5500/api/account/register";
@@ -16,5 +16,6 @@ export class Account {
 export class Product {
     static GetAllProductEndpoint: string = "http://localhost:5500/api/product/get_all";
     static AddProductEndpoint: string = "http://localhost:5500/api/product/add";
+    static UpdateProductEndpoint: string = "http://localhost:5500/api/product/update";
     static DeleteProduct: string = "http://localhost:5500/api/product/delete";
 }

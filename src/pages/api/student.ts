@@ -147,40 +147,6 @@ export async function manualLogin({ email, password } : { email: string, passwor
     }
 }
 
-export async function getAccountData() {
-    try {
-        const response = await (await fetch(Student.GetEndpoint, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Authorization": authorization_string,
-            },
-        })).json();
-    
-        if(response.result) {
-            const userData = response.result;
-            return {
-                success: true,
-                result: userData
-            };
-        }
-
-        console.error(response);
-        
-        return {
-          success: false,
-          server_error: false
-        };
-    }
-    catch (error) {
-        return {
-            success: false,
-            server_error: true,
-            error
-        };
-    }
-}
-
 export async function logoutAPI() {
     localStorage.clear();
     signOut({
