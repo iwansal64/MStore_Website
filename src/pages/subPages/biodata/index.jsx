@@ -18,7 +18,7 @@ const Biodata = () => {
   if(user_data) {
     user = {
       username: user_data.fullname,
-      imgProfile: user_data.imageUrl,
+      imgProfile: user_data.image_url,
       coin: user_data.balance,
       angkatan: user_data.generation,
       born: user_data.dateOfBirth,

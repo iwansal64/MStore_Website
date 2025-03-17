@@ -1,4 +1,4 @@
-import { Product } from "./base";
+import { Product, Student } from "./base";
 
 const authorization_string = "90ySD1y9fH299gH90ChOZgvdasoi";
 
@@ -54,7 +54,7 @@ export async function addProductAPI({ name, price, stock }: { name: string, pric
 }
 
 export async function addToCartAPI({ product_id }: { product_id: string }) {
-    const addToCartResponse = await (await fetch(Product.AddToCartEndpoint, {
+    const addToCartResponse = await (await fetch(Student.AddToCartEndpoint, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -67,22 +67,22 @@ export async function addToCartAPI({ product_id }: { product_id: string }) {
     })).json();
   
     if(addToCartResponse.result) {
-      return {
-        success: true,
-        result: addToCartResponse.result
-      }
+        return {
+            success: true,
+            result: addToCartResponse.result
+        }
     }
     else {
-      return {
-        success: false,
-        error: addToCartResponse.error_code || addToCartResponse.error
-      }
+        return {
+            success: false,
+            error: addToCartResponse.error_code || addToCartResponse.error
+        }
     }
 }
 
 export async function getCartAPI() {
     //? Request from get cart endpoint
-    const getCartResponse = await (await fetch(Product.GetCartEndpoint, {
+    const getCartResponse = await (await fetch(Student.GetCartEndpoint, {
         method: "POST",
         credentials: "include",
         headers: {

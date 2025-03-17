@@ -134,7 +134,7 @@ const AdminProducts = () => {
               className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl"
             >
               <img
-                src={product.imageUrl}
+                src={product.image_url}
                 alt={product.name}
                 className="w-full h-1/2 object-contain rounded-md m-auto"
               />

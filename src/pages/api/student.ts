@@ -1,5 +1,5 @@
 import { signOut } from "next-auth/react";
-import { General, Student } from "./base";
+import { Account, Student } from "./base";
 
 const authorization_string = "90ySD1y9fH299gH90ChOZgvdasoi";
 
@@ -12,7 +12,7 @@ export function is_email_valid(email: string) {
 
 export async function manualSignUp({ email }: { email: string }) {
     try {
-        const response_register = await (await fetch(Student.RegisterEndpoint, {
+        const response_register = await (await fetch(Account.RegisterEndpoint, {
             method: "POST",
             headers: {
                 "Authorization": authorization_string,
@@ -48,7 +48,7 @@ export async function manualSignUp({ email }: { email: string }) {
 
 export async function verifyRegistration({ token, password, fullname }: { token: string, password: string, fullname: string }) {
     try {
-        const response_verification = await (await fetch(Student.VerifyRegisterEndpoint, {
+        const response_verification = await (await fetch(Account.VerifyRegisterEndpoint, {
             method: "POST",
             headers: {
                 "Authorization": authorization_string,
@@ -83,9 +83,9 @@ export async function verifyRegistration({ token, password, fullname }: { token:
     }
 }
 
-export async function getLoginToken({ nextauth_data_token }: { nextauth_data_token: string }) {
+export async function getLoginToken({ auth_data_token }: { auth_data_token: string }) {
     try {
-        const response_login = await (await fetch(General.LoginEndpoint, {
+        const response_login = await (await fetch(Account.LoginEndpoint, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -93,7 +93,7 @@ export async function getLoginToken({ nextauth_data_token }: { nextauth_data_tok
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                nextauth_data_token: nextauth_data_token
+                auth_data_token: auth_data_token
             })
         })).json();
 
@@ -121,7 +121,7 @@ export async function getLoginToken({ nextauth_data_token }: { nextauth_data_tok
 
 export async function manualLogin({ email, password } : { email: string, password: string }) {
     try {
-        const response = await (await fetch(Student.ValidateEndpoint, {
+        const response = await (await fetch(Account.ValidateEndpoint, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -147,7 +147,7 @@ export async function manualLogin({ email, password } : { email: string, passwor
     }
 }
 
-export async function getStudentData() {
+export async function getAccountData() {
     try {
         const response = await (await fetch(Student.GetEndpoint, {
             method: "POST",
@@ -188,7 +188,7 @@ export async function logoutAPI() {
     });
     
     try {
-        const response = await (await fetch(General.LogoutEndpoint, {
+        const response = await (await fetch(Account.LogoutEndpoint, {
             method: "POST",
             credentials: "include",
             headers: {

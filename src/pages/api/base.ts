@@ -1,20 +1,20 @@
 export class Student {
-    static RegisterEndpoint: string = "http://localhost:5500/api/student/register";
-    static VerifyRegisterEndpoint: string = "http://localhost:5500/api/student/verify_register";
-    static ValidateEndpoint: string = "http://localhost:5500/api/student/validate";
     static GetEndpoint: string = "http://localhost:5500/api/student/get";
     static UpdateEndpoint: string = "http://localhost:5500/api/student/update";
+    static AddToCartEndpoint: string = "http://localhost:5500/api/student/add_to_cart";
+    static GetCartEndpoint: string = "http://localhost:5500/api/student/get_cart";
 }
 
-export class General {
-    static LogoutEndpoint: string = "http://localhost:5500/api/logout";
-    static LoginEndpoint: string = "http://localhost:5500/api/login";
+export class Account {
+    static LogoutEndpoint: string = "http://localhost:5500/api/account/logout";
+    static LoginEndpoint: string = "http://localhost:5500/api/account/login";
+    static RegisterEndpoint: string = "http://localhost:5500/api/account/register";
+    static ValidateEndpoint: string = "http://localhost:5500/api/account/validate";
+    static VerifyRegisterEndpoint: string = "http://localhost:5500/api/account/verify_register";
 }
 
 export class Product {
     static GetAllProductEndpoint: string = "http://localhost:5500/api/product/get_all";
     static AddProductEndpoint: string = "http://localhost:5500/api/product/add";
-    static AddToCartEndpoint: string = "http://localhost:5500/api/product/add_to_cart";
-    static GetCartEndpoint: string = "http://localhost:5500/api/product/get_cart";
     static DeleteProduct: string = "http://localhost:5500/api/product/delete";
 }

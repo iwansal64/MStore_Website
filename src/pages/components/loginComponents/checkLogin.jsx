@@ -1,4 +1,4 @@
-import { getStudentData } from "../../api/student";
+import { getAccountData } from "../../api/student";
 
 export default function CheckLogin() {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -10,7 +10,7 @@ export default function CheckLogin() {
 
     console.log(userData);
     if(!userData) {
-      getStudentData().then(value => {
+      getAccountData().then(value => {
         if(!value.success) {
           return;
         }

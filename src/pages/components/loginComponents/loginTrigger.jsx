@@ -8,7 +8,7 @@ export default function LoginTrigger() {
 
   const is_login_param_exist = searchParams.has("login");
   if(is_login_param_exist && session.data) {
-    getLoginToken({ nextauth_data_token: session.data.access_token }).then(result => {
+    getLoginToken({ auth_data_token: session.data.access_token }).then(result => {
       if(result.success) {
         if(result.is_admin) {
             console.log("SUCCESSFULLY LOGIN AS ADMIN");
@@ -22,6 +22,7 @@ export default function LoginTrigger() {
       else {
         console.error(`THERE'S AN ERROR WHEN TRYING TO LOGIN WITH GOOGLE. error: ${result.error}`);
         alert("There's something wrong. Please contact developer.");
+        window.location.href = "/";
       }
     });
   }

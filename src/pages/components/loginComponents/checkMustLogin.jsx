@@ -1,6 +1,6 @@
 //? This component is as same as checkLogin but if the user is not authorized we redirect the user to login page
 import { useNavigate } from "react-router-dom";
-import { getStudentData } from "../../api/student";
+import { getAccountData } from "../../api/student";
 
 export default function CheckMustLogin() {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function CheckMustLogin() {
 
     console.log(userData);
     if(!userData) {
-      getStudentData().then(value => {
+    getAccountData().then(value => {
         if(!value.success) {
             navigate("/");
             return;
