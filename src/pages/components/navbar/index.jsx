@@ -11,15 +11,17 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { logoutAPI } from "../../api/student";
 import { getCartAPI } from "../../api/cart";
+import CheckLogin from "../loginComponents/checkLogin";
+import CheckMustLogin from "../loginComponents/checkMustLogin";
 
-const NavigateBar = () => {
+const NavigateBar = ({ is_must_login = false }) => {
   const [itemsCart, setItemsCart] = useState([]);
   const [elevated, setElevated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState({
+    username: "Not sign in.",
     imgProfile: "/signup_profile.svg",
-    username: "Loading..",
-    coin: -1,
+    coin: -1
   });
   const navigate = useNavigate();
 
@@ -92,6 +94,7 @@ const NavigateBar = () => {
 
   return (
     <>
+      {is_must_login?<CheckMustLogin />:<CheckLogin />}
       <nav
         className={`z-[999] p-4 uppercase tracking-[3px] fixed top-0 left-0 flex flex-row items-center justify-between sm:justify-end w-full transition-all duration-300  ${
           elevated

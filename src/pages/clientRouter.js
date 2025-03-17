@@ -8,6 +8,7 @@ import AdminPage from "./admin";
 import AllProductPage from "./allProduct/allProductPage";
 import ProfileSetting from "./profileSetting";
 import KeranjangBelanja from "./kerangjangBelanja";
+import CheckoutPage from "./checkout/checkoutPage";
 
 // Profile Subpages
 import Biodata from "./subPages/biodata";
@@ -32,6 +33,7 @@ function ClientRouter() {
                 <Route path="/allProduct" element={<AllProductPage />} />
                 <Route path="/keranjangBelanja" element={<KeranjangBelanja />} />
                 <Route path="/signUp" element={<SignUpPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
 
                 {/* Nested Routes untuk Admin */}
                 <Route path="/admin" element={<AdminPage />}>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import strftime from "strftime";
 import { updateStudent } from "../../api/student";
-import CheckLogin from "../../components/loginComponents/checkLogin";
 
 const Biodata = () => {
   let is_login = true;
@@ -35,7 +34,8 @@ const Biodata = () => {
   let default_angkatan;
   
   if(is_login) {
-    default_born = user_data.dateOfBirth ? user_data.dateOfBirth.split("T")[0] : new Date();
+    console.log(user_data.date_of_birth);
+    default_born = user_data.date_of_birth ? user_data.date_of_birth.split("T")[0] : new Date();
     default_username = user.username;
     default_gender = user.gender !== null ? (user.gender == 1 ? "male" : "female") : "-";
     default_angkatan = user.angkatan;
@@ -44,20 +44,18 @@ const Biodata = () => {
   const [changes, setChanges] = useState(false);
 
   const [username, setUsername] = useState(user.username);
-  const [born, setBorn] = useState(user_data ? new Date(user_data.dateOfBirth) : new Date());
+  const [born, setBorn] = useState(user_data ? new Date(user_data.date_of_birth) : new Date());
   const [gender, setGender] = useState(user.gender);
   const [angkatan, setAngkatan] = useState(user.angkatan);
   
   async function update_user_data() {
     const result = await updateStudent({ date_of_birth: born, gender: gender, generation: angkatan, username: username });
     if(result.success) {
-      console.log(result.result);
       localStorage.removeItem("userData");
-      localStorage.setItem("userDataExpire", (new Date()).valueOf() - 1000);
       window.location.reload();
     }
     else {
-      console.error(result.error);
+      console.error(result);
       alert("Sorry, There's an error when trying to update your data.");
     }
   }
@@ -70,11 +68,6 @@ const Biodata = () => {
   }
 
   useEffect(() => {
-    console.log(user.gender != gender);
-    console.log(username !== null && gender !== null && angkatan !== null && born !== null);
-    console.log("------");
-    
-    
     if((username !== null && gender !== null && angkatan !== null && born !== null) && (user.username != username || user.angkatan != angkatan || user.born != born.toISOString() || user.gender != gender)) {
         setChanges(true);
     }
@@ -85,7 +78,6 @@ const Biodata = () => {
 
   return (
     <>
-      <CheckLogin />
       <section id="desktopView">
         <div className="sm:block hidden">
           <div className="flex flex-row gap-8 mx-4 p-5 ">
@@ -128,9 +120,9 @@ const Biodata = () => {
                 <tr><input class="bg-transparent" type="date" name="born" id="born" defaultValue={default_born} onChange={(event) => { update_user_input({new_date_of_birth: event.target.value}); }} /></tr>
                 <tr>
                   <select class="bg-transparent" name="gender" id="gender" defaultValue={default_gender} onChange={(event) => { update_user_input({new_gender: event.target.value}); }}>
-                    <option value="-">-</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option class="bg-black" value="-">-</option>
+                    <option class="bg-black" value="male">Male</option>
+                    <option class="bg-black" value="female">Female</option>
                   </select>
                 </tr>
                 {/* <tr><input class="bg-transparent" type="text" name="angkatan" id="angkatan" defaultValue={default_angkatan} onChange={(event) => { update_user_input({new_generation: Number.parseInt(event.target.value)}); }} /></tr> */}

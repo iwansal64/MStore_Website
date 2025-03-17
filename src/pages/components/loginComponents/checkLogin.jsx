@@ -1,27 +1,23 @@
 import { getAccountData } from "../../api/account";
 
 export default function CheckLogin() {
-    let userData = JSON.parse(localStorage.getItem("userData"));
-    const expire = localStorage.getItem('userDataExpire');
-    if(expire && ((new Date()).valueOf() > expire)) {
-      localStorage.removeItem("userDataExpire");
-      userData = null;
-    }
-
-    if(!userData) {
-      getAccountData().then(value => {
-        if(!value.success) {
-          return;
+    const previous_data = localStorage.getItem("userData");
+    
+    getAccountData().then(value => {
+        if(value.success) {
+            const userData = value.result;
+            localStorage.setItem("userData", JSON.stringify(userData));
+            if(!previous_data) {
+                window.location.reload();
+            }
         }
-
-        const userData = value.result;
-
-        localStorage.setItem("userData", JSON.stringify(userData));
-        localStorage.setItem("userDataExpire", (new Date()).valueOf() + 1000 * 60 * 60); //? Expires in 1 hour
-        
-        window.location.reload();
-      });
-    }
+        else {
+            localStorage.removeItem("userData");
+            if(previous_data) {
+                window.location.reload();
+            }
+        }
+    });
 
     return <></>;
 }

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import GoogleButton from "../components/loginComponents/googleLogin";
 import LoginTrigger from "../components/loginComponents/loginTrigger";
 import { SessionProvider, signIn } from "next-auth/react";
-import CheckLogin from "../components/loginComponents/checkLogin";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +22,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <CheckLogin />
       <SessionProvider>
         <LoginTrigger />
       </SessionProvider>

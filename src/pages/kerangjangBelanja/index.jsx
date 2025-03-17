@@ -68,7 +68,7 @@ const KeranjangBelanja = () => {
 
   return (
     <>
-      <SessionProvider><NavigateBar /></SessionProvider>
+      <NavigateBar />
       <div className="max-w-7xl mx-auto">
         <div id="title" className="text-white ">
           <h1>Keranjang Belanja</h1>

@@ -63,7 +63,7 @@ const ProfileSetting = () => {
   return (
     <>
       <div className="sm:block hidden">
-        <SessionProvider><NavigateBar /></SessionProvider>
+        <NavigateBar is_must_login={true} />
       </div>
       <section
         id="profileSetting"
