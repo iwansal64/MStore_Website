@@ -112,3 +112,29 @@ export async function editProductAPI({ product_id, name, price, stock }: { produ
         }
       }
 }
+
+export async function getProductById({ product_id }: { product_id: string }) {
+    const productData = await (await fetch(Product.GetProductById, {
+        method: "POST",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_id: product_id
+        })
+    })).json();
+
+    if(productData.result && (typeof productData.result === "object")) {
+        return {
+            success: true,
+            result: productData.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: productData.error || productData.error_code,
+        };
+    }
+}

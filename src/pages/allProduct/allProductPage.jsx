@@ -43,7 +43,7 @@ const AllProductPage = () => {
 
   return (
     <>
-      <SessionProvider><NavigateBar /></SessionProvider>
+      <NavigateBar />
       <div className="container translate-y-[2rem] mx-auto px-6">
         <div
           id="searchbar"
