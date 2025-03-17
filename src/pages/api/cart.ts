@@ -55,7 +55,7 @@ export async function getCartAPI() {
     }
 }
 
-export async function changeQuantityCartAPI({ cart_id, quantity_changes }: { cart_id: string, quantity_changes: number }) {
+export async function changeQuantityCartAPI({ cart_id, quantity_changes, is_set = false }: { cart_id: string, quantity_changes: number, is_set: boolean }) {
     //? Request from get cart endpoint
     const getCartResponse = await (await fetch(Student.ChangeCartQuantityEndpoint, {
         method: "POST",
@@ -66,7 +66,8 @@ export async function changeQuantityCartAPI({ cart_id, quantity_changes }: { car
         },
         body: JSON.stringify({
             cart_id: cart_id,
-            quantity_changes: quantity_changes
+            quantity_changes: quantity_changes,
+            is_set: is_set
         })
     })).json();
 

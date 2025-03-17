@@ -6,6 +6,7 @@ import { changeQuantityCartAPI, deleteCartAPI, getCartAPI } from "../api/cart";
 
 const KeranjangBelanja = () => {
   const [allCarts, setAllCarts] = useState([]);
+  const [quantity, setQuantity] = useState(0);
 
   // Fungsi untuk menambah jumlah
   const handleIncrement = async ({ cart_id }) => {
@@ -29,6 +30,17 @@ const KeranjangBelanja = () => {
     }
   };
 
+  // Fungsi untuk mengubah jumlah
+  const handleChangeQuantity = async ({ cart_id }) => {
+    const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: quantity, is_set: true });
+    if(result.success) {
+      window.location.reload();
+    }
+    else {
+      console.error(result.error);
+    }
+  }
+
   const handleDelete = async ({ cart_id }) => {
     const result = await deleteCartAPI({ cart_id: cart_id });
     if(result.success) {
@@ -43,6 +55,7 @@ const KeranjangBelanja = () => {
   useEffect(() => {
     getCartAPI().then(result => {
       if(result.success) {
+        setQuantity(result.result.quantity);
         setAllCarts(result.result);
       }
       else {
@@ -100,10 +113,11 @@ const KeranjangBelanja = () => {
                   <input
                     type="text"
                     inputMode="number"
-                    value={Number.parseInt(cart.quantity)}
+                    defaultValue={Number.parseInt(cart.quantity)}
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     className="bg-transparent text-white text-center w-16 focus:outline-none"
                     min="0"
+                    onBlur={handleChangeQuantity}
                   />
                   <button
                     onClick={() => {
