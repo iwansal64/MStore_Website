@@ -5,6 +5,10 @@ export class Student {
     static ChangeCartQuantityEndpoint: string = "http://localhost:5500/api/student/change_cart_quantity";
 }
 
+export class Admin {
+    static GetOrderList: string = "http://localhost:5500/api/admin/get_order";
+}
+
 export class Account {
     static GetEndpoint: string = "http://localhost:5500/api/account/get";
     static LogoutEndpoint: string = "http://localhost:5500/api/account/logout";

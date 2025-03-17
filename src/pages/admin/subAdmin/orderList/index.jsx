@@ -1,47 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
-const OrderList = () => {
-  const listItems = [];
+import { get_admin_order_list } from "../../../api/order";
 
-  // Generate dummy data
-  for (let i = 1; i <= 100; i++) {
-    const id = i;
-    const nama = `Customer ${i}`;
-    const product = `Product ${i}`;
-    const quantity = Math.floor(Math.random() * 5) + 1; // Random quantity between 1 and 5
-    const size = ["S", "M", "L", "XL"][Math.floor(Math.random() * 4)]; // Random size
-    const price = `Rp ${(Math.floor(Math.random() * 100) + 200) * 1000}`; // Random price between Rp 200.000 and Rp 300.000
-    const totalPrice = `Rp ${quantity * parseInt(price.replace(/\D/g, ""))}`; // Calculate total price
-    const timeStamp = new Date(
-      2025,
-      1,
-      Math.floor(Math.random() * 28) + 1,
-      Math.floor(Math.random() * 24),
-      Math.floor(Math.random() * 60)
-    )
-      .toLocaleString("id-ID", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-      .replace(/\./g, "-"); // Random timestamp in 2025
-    const status = ["Complete", "Confirmed", "Canceled"][
-      Math.floor(Math.random() * 3)
-    ];
-    listItems.push({
-      id,
-      nama,
-      product,
-      quantity,
-      size,
-      price,
-      totalPrice,
-      status,
-      timeStamp,
-    });
-  }
+const OrderList = () => {
+  const [listItems, setListItems] = useState([]);
+  
+  // Get the order list data
+  useEffect(() => {
+    get_admin_order_list().then(response => {
+        if(response.success) {
+            setListItems(response.result);
+        }
+        else {
+            console.error(`There's an error in server side when trying to get admin order list. Error: ${response.error}`);
+        }
+    }).catch(error => {
+        console.error(`There's an error in client side when trying to get admin order list. Error: ${error}`);
+    })
+    
+  }, []);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,11 +105,11 @@ const OrderList = () => {
                 Previous
               </button>
               <span className="px-4 py-2 bg-zinc-900 text-white">
-                Page {currentPage} of {totalPages}
+                Page {currentPage} of {totalPages||1}
               </span>
               <button
                 onClick={handleNext}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === totalPages||1}
                 className="px-4 py-2 bg-zinc-900 text-white rounded-r-md disabled:opacity-50"
               >
                 Next
