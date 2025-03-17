@@ -1,15 +1,16 @@
 import { category } from "../../../variables/kategori";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { addProductAPI, deleteProductAPI, getAllProductsAPI } from "../../../api/product";
+import { addProductAPI, deleteProductAPI, getAllProductsAPI, editProductAPI } from "../../../api/product";
 import { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 
 const AdminProducts = () => {
   const [allProduct, setAllProducts] = useState([]);
+  const [productId, setProductId] = useState("");
   const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
-  const [productStock, setProductStock] = useState(0);
+  const [productPrice, setProductPrice] = useState(-1);
+  const [productStock, setProductStock] = useState(-1);
 
   useEffect(() => {
     getAllProductsAPI().then(result => {
@@ -35,6 +36,18 @@ const AdminProducts = () => {
     else {
       console.error(result);
       alert("There's an error when trying to add the product. Please contact developer!");
+    }
+  }
+
+  async function editProduct() {
+    const result = await editProductAPI({ product_id: productId,  name: productName, price: productPrice, stock: productStock });
+    if(result.success) {
+      alert("Successfully edit the product!");
+      window.location.reload();
+    }
+    else {
+      console.error(result);
+      alert("There's an error when trying to edit the product. Please contact developer!");
     }
   }
     
@@ -146,6 +159,9 @@ const AdminProducts = () => {
                   <p className="text-md text-gray-200">
                     Price: Rp {product.price}
                   </p>
+                  <p className="text-md text-gray-200">
+                    Stock: {product.stock}
+                  </p>
                 </div>
 
                 <div id="btn" className="flex flex-row gap-2 text-sm">
@@ -165,9 +181,45 @@ const AdminProducts = () => {
                   >
                     Delete
                   </button>
-                  <button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300">
+                  <Popup trigger={<button className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300">
                     Edit
-                  </button>
+                  </button>} onOpen={() => {
+                    setProductId(product.id);
+                    console.log(product.id);
+                  }} position={"right center"} modal nested closeOnDocumentClick={false}>
+                    {
+                      close => (
+                      <div className="bg-neutral-900/100 p-14 flex flex-col">
+                        <div className="grid gap-2">
+                        <div className="grid grid-cols-2 place-items-center">
+                            <label htmlFor="product-name">Product Name :</label>
+                            <input className="bg-transparent border border-1 border-white p-2" type="text" defaultValue={product.name} name="product-name" id="product-name" onChange={(event) => {setProductName(event.target.value)}} />
+                        </div>
+                        <div className="grid grid-cols-2 place-items-center">
+                            <label htmlFor="product-price">Product Price :</label>
+                            <input className="bg-transparent border border-1 border-white p-2" type="number" defaultValue={product.price} name="product-price" id="product-price" onChange={(event) => {setProductPrice(Number.parseInt(event.target.value))}}/>
+                        </div>
+                        <div className="grid grid-cols-2 place-items-center">
+                            <label htmlFor="product-stock">Product Stock :</label>
+                            <input className="bg-transparent border border-1 border-white p-2" type="number" defaultValue={product.stock} name="product-stock" id="product-stock" onChange={(event) => {setProductStock(Number.parseInt(event.target.value))}}/>
+                        </div>
+                        </div>
+                        <button className="mt-8 text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide disabled:opacity-25 disabled:pointer-events-none" 
+                        disabled={((productName == product.name || !productName) && (productPrice == product.price || !productPrice) && (productStock == product.stock || !productStock))}
+                        onClick={async () => {
+                          await editProduct();
+                          close();
+                        }}
+                        >Update Product</button>
+                        <button className="mt-2 text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide disabled:opacity-25 disabled:pointer-events-none" 
+                        onClick={async () => {
+                          close();
+                        }}
+                        >Back</button>
+                      </div>
+                      )
+                    }
+                  </Popup>
                 </div>
               </div>
             </div>

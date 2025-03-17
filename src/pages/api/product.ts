@@ -135,3 +135,33 @@ export async function deleteProductAPI({ product_id }: { product_id: string }) {
         };
     }
 }
+
+export async function editProductAPI({ product_id, name, price, stock }: { product_id: string, name: string, price: number, stock: number }) {
+    const editProductResponse = await (await fetch(Product.UpdateProductEndpoint, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Authorization": authorization_string,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          product_id: product_id,
+          name: name,
+          price: price,
+          stock: stock
+        })
+      })).json();
+    
+      if(editProductResponse.result) {
+        return {
+          success: true,
+          result: editProductResponse.result
+        }
+      }
+      else {
+        return {
+          success: false,
+          error: editProductResponse.error_code || editProductResponse.error
+        }
+      }
+}
