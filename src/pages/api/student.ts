@@ -220,3 +220,31 @@ export async function updateStudent({ username, date_of_birth, gender, generatio
         };
     }
 }
+
+export async function orderProductAPI({ product_id }: { product_id: string }) {
+    const orderProductResponse = await (await fetch(Student.OrderProductEndpoint, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_id: product_id,
+            payment_method: "tunai"
+        })
+    })).json();
+    
+    if(orderProductResponse.result) {
+        return {
+            success: true,
+            result: orderProductResponse.result
+        }
+    }
+    else {
+        return {
+            success: false,
+            error: orderProductResponse.error_code || orderProductResponse.error
+        }
+    }
+}

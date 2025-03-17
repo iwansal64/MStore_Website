@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { getAllProductsAPI } from "../api/product";
 import { addToCartAPI } from "../api/cart";
+import { orderProductAPI } from "../api/student";
 
 const AllProductPage = () => {
   const [allProduct, setAllProduct] = useState([]);
@@ -23,7 +24,23 @@ const AllProductPage = () => {
       window.location.href = "/home";
     });
   }, []);
+
+  async function order_product({ product_id }) {
+    window.location.href = `/checkout?product_id=${product_id}`;
+  }
   
+  async function add_to_cart({ product_id }) {
+    const result = await addToCartAPI({ product_id: product_id });
+    if(result.success) {
+        alert("Successfully add to cart!");
+        window.location.reload();
+    }
+    else {
+        console.error(result);
+        alert("There's something wrong when trying to add to cart!");
+    }
+  }
+
   return (
     <>
       <SessionProvider><NavigateBar /></SessionProvider>
@@ -96,25 +113,13 @@ const AllProductPage = () => {
                 <div id="btn" className="flex flex-row gap-2 text-sm">
                   <button 
                     className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300" 
-                    onClick={() => {
-                        console.log(product.name);
-                    }}
+                    onClick={()=>{order_product({ product_id: product.id });}}
                   >
                     Buy
                   </button>
                   <button 
                     className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300"
-                    onClick={async () => {
-                      const result = await addToCartAPI({ product_id: product.id });
-                      if(result.success) {
-                        alert("Successfully add to cart!");
-                        window.location.reload();
-                      }
-                      else {
-                        console.error(result);
-                        alert("There's something wrong when trying to add to cart!");
-                      }
-                    }}
+                    onClick={()=>{add_to_cart({ product_id: product.id });}}
                   >
                     Add To Cart
                   </button>
