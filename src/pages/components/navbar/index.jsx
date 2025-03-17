@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { logoutAPI } from "../../api/student";
-import { getCartAPI } from "../../api/product";
+import { getCartAPI } from "../../api/cart";
 
 const NavigateBar = () => {
   const [itemsCart, setItemsCart] = useState([]);
