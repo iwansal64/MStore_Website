@@ -117,7 +117,9 @@ const KeranjangBelanja = () => {
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     className="bg-transparent text-white text-center w-16 focus:outline-none"
                     min="0"
-                    onBlur={handleChangeQuantity}
+                    onBlur={() => {
+                        handleChangeQuantity({ cart_id: cart.id });
+                    }}
                   />
                   <button
                     onClick={() => {
