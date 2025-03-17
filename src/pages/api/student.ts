@@ -221,7 +221,7 @@ export async function updateStudent({ username, date_of_birth, gender, generatio
     }
 }
 
-export async function orderProductAPI({ product_id }: { product_id: string }) {
+export async function orderProductAPI({ product_id, payment_method }: { product_id: string, payment_method: string }) {
     const orderProductResponse = await (await fetch(Student.OrderProductEndpoint, {
         method: "POST",
         credentials: "include",
@@ -231,7 +231,7 @@ export async function orderProductAPI({ product_id }: { product_id: string }) {
         },
         body: JSON.stringify({
             product_id: product_id,
-            payment_method: "tunai"
+            payment_method: payment_method
         })
     })).json();
     
