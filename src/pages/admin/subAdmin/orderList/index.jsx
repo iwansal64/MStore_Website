@@ -60,7 +60,6 @@ const OrderList = () => {
               <th className="px-4 py-2 bg-zinc-700">Nama</th>
               <th className="px-4 py-2 bg-zinc-700">Product</th>
               <th className="px-4 py-2 bg-zinc-700">Quantity</th>
-              <th className="px-4 py-2 bg-zinc-700">Size</th>
               <th className="px-4 py-2 bg-zinc-700">Harga</th>
               <th className="px-4 py-2 bg-zinc-700">Total</th>
               <th className="px-4 py-2 bg-zinc-700">Timestamp</th>
@@ -68,20 +67,19 @@ const OrderList = () => {
               <th className="px-4 py-2 bg-zinc-700">Action</th>
             </tr>
             {/* Body Table */}
-            {currentItems.map((dataItems) => (
+            {currentItems.map((orderData) => (
               <tr
-                key={dataItems.id}
+                key={orderData.id}
                 className="border-b border-zinc-700 hover:bg-zinc-700"
               >
-                <td className="px-4 py-3">{dataItems.id}</td>
-                <td className="px-4 py-3">{dataItems.nama}</td>
-                <td className="px-4 py-3">{dataItems.product}</td>
-                <td className="px-4 py-3">{dataItems.quantity}</td>
-                <td className="px-4 py-3">{dataItems.size}</td>
-                <td className="px-4 py-3">{dataItems.price}</td>
-                <td className="px-4 py-3">{dataItems.totalPrice}</td>
-                <td className="px-4 py-3">{dataItems.timeStamp}</td>
-                <td className="px-4 py-3">{dataItems.status}</td>
+                <td className="px-4 py-3">{orderData.id}</td>
+                <td className="px-4 py-3">{orderData.student_name}</td>
+                <td className="px-4 py-3">{orderData.product_name}</td>
+                <td className="px-4 py-3">{orderData.order_quantity}</td>
+                <td className="px-4 py-3">{orderData.product_price}</td>
+                <td className="px-4 py-3">{orderData.total_price}</td>
+                <td className="px-4 py-3">{orderData.created_at}</td>
+                <td className="px-4 py-3">{orderData.status}</td>
                 <td className="flex flex-row justify-center items-center gap-2 p-2 ">
                   <button className="bg-green-400 p-2 rounded-lg">
                     <FaCheck />
