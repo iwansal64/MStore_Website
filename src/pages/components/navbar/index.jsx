@@ -69,12 +69,6 @@ const NavigateBar = () => {
   //? Update User Data
   useEffect(() => {
     let userData = JSON.parse(localStorage.getItem("userData"));
-    const expire = localStorage.getItem('userDataExpire');
-    if(expire && ((new Date()).valueOf() > expire)) {
-      localStorage.removeItem("userDataExpire");
-      userData = null;
-    }
-
     if(userData) {
       setUser({
         username: userData.fullname,

@@ -5,8 +5,8 @@ import { useState } from "react";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
+  const [fullname, setFullname] = useState("");
   const [isProcess, setIsProcess] = useState(false);
   const [searchParams] = useSearchParams();
 

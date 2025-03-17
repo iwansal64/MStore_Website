@@ -12,7 +12,6 @@ export default function CheckMustLogin() {
       userData = null;
     }
 
-    console.log(userData);
     if(!userData) {
     getAccountData().then(value => {
         if(!value.success) {

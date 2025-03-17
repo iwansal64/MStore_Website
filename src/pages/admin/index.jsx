@@ -8,7 +8,7 @@ import {
   FaChartBar,
   FaCog,
 } from "react-icons/fa";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { logoutAPI } from "../api/student";
 import CheckMustLogin from "../components/loginComponents/checkMustLogin";
