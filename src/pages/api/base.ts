@@ -2,6 +2,7 @@ export class Student {
     static UpdateEndpoint: string = "http://localhost:5500/api/student/update";
     static AddToCartEndpoint: string = "http://localhost:5500/api/student/add_to_cart";
     static GetCartEndpoint: string = "http://localhost:5500/api/student/get_cart";
+    static ChangeCartQuantityEndpoint: string = "http://localhost:5500/api/student/change_cart_quantity";
 }
 
 export class Account {
