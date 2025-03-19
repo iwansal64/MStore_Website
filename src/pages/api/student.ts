@@ -221,7 +221,7 @@ export async function updateStudent({ username, date_of_birth, gender, generatio
     }
 }
 
-export async function orderProductAPI({ product_id, payment_method }: { product_id: string, payment_method: string }) {
+export async function orderProductAPI({ products_id, payment_method, order_quantities = undefined, carts_id = undefined }: { products_id: string[], payment_method: string, order_quantities: number[]|undefined, carts_id: string[]|undefined }) {
     const orderProductResponse = await (await fetch(Student.OrderProductEndpoint, {
         method: "POST",
         credentials: "include",
@@ -230,8 +230,10 @@ export async function orderProductAPI({ product_id, payment_method }: { product_
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            product_id: product_id,
-            payment_method: payment_method
+            products_id: products_id,
+            payment_method: payment_method,
+            order_quantities: order_quantities,
+            carts_id: carts_id
         })
     })).json();
     
