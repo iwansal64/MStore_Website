@@ -8,6 +8,7 @@ Chart.register(CategoryScale);
 export default function LineCharts() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const totalOrdersByDate = JSON.parse(localStorage.getItem("total_orders_by_date"));
 
   useEffect(() => {
     if (chartInstance.current) {
@@ -18,11 +19,11 @@ export default function LineCharts() {
     chartInstance.current = new Chart(ctx, {
       type: "line",
       data: {
-        labels: Data.map((data) => data.year),
+        labels: Object.keys(totalOrdersByDate),
         datasets: [
           {
-            label: "Users Gained",
-            data: Data.map((data) => data.userGain),
+            label: "Orders",
+            data: Object.values(totalOrdersByDate),
             backgroundColor: ["#fff"],
             borderColor: "#155e75",
             borderWidth: 2,

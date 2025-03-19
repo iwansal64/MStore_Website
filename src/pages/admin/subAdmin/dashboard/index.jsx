@@ -2,21 +2,26 @@ import { FaCreditCard, FaLayerGroup } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import LineCharts from "../../../components/graphicChart/lineCharts";
 import PieCharts from "../../../components/graphicChart/pieChart";
-const cardMonitor = [
-  {
-    id: 1,
-    title: "Today Orders",
-    value: "Rp 1.000.000",
-    icon: <FaLayerGroup />,
-  },
-  { id: 2, title: "This Month", value: "Rp 5.000.000", icon: <FaCreditCard /> },
-  { id: 3, title: "Last Month", value: "1.000", icon: <FaCartShopping /> },
-  { id: 4, title: "All Times Order", value: "10", icon: <FaLayerGroup /> },
-];
+import AutoUpdateStats from "../../../components/graphicChart/autoUpdateStats";
+import { number_to_rp } from "../../../../javascript/client_function";
+
 
 const DashboardAdmin = () => {
+  const cardMonitor = [
+    {
+      id: 1,
+      title: "Total Orders",
+      value: localStorage.getItem("total_orders"),
+      icon: <FaLayerGroup />,
+    },
+    { id: 2, title: "Today's Orders", value: localStorage.getItem("total_orders_today"), icon: <FaCreditCard /> },
+    { id: 3, title: "Total Revenue", value: ("Rp. "+number_to_rp(localStorage.getItem("total_revenue"))), icon: <FaCartShopping /> },
+    { id: 4, title: "Today's Revenue", value: ("Rp. "+number_to_rp(localStorage.getItem("total_revenue_today"))), icon: <FaLayerGroup /> },
+  ];
+
   return (
     <>
+      <AutoUpdateStats />
       <section id="CardMonitor">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {cardMonitor.map((card) => (

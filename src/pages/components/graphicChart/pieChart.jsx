@@ -9,6 +9,8 @@ export default function PieCharts() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
+  const productsByOrder = JSON.parse(localStorage.getItem("products_by_order"));
+
   useEffect(() => {
     if (chartInstance.current) {
       chartInstance.current.destroy(); // Hancurkan chart sebelum membuat yang baru
@@ -18,11 +20,11 @@ export default function PieCharts() {
     chartInstance.current = new Chart(ctx, {
       type: "pie",
       data: {
-        labels: Data.map((data) => data.year),
+        labels: Object.keys(productsByOrder).slice(0, 5),
         datasets: [
           {
-            label: "Users Gained",
-            data: Data.map((data) => data.userGain),
+            label: "Top Product by Order",
+            data: Object.values(productsByOrder).slice(0, 5),
             backgroundColor: [
               "#06b6d4",
               "#4338ca",
