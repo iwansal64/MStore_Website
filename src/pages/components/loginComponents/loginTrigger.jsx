@@ -1,4 +1,4 @@
-import { getLoginToken } from "../../api/student";
+import { getLoginToken } from "../../api/account";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -16,6 +16,11 @@ export default function LoginTrigger() {
         if(result.is_admin) {
             console.log("SUCCESSFULLY LOGIN AS ADMIN");
             window.location.href = "/admin";
+        }
+        else if(result.is_register) {
+            console.log("SUCCESSFULLY REGISTER STUDENT");
+            localStorage.setItem("mitra-register", "yes");
+            window.location.href = "/home";
         }
         else {
             console.log("SUCCESSFULLY LOGIN AS STUDENT");

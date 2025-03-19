@@ -53,7 +53,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             async jwt({token, user}){
                 return {...token, ...user}
             },
-            async session({ session, token,  }) {
+            async session({ session, token }) {
                 session.user = token;
                 if(session.user) {
                     session.access_token = jwt.sign({ email: session.user.email, fullname: session.user.name }, process.env.NEXTAUTH_SECRET!);

@@ -16,6 +16,12 @@ import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
 
 const HomePage = () => {
   usePreventBackNavigation();
+
+  if(localStorage.getItem("mitra-register")) {
+    alert("Account successfully registered!");
+    localStorage.removeItem("mitra-register")
+  }
+  
   return (
     <>
       <NavigateBar />

@@ -83,42 +83,6 @@ export async function verifyRegistration({ token, password, fullname }: { token:
     }
 }
 
-export async function getLoginToken({ auth_data_token }: { auth_data_token: string }) {
-    try {
-        const response_login = await (await fetch(Account.LoginEndpoint, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Authorization": authorization_string,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                auth_data_token: auth_data_token
-            })
-        })).json();
-
-        if(response_login.result) {
-            return {
-                success: true,
-                data: response_login.result,
-                is_admin: response_login.is_admin
-            }
-        }
-        else {
-            return {
-                success: false,
-                error: response_login.error_code||response_login.error
-            }
-        }
-    }
-    catch (error) {
-        return {
-            success: false,
-            error
-        };
-    }
-}
-
 export async function manualLogin({ email, password } : { email: string, password: string }) {
     try {
         const response = await (await fetch(Account.ValidateEndpoint, {

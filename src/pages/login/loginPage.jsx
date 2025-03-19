@@ -25,13 +25,14 @@ const LoginPage = () => {
       <SessionProvider>
         <LoginTrigger />
       </SessionProvider>
+
       <div id="containerLogin" className="w-full sm:w-1/2 p-6 ">
         <div id="title" className="flex flex-row justify-between">
           <div className="">
             <h1 className="font-bold tracking-wider text-2xl text-white">
               MitraStore
             </h1>
-            <p className="text-white text-sm">Login untuk masuk ke akunmu</p>
+            <p className="text-white text-sm">Login dahulu ya!</p>
           </div>
           <img
             src="https://smkind-mm2100.sch.id/wp-content/uploads/2022/10/MM2100-LOGO-SMK-Mitra-Industri-MM2100-PNG.png"
