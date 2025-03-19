@@ -18,6 +18,8 @@ const LoginPage = () => {
         password: password,
         callbackUrl: "/?login",
     });
+
+    setIsProcess(false);
   };
 
   return (

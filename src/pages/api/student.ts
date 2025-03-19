@@ -85,7 +85,7 @@ export async function verifyRegistration({ token, password, fullname }: { token:
 
 export async function manualLogin({ email, password } : { email: string, password: string }) {
     try {
-        const response = await (await fetch(Account.ValidateEndpoint, {
+        const raw_response = await fetch(Account.ValidateEndpoint, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -96,17 +96,29 @@ export async function manualLogin({ email, password } : { email: string, passwor
                 "email": email,
                 "password": password
             })
-        })).json();
+        });
 
-        return {
-            success: true,
-            response
-        };
+        const response = await raw_response.json();
+
+        if(response.result) {
+            return {
+                success: true,
+                result: response.data
+            };
+        }
+        else {
+            return {
+                success: false,
+                error: response.error || response.error_code,
+                user_error: raw_response.status === 500 ? false : true
+            };
+        }
     }
     catch (error) {
         return {
             success: false,
-            error
+            error,
+            user_error: true
         };
     }
 }
