@@ -26,7 +26,9 @@ const AllProductPage = () => {
   }, []);
 
   async function order_product({ product_id }) {
-    window.location.href = `/checkout?product_id=${product_id}`;
+    localStorage.setItem("checkout_product_id", product_id);
+    localStorage.removeItem("checkout_carts_id", product_id);
+    window.location.href = `/checkout`;
   }
   
   async function add_to_cart({ product_id }) {
