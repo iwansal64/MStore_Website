@@ -34,8 +34,7 @@ const Biodata = () => {
   let default_angkatan;
   
   if(is_login) {
-    console.log(user_data.date_of_birth);
-    default_born = user_data.date_of_birth ? user_data.date_of_birth.split("T")[0] : new Date();
+    default_born = user_data.date_of_birth ? user_data.date_of_birth.split("T")[0] : null;
     default_username = user.username;
     default_gender = user.gender !== null ? (user.gender == 1 ? "male" : "female") : "-";
     default_angkatan = user.angkatan;
