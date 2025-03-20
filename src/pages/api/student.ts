@@ -83,8 +83,17 @@ export async function verifyRegistration({ token, password, fullname }: { token:
     }
 }
 
-export async function manualLogin({ email, password } : { email: string, password: string }) {
+export async function manualLogin({ email = "", fullname = "", password } : { email?: string, fullname?: string, password: string }) {
+    if(!fullname && !password) {
+        return {
+            success: false,
+            error: "No fullname and password provided.",
+            user_error: true
+        };
+    }
+
     try {
+        
         const raw_response = await fetch(Account.ValidateEndpoint, {
             method: "POST",
             credentials: "include",
@@ -94,6 +103,7 @@ export async function manualLogin({ email, password } : { email: string, passwor
             },
             body: JSON.stringify({
                 "email": email,
+                "fullname": fullname,
                 "password": password
             })
         });

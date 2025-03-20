@@ -33,7 +33,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                     }
 
                     //? Try to get the user data from the server
-                    const user_data = await manualLogin({ email: credentials?.username_or_email, password: credentials?.password });
+                    const user_data = await manualLogin({ email: credentials?.username_or_email, fullname: credentials?.username_or_email, password: credentials?.password });
 
                     //? If there's an error while fetching
                     if(!user_data.success && user_data.user_error) {

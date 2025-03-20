@@ -7,7 +7,7 @@ import { SessionProvider, signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isProcess, setIsProcess] = useState(false);
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
     
     //? Sign in to credentials manager from next-auth
     const result = await signIn("credentials", {
-        username_or_email: email,
+        username_or_email: usernameOrEmail,
         password: password,
         redirect: false,
     });
@@ -27,7 +27,7 @@ const LoginPage = () => {
       window.location.href = "/?login";
     }
     else {
-      alert("Email or password is wrong.");
+      alert("Email/Username or password is wrong.");
     }
 
     setIsProcess(false);
@@ -58,13 +58,13 @@ const LoginPage = () => {
               className="flex flex-col items-start justify-center gap-4 text-white tracking-wide"
           >
               <label htmlFor="email" className="tracking-wider font-semibold">
-              Email :
+              Email or Username :
               </label>
               <input
               type="text"
-              placeholder="Masukkan Emailmu..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Masukkan Email/Username"
+              value={usernameOrEmail}
+              onChange={(e) => setUsernameOrEmail(e.target.value)}
               className="loginInput outline-none px-4 py-3 w-full bg-white/10 backdrop-blur-md rounded-lg placeholder:text-white/60 "
               />
 
