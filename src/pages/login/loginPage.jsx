@@ -12,33 +12,27 @@ const LoginPage = () => {
   const [isProcess, setIsProcess] = useState(false);
 
   const handleLogin = async () => {
+    //? Set process state to true
     setIsProcess(true);
     
+    //? Sign in to credentials manager from next-auth
     const result = await signIn("credentials", {
         username_or_email: email,
         password: password,
         redirect: false,
     });
 
-    if(result.error) {
-        window.location.href = "/?error";
+    //? If there's no error try to logging in and get token from server
+    if(!result.error) {
+      window.location.href = "/?login";
     }
     else {
-        window.location.href = "/?login";
+      alert("Email or password is wrong.");
     }
 
     setIsProcess(false);
   };
 
-  
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const is_error_params_exist = searchParams.has("error");
-    console.log("TEST");
-    if(is_error_params_exist) {
-      alert("Password or Email/Username is wrong!");
-    }
-  }, []);
 
   return (
     <>
