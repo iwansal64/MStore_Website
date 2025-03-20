@@ -1,95 +1,112 @@
 'use client';
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleButton from "../components/loginComponents/googleLogin";
 import LoginTrigger from "../components/loginComponents/loginTrigger";
 import { SessionProvider, signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isProcess, setIsProcess] = useState(false);
-  
+
   const handleLogin = async () => {
     setIsProcess(true);
     
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
         username_or_email: email,
         password: password,
-        callbackUrl: "/?login",
+        redirect: false,
     });
+
+    if(result.error) {
+        window.location.href = "/?error";
+    }
+    else {
+        window.location.href = "/?login";
+    }
 
     setIsProcess(false);
   };
+
+  
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const is_error_params_exist = searchParams.has("error");
+    console.log("TEST");
+    if(is_error_params_exist) {
+      alert("Password or Email/Username is wrong!");
+    }
+  }, []);
 
   return (
     <>
       <SessionProvider>
         <LoginTrigger />
       </SessionProvider>
-
       <div id="containerLogin" className="w-full sm:w-1/2 p-6 ">
-        <div id="title" className="flex flex-row justify-between">
+          <div id="title" className="flex flex-row justify-between">
           <div className="">
-            <h1 className="font-bold tracking-wider text-2xl text-white">
+              <h1 className="font-bold tracking-wider text-2xl text-white">
               MitraStore
-            </h1>
-            <p className="text-white text-sm">Login dahulu ya!</p>
+              </h1>
+              <p className="text-white text-sm">Login dahulu ya!</p>
           </div>
           <img
-            src="https://smkind-mm2100.sch.id/wp-content/uploads/2022/10/MM2100-LOGO-SMK-Mitra-Industri-MM2100-PNG.png"
-            className="w-12 h-full shadow-md rounded-full"
+              src="https://smkind-mm2100.sch.id/wp-content/uploads/2022/10/MM2100-LOGO-SMK-Mitra-Industri-MM2100-PNG.png"
+              className="w-12 h-full shadow-md rounded-full"
           />
-        </div>
-        <div id="containerForm" className="mt-8">
+          </div>
+          <div id="containerForm" className="mt-8">
           <form
-            action=""
-            className="flex flex-col items-start justify-center gap-4 text-white tracking-wide"
+              action=""
+              className="flex flex-col items-start justify-center gap-4 text-white tracking-wide"
           >
-            <label htmlFor="email" className="tracking-wider font-semibold">
+              <label htmlFor="email" className="tracking-wider font-semibold">
               Email :
-            </label>
-            <input
+              </label>
+              <input
               type="text"
               placeholder="Masukkan Emailmu..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="loginInput outline-none px-4 py-3 w-full bg-white/10 backdrop-blur-md rounded-lg placeholder:text-white/60 "
-            />
+              />
 
-            <label htmlFor="password" className="tracking-wider font-semibold">
+              <label htmlFor="password" className="tracking-wider font-semibold">
               Password :
-            </label>
-            <input
+              </label>
+              <input
               type="password"
               placeholder="Masukkan Passwordmu..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="off"
               className="loginInput outline-none px-4 py-3 w-full bg-white/10 backdrop-blur-md rounded-lg placeholder:text-white/60 "
-            />
-            <div
+              />
+              <div
               id="btnAction"
               className="flex flex-row gap-4 items-center justify-center w-full"
-            >
-              <button
-                type="button"
-                onClick={handleLogin}
-                className="w-full border border-white rounded-lg py-3 hover:bg-white hover:text-black duration-300 uppercase tracking-wider disabled:opacity-50 disabled:pointer-events-none"
-                disabled={isProcess}
               >
-                Login
+              <button
+                  type="button"
+                  onClick={handleLogin}
+                  className="w-full border border-white rounded-lg py-3 hover:bg-white hover:text-black duration-300 uppercase tracking-wider disabled:opacity-50 disabled:pointer-events-none"
+                  disabled={isProcess}
+              >
+                  Login
               </button>
               <GoogleButton />
-            </div>
-            <span className="mx-auto text-sm">
+              </div>
+              <span className="mx-auto text-sm">
               Don`t have account?{" "}
               <Link to="/signUp" className="text-blue-400 hover:underline">
-                Sign Up Now!
+                  Sign Up Now!
               </Link>
-            </span>
+              </span>
           </form>
-        </div>
+          </div>
       </div>
     </>
   );
