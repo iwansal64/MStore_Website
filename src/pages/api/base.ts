@@ -9,6 +9,7 @@ export class Student {
 export class Admin {
     static GetOrderList: string = "http://localhost:5500/api/admin/get_order";
     static GetAdminStats: string = "http://localhost:5500/api/admin/get_stats";
+    static ConfirmOrder: string = "http://localhost:5500/api/admin/confirm_order";
 }
 
 export class Account {

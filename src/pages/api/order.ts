@@ -26,3 +26,32 @@ export async function get_admin_order_list() {
         };
     }
 }
+
+export async function confirm_order({ order_id }: { order_id: string }) {
+    //? Get the order list data
+    const response = await (await fetch(Admin.ConfirmOrder, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            order_id: order_id
+        })
+    })).json();
+
+    //? Check the result
+    if(response.result) {
+        return {
+            success: true,
+            result: response.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: response.error || response.error_code
+        };
+    }
+}

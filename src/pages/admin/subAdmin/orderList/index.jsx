@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { get_admin_order_list } from "../../../api/order";
+import { confirm_order, get_admin_order_list } from "../../../api/order";
 import strftime from "strftime";
 import { number_to_rp } from "../../../../javascript/client_function";
 
@@ -48,6 +48,21 @@ const OrderList = () => {
     }
   };
 
+  // Handle confirm order
+  const [processingOrder, setProcessingOrder] = useState(false);
+  const handleConfirmOrder = async (order_id) => {
+    setProcessingOrder(true);
+    const result = await confirm_order({ order_id: order_id });
+    if(result.success) {
+        alert("Successfully confirm the order");
+    }
+    else {
+        alert("There's an error. Please contact developer");
+        console.error(result.error);
+    }
+    setProcessingOrder(false);
+  }
+
   return (
     <>
       <section className="p-6">
@@ -85,10 +100,10 @@ const OrderList = () => {
                 <td className="px-4 py-3">{strftime("%H:%M:%S", new Date(orderData.created_at))}</td>
                 <td className="px-4 py-3">{orderData.status}</td>
                 <td className="flex flex-row justify-center items-center gap-2 p-2 ">
-                  <button className="bg-green-400 p-2 rounded-lg">
+                  <button className="bg-green-400 p-2 rounded-lg disabled:bg-green-800" disabled={processingOrder} onClick={() => { handleConfirmOrder(orderData.id); }}>
                     <FaCheck />
                   </button>
-                  <button className="bg-red-400 p-2 rounded-lg">
+                  <button className="bg-red-400 p-2 rounded-lg disabled:bg-red-800" disabled={processingOrder}>
                     <FaTimes />
                   </button>
                 </td>
