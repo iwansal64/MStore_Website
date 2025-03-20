@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { get_admin_order_list } from "../../../api/order";
+import strftime from "strftime";
+import { number_to_rp } from "../../../../javascript/client_function";
 
 const OrderList = () => {
   const [listItems, setListItems] = useState([]);
@@ -62,23 +64,25 @@ const OrderList = () => {
               <th className="px-4 py-2 bg-zinc-700">Quantity</th>
               <th className="px-4 py-2 bg-zinc-700">Harga</th>
               <th className="px-4 py-2 bg-zinc-700">Total</th>
-              <th className="px-4 py-2 bg-zinc-700">Timestamp</th>
+              <th className="px-4 py-2 bg-zinc-700">Date</th>
+              <th className="px-4 py-2 bg-zinc-700">Time</th>
               <th className="px-4 py-2 bg-zinc-700">Status</th>
               <th className="px-4 py-2 bg-zinc-700">Action</th>
             </tr>
             {/* Body Table */}
-            {currentItems.map((orderData) => (
+            {currentItems.map((orderData, index) => (
               <tr
                 key={orderData.id}
                 className="border-b border-zinc-700 hover:bg-zinc-700"
               >
-                <td className="px-4 py-3">{orderData.id}</td>
+                <td className="px-4 py-3">{index + 1}</td>
                 <td className="px-4 py-3">{orderData.student_name}</td>
                 <td className="px-4 py-3">{orderData.product_name}</td>
-                <td className="px-4 py-3">{orderData.order_quantity}</td>
-                <td className="px-4 py-3">{orderData.product_price}</td>
+                <td className="px-4 py-3">{number_to_rp(orderData.order_quantity, true)}</td>
+                <td className="px-4 py-3">{number_to_rp(orderData.product_price, true)}</td>
                 <td className="px-4 py-3">{orderData.total_price}</td>
-                <td className="px-4 py-3">{orderData.created_at}</td>
+                <td className="px-4 py-3">{strftime("%d/%m/%Y", new Date(orderData.created_at))}</td>
+                <td className="px-4 py-3">{strftime("%H:%M:%S", new Date(orderData.created_at))}</td>
                 <td className="px-4 py-3">{orderData.status}</td>
                 <td className="flex flex-row justify-center items-center gap-2 p-2 ">
                   <button className="bg-green-400 p-2 rounded-lg">
