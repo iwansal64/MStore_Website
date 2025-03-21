@@ -109,29 +109,49 @@ const Biodata = () => {
             <h1 className="text-white/80 text-2xl">Ubah Biodata Diri</h1>
             <table className="text-white flex flex-row justify-center items-center gap-10 mt-4">
               <tbody>
-                <tr>Nama</tr>
-                <tr>Tanggal Lahir</tr>
-                <tr>Jenis Kelamin</tr>
-                <tr>Angkatan</tr>
+                <tr>
+                    <td>Nama</td>
+                </tr>
+                <tr>
+                    <td>Tanggal Lahir</td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                </tr>
+                <tr>
+                    <td>Angkatan</td>
+                </tr>
               </tbody>
               <tbody>
-                <tr><input class="bg-transparent" type="text" name="username" id="username" defaultValue={default_username} onChange={(event) => { update_user_input({new_username: event.target.value}); }} /></tr>
-                <tr><input class="bg-transparent" type="date" name="born" id="born" defaultValue={default_born} onChange={(event) => { update_user_input({new_date_of_birth: event.target.value}); }} /></tr>
                 <tr>
-                  <select class="bg-transparent" name="gender" id="gender" defaultValue={default_gender} onChange={(event) => { update_user_input({new_gender: event.target.value}); }}>
-                    <option class="bg-black" value="-">-</option>
-                    <option class="bg-black" value="male">Male</option>
-                    <option class="bg-black" value="female">Female</option>
-                  </select>
+                    <td>
+                        <input className="bg-transparent" type="text" name="username" id="username" defaultValue={default_username} onChange={(event) => { update_user_input({new_username: event.target.value}); }} />
+                    </td>
                 </tr>
-                {/* <tr><input class="bg-transparent" type="text" name="angkatan" id="angkatan" defaultValue={default_angkatan} onChange={(event) => { update_user_input({new_generation: Number.parseInt(event.target.value)}); }} /></tr> */}
                 <tr>
-                  <select class="bg-transparent" name="angkatan" id="angkatan" defaultValue={default_angkatan} onChange={(event) => { update_user_input({new_generation: event.target.value}); }}>
-                    <option value="-">-</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                  </select>
+                    <td>
+                        <input className="bg-transparent" type="date" name="born" id="born" defaultValue={default_born} onChange={(event) => { update_user_input({new_date_of_birth: event.target.value}); }} />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select className="bg-transparent" name="gender" id="gender" defaultValue={default_gender} onChange={(event) => { update_user_input({new_gender: event.target.value}); }}>
+                            <option className="bg-black" value="-">-</option>
+                            <option className="bg-black" value="male">Male</option>
+                            <option className="bg-black" value="female">Female</option>
+                        </select>
+                    </td>
+                </tr>
+                {/* <tr><input className="bg-transparent" type="text" name="angkatan" id="angkatan" defaultValue={default_angkatan} onChange={(event) => { update_user_input({new_generation: Number.parseInt(event.target.value)}); }} /></tr> */}
+                <tr>
+                    <td>
+                        <select className="bg-transparent" name="angkatan" id="angkatan" defaultValue={default_angkatan} onChange={(event) => { update_user_input({new_generation: event.target.value}); }}>
+                            <option value="-">-</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                        </select>
+                    </td>
                 </tr>
               </tbody>
             </table>
@@ -173,16 +193,32 @@ const Biodata = () => {
               <h1 className="text-white/80 text-2xl">Ubah Biodata Diri</h1>
               <table className="text-white flex flex-row justify-center items-center gap-10 mt-4">
                 <tbody>
-                  <tr>Nama</tr>
-                  <tr>Tanggal Lahir</tr>
-                  <tr>Jenis Kelamin</tr>
-                  <tr>Angkatan</tr>
+                    <tr>
+                        <td>Nama</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Lahir</td>
+                    </tr>
+                    <tr>
+                        <td>Jenis Kelamin</td>
+                    </tr>
+                    <tr>
+                        <td>Angkatan</td>
+                    </tr>
                 </tbody>
                 <tbody>
-                  <tr>{user.username}</tr>
-                  <tr>{user.born ? strftime("%d %B %Y", new Date(user.born)) : "-"}</tr>
-                  <tr>{user.gender !== null ? (user.gender == 1 ? "Male" : "Female" ) : "-"}</tr>
-                  <tr>{user.angkatan || "-"}</tr>
+                    <tr>
+                        <td>{user.username}</td>
+                    </tr>
+                    <tr>
+                        <td>{user.born ? strftime("%d %B %Y", new Date(user.born)) : "-"}</td>
+                    </tr>
+                    <tr>
+                        <td>{user.gender !== null ? (user.gender == 1 ? "Male" : "Female" ) : "-"}</td>
+                    </tr>
+                    <tr>
+                        <td>{user.angkatan || "-"}</td>
+                    </tr>
                 </tbody>
                 <tbody>
  
