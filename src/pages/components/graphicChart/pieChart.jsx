@@ -9,7 +9,7 @@ export default function PieCharts() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
-  const productsByOrder = JSON.parse(localStorage.getItem("products_by_order"));
+  const productsByOrder = JSON.parse(localStorage.getItem("products_by_order")) || {};
 
   useEffect(() => {
     if (chartInstance.current) {

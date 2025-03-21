@@ -92,7 +92,7 @@ const OrderList = () => {
               >
                 <td className="px-4 py-3">{index + 1}</td>
                 <td className="px-4 py-3">{orderData.student_name}</td>
-                <td className="px-4 py-3">{orderData.product_name}</td>
+                <td className="px-4 py-3">{orderData.products_data[0].product_name}</td>
                 <td className="px-4 py-3">{number_to_rp(orderData.order_quantity, true)}</td>
                 <td className="px-4 py-3">{number_to_rp(orderData.product_price, true)}</td>
                 <td className="px-4 py-3">{orderData.total_price}</td>
@@ -100,7 +100,7 @@ const OrderList = () => {
                 <td className="px-4 py-3">{strftime("%H:%M:%S", new Date(orderData.created_at))}</td>
                 <td className="px-4 py-3">{orderData.status}</td>
                 <td className="flex flex-row justify-center items-center gap-2 p-2 ">
-                  <button className="bg-green-400 p-2 rounded-lg disabled:bg-green-800" disabled={processingOrder} onClick={() => { handleConfirmOrder(orderData.id); }}>
+                  <button className="bg-green-400 p-2 rounded-lg disabled:bg-green-800" disabled={processingOrder||(orderData.status_code != 0)} onClick={() => { handleConfirmOrder(orderData.id); }}>
                     <FaCheck />
                   </button>
                   <button className="bg-red-400 p-2 rounded-lg disabled:bg-red-800" disabled={processingOrder}>

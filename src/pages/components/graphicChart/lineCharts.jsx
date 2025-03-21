@@ -8,7 +8,7 @@ Chart.register(CategoryScale);
 export default function LineCharts() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-  const totalOrdersByDate = JSON.parse(localStorage.getItem("total_orders_by_date"));
+  const totalOrdersByDate = JSON.parse(localStorage.getItem("total_orders_by_date")) || {};
 
   useEffect(() => {
     if (chartInstance.current) {
