@@ -23,6 +23,7 @@ import OrderList from "./admin/subAdmin/orderList";
 import CustomersList from "./admin/subAdmin/customers";
 import ReportSell from "./admin/subAdmin/report";
 import SettingsAdmin from "./admin/subAdmin/settingAdmin";
+import WishlistPage from "./wishlist";
 import ProductDetail from "./productDetail";
 
 function ClientRouter() {
@@ -35,6 +36,7 @@ function ClientRouter() {
                 <Route path="/keranjangBelanja" element={<KeranjangBelanja />} />
                 <Route path="/signUp" element={<SignUpPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/productDetail" element={<ProductDetail />} />
 
                 {/* Nested Routes untuk Admin */}

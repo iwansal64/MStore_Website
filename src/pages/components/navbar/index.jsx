@@ -186,7 +186,7 @@ const NavigateBar = ({ is_must_login = false }) => {
               </MenuItems>
             </Menu>
 
-            <Link to={"/favorite"}><FaHeart /></Link>
+            <Link to={"/wishlist"}><FaHeart /></Link>
           </div>
           {/* Profile Dropdown */}
           <Menu as="div" className="dropDown relative">
