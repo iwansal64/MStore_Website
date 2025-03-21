@@ -93,9 +93,10 @@ const AllProductPage = () => {
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6"
         >
           {allProduct.map((product) => (
-            <div
+            <button
               key={product.id}
-              className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl"
+              className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl duration-200 hover:opacity-[0.5] hover:scale-[1.05]"
+              onClick={() => { window.location.href = "/productDetail?product_id="+product.id; }}
             >
               <img
                 src={product.image_url}
@@ -127,7 +128,7 @@ const AllProductPage = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

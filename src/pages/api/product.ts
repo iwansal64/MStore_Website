@@ -138,3 +138,53 @@ export async function getProductById({ product_id }: { product_id: string }) {
         };
     }
 }
+
+export async function toggleProductFavorite({ product_id }: { product_id: string }) {
+    const response = await (await fetch(Student.ToggleProductFavorite, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_id: product_id
+        })
+    })).json();
+
+    if(response.result) {
+        return {
+            success: true,
+            result: response.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: response.error || response.error_code,
+        };
+    }
+}
+
+export async function getWishlistProducts() {
+    const response = await (await fetch(Student.GetFavoriteProducts, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+        },
+    })).json();
+
+    if(response.result && (typeof response.result === "object")) {
+        return {
+            success: true,
+            result: response.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: response.error || response.error_code,
+        };
+    }
+}

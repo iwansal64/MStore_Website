@@ -7,6 +7,8 @@ export class Student {
     static GetOrderHistoryEndpoint: string = "http://localhost:5500/api/student/get_orders_history";
     static ConfirmOrder: string = "http://localhost:5500/api/student/confirm_order_student";
     static CancelOrder: string = "http://localhost:5500/api/student/cancel_order_student";
+    static ToggleProductFavorite: string = "http://localhost:5500/api/student/toggle_favorite";
+    static GetFavoriteProducts: string = "http://localhost:5500/api/student/get_favorite";
 }
 
 export class Admin {
