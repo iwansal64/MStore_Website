@@ -3,7 +3,10 @@ export class Student {
     static AddToCartEndpoint: string = "http://localhost:5500/api/student/add_to_cart";
     static GetCartEndpoint: string = "http://localhost:5500/api/student/get_cart";
     static ChangeCartQuantityEndpoint: string = "http://localhost:5500/api/student/change_cart_quantity";
-    static OrderProductEndpoint: string = "http://localhost:5500/api/student/order_product"
+    static OrderProductEndpoint: string = "http://localhost:5500/api/student/order_product";
+    static GetOrderHistoryEndpoint: string = "http://localhost:5500/api/student/get_orders_history";
+    static ConfirmOrder: string = "http://localhost:5500/api/student/confirm_order_student";
+    static CancelOrder: string = "http://localhost:5500/api/student/cancel_order_student";
 }
 
 export class Admin {

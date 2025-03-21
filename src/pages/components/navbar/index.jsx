@@ -5,6 +5,7 @@ import {
   FaCoins,
   FaBell,
   FaChevronDown,
+  FaHeart,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
@@ -184,6 +185,8 @@ const NavigateBar = ({ is_must_login = false }) => {
                 </p>
               </MenuItems>
             </Menu>
+
+            <Link to={"/favorite"}><FaHeart /></Link>
           </div>
           {/* Profile Dropdown */}
           <Menu as="div" className="dropDown relative">
