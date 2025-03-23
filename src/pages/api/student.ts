@@ -246,7 +246,51 @@ export async function getNotificationAPI() {
         },
     })).json();
     
-    if(notificationResponse.result) {
+    if(notificationResponse.result && Array.isArray(notificationResponse.result)) {
+        const new_result: {
+            id: string,
+            title: string,
+            content: string,
+            created_at: Date,
+            read: boolean
+        }[] = [];
+        notificationResponse.result.forEach((value: any) => {
+            new_result.push({
+                id: value.id,
+                title: value.title,
+                content: value.content,
+                created_at: new Date(value.created_at),
+                read: value.read
+            });
+        })
+        
+        return {
+            success: true,
+            result: new_result
+        }
+    }
+    else {
+        return {
+            success: false,
+            error: notificationResponse.error_code || notificationResponse.error
+        }
+    }
+}
+
+export async function getNotificationByIdAPI({ notification_id }: { notification_id: string }) {
+    const notificationResponse = await (await fetch(Student.GetNotificationById, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            notification_id: notification_id
+        })
+    })).json();
+    
+    if(notificationResponse.result && typeof notificationResponse.result === "object") {
         return {
             success: true,
             result: notificationResponse.result

@@ -10,6 +10,7 @@ export class Student {
     static ToggleProductFavorite: string = "http://localhost:5500/api/student/toggle_favorite";
     static GetFavoriteProducts: string = "http://localhost:5500/api/student/get_favorite";
     static GetNotification: string = "http://localhost:5500/api/student/get_notification";
+    static GetNotificationById: string = "http://localhost:5500/api/student/get_notification_by_id";
 }
 
 export class Admin {

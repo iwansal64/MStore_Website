@@ -54,7 +54,13 @@ const OrderList = () => {
     setProcessingOrder(true);
     const result = await confirm_order({ order_id: order_id });
     if(result.success) {
-        alert("Successfully confirm the order");
+        setListItems(listItems.map(orderData => {
+            if(orderData.id == order_id) {
+                orderData.status = "Confirmed By The Admin";
+                orderData.status_code = 1;
+            }
+            return orderData
+        }))
     }
     else {
         alert("There's an error. Please contact developer");
@@ -93,8 +99,8 @@ const OrderList = () => {
                 <td className="px-4 py-3">{index + 1}</td>
                 <td className="px-4 py-3">{orderData.student_name}</td>
                 <td className="px-4 py-3">{orderData.products_data[0].product_name}</td>
-                <td className="px-4 py-3">{number_to_rp(orderData.order_quantity, true)}</td>
-                <td className="px-4 py-3">{number_to_rp(orderData.product_price, true)}</td>
+                <td className="px-4 py-3">{number_to_rp(orderData.products_data[0].order_quantity)}</td>
+                <td className="px-4 py-3">{number_to_rp(orderData.products_data[0].product_price, true)}</td>
                 <td className="px-4 py-3">{orderData.total_price}</td>
                 <td className="px-4 py-3">{strftime("%d/%m/%Y", new Date(orderData.created_at))}</td>
                 <td className="px-4 py-3">{strftime("%H:%M:%S", new Date(orderData.created_at))}</td>
