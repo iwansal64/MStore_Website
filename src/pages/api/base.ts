@@ -9,6 +9,7 @@ export class Student {
     static CancelOrder: string = "http://localhost:5500/api/student/cancel_order_student";
     static ToggleProductFavorite: string = "http://localhost:5500/api/student/toggle_favorite";
     static GetFavoriteProducts: string = "http://localhost:5500/api/student/get_favorite";
+    static GetNotification: string = "http://localhost:5500/api/student/get_notification";
 }
 
 export class Admin {

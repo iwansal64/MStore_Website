@@ -25,6 +25,8 @@ import ReportSell from "./admin/subAdmin/report";
 import SettingsAdmin from "./admin/subAdmin/settingAdmin";
 import WishlistPage from "./wishlist";
 import ProductDetail from "./productDetail";
+import NotificationPage from "./components/notification";
+import DetailNotificationPage from "./components/notification/detailNotification";
 
 function ClientRouter() {
     return (
@@ -38,6 +40,8 @@ function ClientRouter() {
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/productDetail" element={<ProductDetail />} />
+                <Route path="/notification" element={<NotificationPage />} />
+                <Route path="/notification/detail" element={<DetailNotificationPage />} />
 
                 {/* Nested Routes untuk Admin */}
                 <Route path="/admin" element={<AdminPage />}>

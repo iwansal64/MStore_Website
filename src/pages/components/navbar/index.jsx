@@ -10,13 +10,14 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaCartShopping } from "react-icons/fa6";
-import { logoutAPI } from "../../api/student";
+import { getNotificationAPI, logoutAPI } from "../../api/student";
 import { getCartAPI } from "../../api/cart";
 import CheckLogin from "../loginComponents/checkLogin";
 import CheckMustLogin from "../loginComponents/checkMustLogin";
 
 const NavigateBar = ({ is_must_login = false }) => {
   const [itemsCart, setItemsCart] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [elevated, setElevated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState({
@@ -93,6 +94,18 @@ const NavigateBar = ({ is_must_login = false }) => {
     });
   }, [])
 
+  //? Update Notifcation Data
+  useEffect(() => {
+    getNotificationAPI().then(notificationResult => {
+        if(notificationResult.success) {
+            setNotifications(notificationResult.result);
+        }
+        else {
+            console.error(`There's an error when trying to get cart data. Error: ${notificationResult.error}`);
+        }
+    })
+  }, [])
+
   return (
     <>
       {is_must_login?<CheckMustLogin />:<CheckLogin />}
@@ -129,11 +142,11 @@ const NavigateBar = ({ is_must_login = false }) => {
             className=" flex flex-row- justify-center items-center gap-6"
           >
             {/* Cart Dropdown */}
-            <Menu as="div" className="dropDown relative">
+            <Menu as="div" className="dropDown relative flex justify-center">
               <MenuButton className="text-white text-xl flex flex-row items-center ">
                 <FaCartShopping />
               </MenuButton>
-              <MenuItems className="absolute right-0 mt-2 w-[20rem] p-2 text-white rounded-lg bg-zinc-900 shadow-inner shadow-zinc-800">
+              <MenuItems className="absolute top-[100%] mt-2 w-[20rem] p-2 text-white rounded-lg bg-zinc-900 shadow-inner shadow-zinc-800">
                 {itemsCart.length > 0 ? (
                   itemsCart.map((produkCart) => (
                     <MenuItem key={produkCart.id} as="div">
@@ -175,18 +188,35 @@ const NavigateBar = ({ is_must_login = false }) => {
             </Menu>
 
             {/* Notification */}
-            <Menu as="div" className="dropDown relative">
+            <Menu as="div" className="dropDown relative flex justify-center">
               <MenuButton className="text-white text-xl flex flex-row items-center">
                 <FaBell />
               </MenuButton>
-              <MenuItems className="absolute right-0 mt-2 w-40 p-2 text-white rounded-lg bg-zinc-900 shadow-inner shadow-zinc-800">
-                <p className="text-center text-sm text-gray-400">
+              <MenuItems className="absolute top-[100%] mt-2 w-80 p-4 text-white rounded-lg bg-zinc-900 shadow-inner shadow-zinc-800">
+                {notifications ? <>
+                    {notifications.slice(0, Math.min(notifications.length, 5)).map(notification_data => {
+                        return (<MenuItem key={notification_data.id} as="div">
+                                    <button className={`flex flex-col gap-1 justify-center w-full bg-[#555] p-4 opacity-${notification_data.read?"100":"25"}`}>
+                                        <p className="text-[14px] font-bold truncate">
+                                        {notification_data.title}
+                                        </p>
+                                        <p className="text-[12px] text-white font-light truncate font-sans">
+                                        {notification_data.content}
+                                        </p>
+                                    </button>
+                                </MenuItem>)
+                    })}
+                </> : <p className="text-center text-sm text-gray-400">
                   No Notifications
-                </p>
+                </p>}
+                <Link
+                  to={"/notification"}
+                  className="text-white text-xs flex flex-row items-center justify-center mt-4 hover:text-gray-300 duration-300"
+                >
+                  See all notifications
+                </Link>
               </MenuItems>
             </Menu>
-
-            <Link to={"/wishlist"}><FaHeart /></Link>
           </div>
           {/* Profile Dropdown */}
           <Menu as="div" className="dropDown relative">
@@ -235,6 +265,18 @@ const NavigateBar = ({ is_must_login = false }) => {
                     }`}
                   >
                     Pembelian
+                  </button>
+                )}
+              </MenuItem>
+              <MenuItem>
+                {({ active }) => (
+                  <button
+                    onClick={() => navigate("/wishlist")}
+                    className={`w-full text-left px-4 py-2 text-xs rounded-md uppercase font-bold transition ${
+                      active ? "bg-zinc-800" : "bg-transparent"
+                    }`}
+                  >
+                    Wishlist
                   </button>
                 )}
               </MenuItem>

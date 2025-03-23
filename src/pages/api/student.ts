@@ -236,3 +236,26 @@ export async function orderProductAPI({ products_id, payment_method, order_quant
         }
     }
 }
+
+export async function getNotificationAPI() {
+    const notificationResponse = await (await fetch(Student.GetNotification, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+        },
+    })).json();
+    
+    if(notificationResponse.result) {
+        return {
+            success: true,
+            result: notificationResponse.result
+        }
+    }
+    else {
+        return {
+            success: false,
+            error: notificationResponse.error_code || notificationResponse.error
+        }
+    }
+}
