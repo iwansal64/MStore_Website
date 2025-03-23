@@ -24,21 +24,21 @@ const WishlistPage = () => {
 
 
     return <>
-        <NavigateBar />
+        <NavigateBar is_must_login={true} />
         <div className="flex flex-col w-dvw h-dvh p-8">
             <h1 className="text-[3rem] font-bold">Wishlist</h1>
             <hr />
             <br />
             <div className="grid grid-cols-3 gap-4">
                 {wishlist.length > 0 ? wishlist.map(favorite_product => {
-                    return <Link to={`/productDetail?product_id=${favorite_product.id}`} className="p-8 bg-[#222] rounded-xl flex items-center gap-6 text-left duration-200 hover:scale-[1.05] hover:brightness-[0.5]">
+                    return <button onClick={() => { window.location.href = `/productDetail?product_id=${favorite_product.id}` }} className="p-8 bg-[#222] rounded-xl flex items-center gap-6 text-left duration-200 hover:scale-[1.05] hover:brightness-[0.5]">
                         <img src={favorite_product.image_url} className="w-fit" />
                         <div>
                             <p className="text-3xl font-bold">{favorite_product.name}</p>
                             <p className="text-base">{number_to_rp(favorite_product.price, true)}</p>
                             <p className="text-sm">Stock: {favorite_product.stock}</p>
                         </div>
-                    </Link>
+                    </button>
                 }) : <p className="text-xl">You haven't put anything in the wishlist yet</p>}
             </div>
         </div>

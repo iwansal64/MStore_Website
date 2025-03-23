@@ -196,7 +196,7 @@ const NavigateBar = ({ is_must_login = false }) => {
                 {notifications ? <>
                     {notifications.slice(0, Math.min(notifications.length, 5)).map(notification_data => {
                         return (<MenuItem key={notification_data.id} as="div">
-                                    <button className={`flex flex-col gap-1 justify-center w-full bg-[#555] p-4 opacity-${notification_data.read?"100":"25"}`}>
+                                    <button className={`flex flex-col gap-1 justify-center w-full bg-[#555] p-4 opacity-${notification_data.read?"25":"100"}`}>
                                         <p className="text-[14px] font-bold truncate">
                                         {notification_data.title}
                                         </p>
