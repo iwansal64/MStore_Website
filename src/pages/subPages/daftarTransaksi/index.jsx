@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { cancel_student_order, confirm_student_order, get_student_order_history } from "../../api/order";
 import { number_to_rp } from "../../../javascript/client_function";
+import Loader from "../../components/loader";
 
 const DaftarTransaksi = () => {
   const [orderHistory, setOrderHistory] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
     
+  //? Get order history
   useEffect(() => {
     get_student_order_history().then(response => {
       if(response.success) {
@@ -12,8 +15,8 @@ const DaftarTransaksi = () => {
       }
       else {
         console.error(response);
-        
       }
+      setIsLoaded(true);
     }).catch(error => {
       console.error(error);
     })
@@ -48,7 +51,7 @@ const DaftarTransaksi = () => {
       <div className="container text-white text-2xl">
         <h1 className="mt-4">Daftar Transaksi</h1>
         <div id="transaction-list" className="mt-2 border border-white border-1 w-full h-full flex flex-col gap-2 p-4 overflow-y-auto overflow-x-hidden">
-            {orderHistory.map((value) => {
+            {isLoaded ? <>{orderHistory.length > 0 ? orderHistory.map((value) => {
               return <div className="border border-red w-full h-full p-4 grid grid-flow-col grid-cols-[auto_1fr_0.5fr] gap-4">
                 <img src={value.products_data[0].product_image_url} alt="Product Image" />
                 <div className="information grid grid-rows-[auto_auto_1fr] h-full items-end">
@@ -61,7 +64,7 @@ const DaftarTransaksi = () => {
                     <button disabled={value.status_code != 0} className="border p-2 hover:border-red-100 text-lg w-full flex justify-center items-center disabled:opacity-[0.2]" onClick={() => { handleCancel({ order_id: value.id }) }}>Cancel</button>
                 </div>
               </div>
-            })}
+            }) : <p className="text-xl opacity-50">Kamu belum melakukan transaksi apapun.</p>}</> : <Loader />}
         </div>
       </div>
     </section>
