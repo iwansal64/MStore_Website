@@ -2,10 +2,10 @@ import React, { useEffect } from "react"
 import { get_admin_stats } from "../../api/stats";
 
 export default function AutoUpdateStats() {
-    const productsByOrder = localStorage.getItem("products_by_order");
+    const all_good = (localStorage.length >= 6 && localStorage.getItem("total_revenue") && localStorage.getItem("total_orders") && localStorage.getItem("total_students_ordered") && localStorage.getItem("total_revenue_today") && localStorage.getItem("total_orders_today") && localStorage.getItem("total_orders_by_date") && localStorage.getItem("products_by_order"));
 
     useEffect(() => {
-        if(!productsByOrder) {
+        if(!all_good) {
             get_admin_stats().then(value => {
                 if(value.success) {
                     localStorage.setItem("total_revenue", JSON.stringify(value.result.total_revenue));
