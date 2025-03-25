@@ -43,7 +43,8 @@ const CheckoutPage = () => {
         product_price: 0,
         quantity: 0,
         product_image_url: "",
-        created_at: new Date()
+        created_at: new Date(),
+        admin_id: ""
     }]);
     const [loaded, setLoaded] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("tunai");
@@ -84,13 +85,24 @@ const CheckoutPage = () => {
             {
             loaded?
             (<>
-            <div className="mt-4 flex flex-row gap-5">
-                {(cartsData.map(cart => <div key={cart.id} className="bg-[#333] p-4">
-                    <p>Product Name: {cart.product_name}</p>
-                    <p>Product Price: {cart.product_price}</p>
-                    <p>Quantity: {cart.quantity}</p>
-                    <p>Total Price: {cart.product_price * cart.quantity}</p>
-                </div>))}
+            <div className="mt-4 flex flex-row items-stretch gap-5">
+                {(() => {
+                    let current_admin_id = cartsData[0].admin_id;
+                    return cartsData.map(cart => {
+                        console.log(`${current_admin_id} | ${cart.admin_id}`);
+                        let result = <>{(current_admin_id != cart.admin_id) ? <div className="bg-white w-1" /> : ""}
+                            <div key={cart.id} className={"bg-[#333] p-4 "+cart.admin_id}>
+                                <p>Product Name: {cart.product_name}</p>
+                                <p>Product Price: {cart.product_price}</p>
+                                <p>Quantity: {cart.quantity}</p>
+                                <p>Total Price: {cart.product_price * cart.quantity}</p>
+                            </div>
+                        </>;
+                        current_admin_id = cart.admin_id;
+
+                        return result
+                    })
+                })()}
             </div>
             <div className="mt-4">
                 <div>
