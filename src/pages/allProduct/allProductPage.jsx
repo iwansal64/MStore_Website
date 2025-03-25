@@ -1,7 +1,7 @@
 import NavigateBar from "../components/navbar";
 import { category } from "../variables/kategori";
 // import { allProduct } from "../variables/allProduct";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { FaSearch, FaChevronDown, FaCheck } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -11,6 +11,9 @@ import { orderProductAPI } from "../api/student";
 
 const AllProductPage = () => {
   const [allProduct, setAllProduct] = useState([]);
+  const [successToAddId, setSuccessToAddId] = useState("");
+  const [reloadNavbar, setReloadNavbar] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   //? Get All Product Through API
   useEffect(() => {
@@ -32,20 +35,27 @@ const AllProductPage = () => {
   }
   
   async function add_to_cart({ product_id }) {
+    if(isProcessing) return alert("Please wait a moment.");
+    setIsProcessing(true);
     const result = await addToCartAPI({ product_id: product_id });
     if(result.success) {
-        alert("Successfully add to cart!");
-        window.location.reload();
+        setSuccessToAddId(product_id);
+        setReloadNavbar(!reloadNavbar);
+        setTimeout(() => {
+            setIsProcessing(false);
+            setSuccessToAddId("");
+        }, 1000);
     }
     else {
         console.error(result);
         alert("There's something wrong when trying to add to cart!");
+        setIsProcessing(false);
     }
   }
 
   return (
     <>
-      <NavigateBar />
+      <NavigateBar key={reloadNavbar?"navbar1":"navbar2"} />
       <div className="container translate-y-[2rem] mx-auto px-6">
         <div
           id="searchbar"
@@ -93,15 +103,15 @@ const AllProductPage = () => {
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6"
         >
           {allProduct.map((product) => (
-            <button
+            <div
               key={product.id}
-              className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl duration-200 hover:opacity-[0.5] hover:scale-[1.05]"
-              onClick={() => { window.location.href = "/productDetail?product_id="+product.id; }}
+              className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl duration-200 hover:scale-[1.05]"
             >
               <img
                 src={product.image_url}
                 alt={product.name}
-                className="w-full h-1/2 object-contain rounded-md m-auto"
+                className="w-full h-1/2 object-contain rounded-md m-auto hover:cursor-pointer"
+                onClick={() => { window.location.href = "/productDetail?product_id="+product.id; }}
               />
               <div id="action" className="space-y-4 py-2 px-2">
                 <div id="title">
@@ -121,14 +131,14 @@ const AllProductPage = () => {
                     Buy
                   </button>
                   <button 
-                    className="w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300"
+                    className="flex justify-center items-center w-full px-1 py-2 rounded-xl text-white shadow-inner shadow-white/20 bg-zinc-900 hover:bg-zinc-800 hover:shadow-inner hover:shadow-zinc-900 duration-300"
                     onClick={()=>{add_to_cart({ product_id: product.id });}}
                   >
-                    Add To Cart
+                    {successToAddId==product.id?<FaCheck className="flex justify-center items-center" />:"Add To Cart"}
                   </button>
                 </div>
               </div>
-            </button>
+            </div>
           ))}
         </div>
       </div>

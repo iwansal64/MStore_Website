@@ -49,6 +49,7 @@ const Biodata = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
   
+  // Function to check the difference between the input and the previous data. If there's difference the user can press update button and if not, the user couldn't press the update button 
   function check_difference_input() {
     if((username !== null && gender !== null && angkatan !== null && born !== null) && (user.username != username || user.angkatan != angkatan || user.born.toISOString() != born.toISOString() || user.gender != gender)) {
         setChanges(true);
@@ -58,6 +59,7 @@ const Biodata = () => {
     }
   };
   
+  // Function to update the user data based on the user input
   async function update_user_data() {
     // State that currently processing something to prevent accident spam from client
     setIsProcessing(true);
