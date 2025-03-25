@@ -10,7 +10,7 @@ const Biodata = () => {
     imgProfile: "/signup_profile.svg",
     coin: -1,
     angkatan: -1,
-    born: "",
+    born: new Date(),
     gender: null
   };
   
@@ -20,7 +20,7 @@ const Biodata = () => {
       imgProfile: user_data.image_url,
       coin: user_data.balance,
       angkatan: user_data.generation,
-      born: user_data.dateOfBirth,
+      born: new Date(user_data.date_of_birth.split("T")[0]),
       gender: user_data.gender
     };
   }
@@ -43,22 +43,52 @@ const Biodata = () => {
   const [changes, setChanges] = useState(false);
 
   const [username, setUsername] = useState(user.username);
-  const [born, setBorn] = useState(user_data ? new Date(user_data.date_of_birth) : new Date());
+  const [born, setBorn] = useState(user.born);
   const [gender, setGender] = useState(user.gender);
   const [angkatan, setAngkatan] = useState(user.angkatan);
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  function check_difference_input() {
+    if((username !== null && gender !== null && angkatan !== null && born !== null) && (user.username != username || user.angkatan != angkatan || user.born.toISOString() != born.toISOString() || user.gender != gender)) {
+        setChanges(true);
+    }
+    else {
+        setChanges(false)
+    }
+  };
   
   async function update_user_data() {
+    // State that currently processing something to prevent accident spam from client
+    setIsProcessing(true);
+
+    // Give request to update the student data to the API
     const result = await updateStudent({ date_of_birth: born, gender: gender, generation: angkatan, username: username });
     if(result.success) {
-      localStorage.removeItem("userData");
-      window.location.reload();
+      const new_user_data = result.result
+      localStorage.setItem("userData", JSON.stringify(new_user_data));
+
+      // Update to the newest data
+      user = {
+        username: new_user_data.fullname,
+        imgProfile: new_user_data.image_url,
+        coin: new_user_data.balance,
+        angkatan: new_user_data.generation,
+        born: new Date(new_user_data.date_of_birth),
+        gender: new_user_data.gender
+      };
+
+      // Check difference again
+      check_difference_input();
     }
     else {
       console.error(result);
       alert("Sorry, There's an error when trying to update your data.");
     }
+    setIsProcessing(false);
   }
 
+  // Function to synchronize the variables and the user input
   function update_user_input({ new_username, new_gender, new_generation, new_date_of_birth }) {
     if(new_username) setUsername(new_username);
     if(new_gender) setGender(new_gender == "male");
@@ -66,14 +96,9 @@ const Biodata = () => {
     if(new_date_of_birth) setBorn(new Date(new_date_of_birth+"T01:01:01+00:00"));
   }
 
-  useEffect(() => {
-    if((username !== null && gender !== null && angkatan !== null && born !== null) && (user.username != username || user.angkatan != angkatan || user.born != born.toISOString() || user.gender != gender)) {
-        setChanges(true);
-    }
-    else {
-        setChanges(false)
-    }
-  }, [username, gender, angkatan, born]);
+  // Watch for changes in username, gender, generation or date_of_birth
+  useEffect(check_difference_input, [username, gender, angkatan, born]);
+
 
   return (
     <>
@@ -155,77 +180,9 @@ const Biodata = () => {
                 </tr>
               </tbody>
             </table>
-            <button className="mt-8 text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide disabled:opacity-25 disabled:pointer-events-none" onClick={update_user_data} disabled={!changes}>Update</button>
+            <button className="mt-8 text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide disabled:opacity-25 disabled:pointer-events-none" onClick={update_user_data} disabled={!changes || isProcessing}>Update</button>
             </div>:
             <><h1>You haven't sign in yet</h1></>}
-          </div>
-        </div>
-      </section>
-
-      <section id="mobileViews">
-        <div className="block sm:hidden">
-        <div className="flex flex-col gap-8 mx-4 p-5 ">
-            <div
-              id="containerImage"
-              className="rounded-lg shadow-inner shadow-zinc-600 p-4 w-full h-fit"
-            >
-              {/* Image */}
-              <img
-                src={user.imgProfile || "/avatar.svg"}
-                className="aspect-square w-full h-full mx-auto object-contain rounded-lg p-4"
-                alt=""
-              />
-              {/* Button Change Picture */}
-              <button className="text-sm py-2 text-white w-full mx-auto border rounded-md hover:bg-white hover:text-black uppercase tracking-wide">
-                Change Picture
-              </button>
-              {/* Subtitle Card */}
-              <div id="subtitle">
-                <p className="text-sm text-white/80 py-4">
-                  Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi
-                  file yang diperbolehkan: .JPG .JPEG .PNG
-                </p>
-              </div>
-            </div>
-            {/* Information Data */}
-            {}
-            <div id="title">
-              <h1 className="text-white/80 text-2xl">Ubah Biodata Diri</h1>
-              <table className="text-white flex flex-row justify-center items-center gap-10 mt-4">
-                <tbody>
-                    <tr>
-                        <td>Nama</td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal Lahir</td>
-                    </tr>
-                    <tr>
-                        <td>Jenis Kelamin</td>
-                    </tr>
-                    <tr>
-                        <td>Angkatan</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>{user.username}</td>
-                    </tr>
-                    <tr>
-                        <td>{user.born ? strftime("%d %B %Y", new Date(user.born)) : "-"}</td>
-                    </tr>
-                    <tr>
-                        <td>{user.gender !== null ? (user.gender == 1 ? "Male" : "Female" ) : "-"}</td>
-                    </tr>
-                    <tr>
-                        <td>{user.angkatan || "-"}</td>
-                    </tr>
-                </tbody>
-                <tbody>
- 
- 
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
       </section>

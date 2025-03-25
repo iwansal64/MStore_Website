@@ -17,6 +17,8 @@ export class Admin {
     static GetOrderList: string = "http://localhost:5500/api/admin/get_order";
     static GetAdminStats: string = "http://localhost:5500/api/admin/get_stats";
     static ConfirmOrder: string = "http://localhost:5500/api/admin/confirm_order";
+    static SendNotification: string = "http://localhost:5500/api/admin/send_notification";
+    static GetAdminProducts: string = "http://localhost:5500/api/admin/get_admin_products";
 }
 
 export class Account {
