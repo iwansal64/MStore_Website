@@ -1,9 +1,10 @@
 import { category } from "../../../variables/kategori";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { addProductAPI, deleteProductAPI, getAllProductsAPI, editProductAPI } from "../../../api/product";
+import { addProductAPI, deleteProductAPI, editProductAPI, getAdminProductsAPI } from "../../../api/product";
 import { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
+import { number_to_rp } from "../../../../javascript/client_function";
 
 const AdminProducts = () => {
   const [allProduct, setAllProducts] = useState([]);
@@ -13,7 +14,7 @@ const AdminProducts = () => {
   const [productStock, setProductStock] = useState(-1);
 
   useEffect(() => {
-    getAllProductsAPI().then(result => {
+    getAdminProductsAPI().then(result => {
       if(result.success) {
         setAllProducts(result.result);
       }
@@ -157,7 +158,7 @@ const AdminProducts = () => {
                     {product.name}
                   </h1>
                   <p className="text-md text-gray-200">
-                    Price: Rp {product.price}
+                    Price: Rp {number_to_rp(product.price)}
                   </p>
                   <p className="text-md text-gray-200">
                     Stock: {product.stock}

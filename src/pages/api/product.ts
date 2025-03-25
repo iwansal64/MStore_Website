@@ -1,4 +1,4 @@
-import { Product, Student } from "./base";
+import { Admin, Product, Student } from "./base";
 
 const authorization_string = "90ySD1y9fH299gH90ChOZgvdasoi";
 
@@ -176,6 +176,29 @@ export async function getWishlistProducts() {
     })).json();
 
     if(response.result && (typeof response.result === "object")) {
+        return {
+            success: true,
+            result: response.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: response.error || response.error_code,
+        };
+    }
+}
+
+export async function getAdminProductsAPI() {
+    const response = await (await fetch(Admin.GetAdminProducts, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+        },
+    })).json();
+
+    if(response.result && Array.isArray(response.result)) {
         return {
             success: true,
             result: response.result,
