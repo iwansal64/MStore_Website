@@ -94,7 +94,8 @@ const OrderList = () => {
             {currentItems.map((orderData, index) => (
               <tr
                 key={orderData.id}
-                className="border-b border-zinc-700 hover:bg-zinc-700"
+                className="border-b border-zinc-700 hover:bg-zinc-700 hover:cursor-pointer"
+                onClick={() => { window.location.href=`/admin/orderList/detail?id=${orderData.id}` }}
               >
                 <td className="px-4 py-3">{index + 1}</td>
                 <td className="px-4 py-3">{orderData.student_name}</td>
