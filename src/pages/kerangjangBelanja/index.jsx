@@ -101,7 +101,7 @@ const KeranjangBelanja = () => {
 
   return (
     <>
-      <NavigateBar />
+      <NavigateBar is_must_login={true} />
       <div className="max-w-7xl mx-auto">
         <div id="title" className="text-white ">
           <h1>Keranjang Belanja</h1>

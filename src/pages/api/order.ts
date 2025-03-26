@@ -112,7 +112,6 @@ export async function confirm_student_order({ order_id }: { order_id: string }) 
 
 export async function cancel_student_order({ order_id }: { order_id: string }) {
     //? Get the order list data
-    console.log(`ORDER ID : ${order_id}`);
     const response = await (await fetch(Student.CancelOrder, {
         method: "POST",
         credentials: "include",

@@ -259,7 +259,7 @@ const NavigateBar = ({ is_must_login = false }) => {
               <MenuItem>
                 {({ active }) => (
                   <button
-                    onClick={() => navigate("/profileSetting/pembayaran")}
+                    onClick={() => navigate("/profileSetting/daftarTransaksi")}
                     className={`w-full text-left px-4 py-2 text-xs rounded-md uppercase font-bold transition ${
                       active ? "bg-zinc-800" : "bg-transparent"
                     }`}
