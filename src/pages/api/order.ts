@@ -138,3 +138,32 @@ export async function cancel_student_order({ order_id }: { order_id: string }) {
         };
     }
 }
+
+export async function get_order_group_by_id({ order_group_id }: { order_group_id: string }) {
+    //? Get the order list data
+    const response = await (await fetch(Admin.GetOrderGroupById, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            order_group_id: order_group_id
+        })
+    })).json();
+
+    //? Check the result
+    if(response.result && typeof response.result == "object") {
+        return {
+            success: true,
+            result: response.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: response.error || response.error_code
+        };
+    }
+}
