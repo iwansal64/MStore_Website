@@ -3,7 +3,7 @@ import { cancel_student_order, confirm_student_order, get_student_order_history 
 import { number_to_rp } from "../../../javascript/client_function";
 import Loader from "../../components/loader";
 
-const DaftarTransaksi = () => {
+const StudentOrderList = () => {
   const [orderHistory, setOrderHistory] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
     
@@ -52,7 +52,7 @@ const DaftarTransaksi = () => {
         <h1 className="mt-4">Daftar Transaksi</h1>
         <div id="transaction-list" className="mt-2 border border-white border-1 w-full h-full flex flex-col gap-2 p-4 overflow-y-auto overflow-x-hidden">
             {isLoaded ? <>{orderHistory.length > 0 ? orderHistory.map((value) => {
-              return <div className="border border-red w-full h-full p-4 grid grid-flow-col grid-cols-[auto_1fr_0.5fr] gap-4">
+              return <div className="border w-full h-full p-4 grid grid-flow-col grid-cols-[auto_1fr_0.5fr] gap-4 hover:cursor-pointer has-[button:not(:disabled):hover]:scale-[1] hover:scale-[1.01]" onClick={() => { window.location.href = `/order/detail?id=${value.id}` }}>
                 <img src={value.products_data[0].product_image_url} alt="Product Image" />
                 <div className="information grid grid-rows-[auto_auto_1fr] h-full items-end">
                     <p className="mb-0 text-xl font-bold">{value.products_data[0].product_name}{value.products_data.length > 1 ? <span className="text-sm font-thin"> and {value.products_data.length-1} more..</span> : ""}</p>
@@ -71,4 +71,4 @@ const DaftarTransaksi = () => {
   );
 };
 
-export default DaftarTransaksi;
+export default StudentOrderList;

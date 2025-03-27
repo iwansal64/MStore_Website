@@ -129,7 +129,7 @@ const ProfileSetting = () => {
               >
                 <MenuItem>
                   <Link
-                    to="/profileSetting/pembayaran"
+                    to="/profileSetting/payment"
                     className="text-sm px-2 py-1 hover:bg-zinc-700 w-full text-left rounded-md duration-300"
                   >
                     Menunggu Pembayaran
@@ -137,7 +137,7 @@ const ProfileSetting = () => {
                 </MenuItem>
                 <MenuItem>
                   <Link
-                    to="/profileSetting/daftarTransaksi"
+                    to="/profileSetting/orders"
                     className="text-sm px-2 py-1 hover:bg-zinc-700 w-full text-left rounded-md duration-300"
                   >
                     Daftar Transaksi
@@ -178,10 +178,10 @@ const ProfileSetting = () => {
           <header className="border-b border-white/20 sm:py-2 sm:px-10 py-2 px-2 sm:w-full w-fit">
             <ul className="flex flex-row sm:items-center items-start sm:justify-between gap-8 text-white whitespace-nowrap">
               <Link to="/profileSetting/bioData">Biodata Diri</Link>
-              <Link to="/profileSetting/daftarTransaksi">Daftar Transaksi</Link>
-              <Link to="/profileSetting/pembayaran">Pembayaran</Link>
+              <Link to="/profileSetting/orders">Daftar Transaksi</Link>
+              <Link to="/profileSetting/payment">Pembayaran</Link>
               <Link to="/profileSetting/topUp">Topup</Link>
-              <Link to="/profileSetting/notifikasi">Notifikasi</Link>
+              <Link to="/profileSetting/notifications">Notifikasi</Link>
               <Link to="/profileSetting/security">Keamanan</Link>
             </ul>
           </header>

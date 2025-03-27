@@ -20,7 +20,7 @@ const Biodata = () => {
       imgProfile: user_data.image_url,
       coin: user_data.balance,
       angkatan: user_data.generation,
-      born: new Date(user_data.date_of_birth.split("T")[0]),
+      born: user_data.date_of_birth ? (new Date(user_data.date_of_birth.split("T")[0])) : null,
       gender: user_data.gender
     };
   }

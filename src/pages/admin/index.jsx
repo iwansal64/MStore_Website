@@ -16,6 +16,12 @@ const AdminPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
+    localStorage.removeItem("total_orders");
+    localStorage.removeItem("total_orders_by_date");
+    localStorage.removeItem("total_orders_today");
+    localStorage.removeItem("total_revenue");
+    localStorage.removeItem("total_revenue_today");
+    localStorage.removeItem("total_students_ordered");
     const response = await logoutAPI();
     if(!response.success) {
         alert("There's internal server error when trying to logout. Please contact developer.");

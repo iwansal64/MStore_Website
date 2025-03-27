@@ -1,6 +1,6 @@
 import NavigateBar from "../components/navbar";
 import { category } from "../variables/kategori";
-// import { allProduct } from "../variables/allProduct";
+// import { allProduct } from "../variables/products";
 import { FaSearch, FaChevronDown, FaCheck } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { SessionProvider } from "next-auth/react";
@@ -111,7 +111,7 @@ const AllProductPage = () => {
                 src={product.image_url}
                 alt={product.name}
                 className="w-full h-1/2 object-contain rounded-md m-auto hover:cursor-pointer"
-                onClick={() => { window.location.href = "/productDetail?product_id="+product.id; }}
+                onClick={() => { window.location.href = "/products/detail?product_id="+product.id; }}
               />
               <div id="action" className="space-y-4 py-2 px-2">
                 <div id="title">

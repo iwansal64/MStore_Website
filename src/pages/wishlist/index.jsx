@@ -31,7 +31,7 @@ const WishlistPage = () => {
             <br />
             <div className="grid grid-cols-3 gap-4">
                 {wishlist.length > 0 ? wishlist.map(favorite_product => {
-                    return <button onClick={() => { window.location.href = `/productDetail?product_id=${favorite_product.id}` }} className="p-8 bg-[#222] rounded-xl flex items-center gap-6 text-left duration-200 hover:scale-[1.05] hover:brightness-[0.5]">
+                    return <button onClick={() => { window.location.href = `/products/detail?product_id=${favorite_product.id}` }} className="p-8 bg-[#222] rounded-xl flex items-center gap-6 text-left duration-200 hover:scale-[1.05] hover:brightness-[0.5]">
                         <img src={favorite_product.image_url} className="w-fit" />
                         <div>
                             <p className="text-3xl font-bold">{favorite_product.name}</p>

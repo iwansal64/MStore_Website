@@ -130,7 +130,7 @@ const NavigateBar = ({ is_must_login = false }) => {
           </Link>
 
           <Link
-            to="/allProduct"
+            to="/products"
             className="text-white px-4 font-bold uppercase"
           >
             Products
@@ -179,7 +179,7 @@ const NavigateBar = ({ is_must_login = false }) => {
                   </p>
                 )}
                 <Link
-                  to={"/keranjangBelanja"}
+                  to={"/carts"}
                   className="text-white text-xs flex flex-row items-center justify-center p-3 hover:text-gray-300 duration-300"
                 >
                   Go To Cart
@@ -259,7 +259,7 @@ const NavigateBar = ({ is_must_login = false }) => {
               <MenuItem>
                 {({ active }) => (
                   <button
-                    onClick={() => navigate("/profileSetting/daftarTransaksi")}
+                    onClick={() => navigate("/profileSetting/orders")}
                     className={`w-full text-left px-4 py-2 text-xs rounded-md uppercase font-bold transition ${
                       active ? "bg-zinc-800" : "bg-transparent"
                     }`}
@@ -350,7 +350,7 @@ const NavigateBar = ({ is_must_login = false }) => {
               </Link>
 
               <Link
-                to="/allProduct"
+                to="/products"
                 className="block text-white text-xl uppercase"
                 onClick={() => setMenuOpen(false)}
               >
