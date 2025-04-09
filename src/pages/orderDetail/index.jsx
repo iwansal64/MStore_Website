@@ -110,7 +110,7 @@ const OrderDetail = () => {
             </>:<Loader />}
         </div>
         <button className="text-xl font-bold px-6 py-4 bg-white text-black rounded-xl absolute bottom-12 left-50 -translate-x-1/2 hover:opacity-50"  onClick={() => { window.location.href = "./" }} >Back</button>
-        <button disabled={orderStatus != 0} className="text-xl font-bold px-6 py-4 bg-white text-black rounded-xl absolute bottom-12 left-1/2 -translate-x-1/2 hover:opacity-50 disabled:pointer-events-none disabled:opacity-50">Konfirmasi Order!</button>
+        <button disabled={orderStatus != 0} className="text-xl font-bold px-6 py-4 bg-white text-black rounded-xl absolute bottom-12 left-1/2 -translate-x-1/2 hover:opacity-50 disabled:pointer-events-none disabled:opacity-50">{orderStatus == 0 ? "Konfirmasi Order!" : (orderStatus == 1 ? "Sudah di konfirmasi!" : "Di Cancel")}</button>
     </div>
 };
 
