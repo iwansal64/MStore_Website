@@ -58,6 +58,7 @@ const OrderDetail = () => {
                 setStudentName(response.result.order_group_data.student_name);
                 setStudentClass("X ELIND 3");
                 setIsLoaded(true);
+                setStudentClass(response.result.student_data.class);
             }
             else {
                 alert("There's an error. Please contact developer.");
@@ -108,7 +109,8 @@ const OrderDetail = () => {
             </div>
             </>:<Loader />}
         </div>
-        <button className="text-xl font-bold px-6 py-4 bg-white text-black rounded-xl absolute bottom-12 left-1/2 -translate-x-1/2 hover:opacity-50">Konfirmasi Order!</button>
+        <button className="text-xl font-bold px-6 py-4 bg-white text-black rounded-xl absolute bottom-12 left-50 -translate-x-1/2 hover:opacity-50"  onClick={() => { window.location.href = "./" }} >Back</button>
+        <button disabled={orderStatus != 0} className="text-xl font-bold px-6 py-4 bg-white text-black rounded-xl absolute bottom-12 left-1/2 -translate-x-1/2 hover:opacity-50 disabled:pointer-events-none disabled:opacity-50">Konfirmasi Order!</button>
     </div>
 };
 
