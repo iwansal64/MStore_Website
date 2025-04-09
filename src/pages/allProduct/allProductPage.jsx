@@ -14,6 +14,7 @@ const AllProductPage = () => {
   const [successToAddId, setSuccessToAddId] = useState("");
   const [reloadNavbar, setReloadNavbar] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   //? Get All Product Through API
   useEffect(() => {
@@ -28,6 +29,7 @@ const AllProductPage = () => {
     });
   }, []);
 
+  //? Functions Handler
   async function order_product({ product_id }) {
     localStorage.setItem("checkout_product_id", product_id);
     localStorage.removeItem("checkout_carts_id", product_id);
@@ -53,6 +55,10 @@ const AllProductPage = () => {
     }
   }
 
+  function handle_search_input(e) {
+    setKeyword(e.target.value);
+  }
+
   return (
     <>
       <NavigateBar key={reloadNavbar?"navbar1":"navbar2"} />
@@ -68,6 +74,7 @@ const AllProductPage = () => {
                 type="text"
                 placeholder="Cari Produk..."
                 className="py-2 pl-10 pr-4 w-full rounded-xl bg-zinc-900 shadow-inner shadow-white/10 text-white outline-none"
+                onChange={handle_search_input}
               />
             </div>
             <div id="filter">
@@ -102,7 +109,7 @@ const AllProductPage = () => {
           id="containerItems"
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          {allProduct.map((product) => (
+          {allProduct.filter(product => product.name.toLowerCase().includes(keyword.toLowerCase())).map((product) => (
             <div
               key={product.id}
               className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl duration-200 hover:scale-[1.05]"
