@@ -27,7 +27,7 @@ export async function get_admin_order_list() {
     }
 }
 
-export async function confirm_order({ order_id }: { order_id: string }) {
+export async function confirm_order({ order_id, pickup_place, pickup_time }: { order_id: string, pickup_place: string, pickup_time: string }) {
     //? Get the order list data
     const response = await (await fetch(Admin.ConfirmOrder, {
         method: "POST",
@@ -37,7 +37,9 @@ export async function confirm_order({ order_id }: { order_id: string }) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            order_id: order_id
+            order_id: order_id,
+            pickup_place: pickup_place,
+            pickup_time: pickup_time
         })
     })).json();
 
