@@ -1,9 +1,9 @@
 import { FaTrashCan, FaMinus, FaPlus } from "react-icons/fa6";
 import NavigateBar from "../components/navbar";
 import { useEffect, useState } from "react";
-import { SessionProvider } from "next-auth/react";
 import { changeQuantityCartAPI, deleteCartAPI, getCartAPI } from "../api/cart";
-import { number_to_rp } from "../../javascript/client_function";
+import { no_api, number_to_rp } from "../../javascript/client_function";
+import { carts_data } from "../variables/itemsCart";
 
 const KeranjangBelanja = () => {
   const [allCarts, setAllCarts] = useState([]); // Array untuk menampung data semua keranjang untuk akun pelajar yang sedang terhubung
@@ -14,45 +14,96 @@ const KeranjangBelanja = () => {
 
   // Fungsi untuk menambah jumlah
   const handleIncrement = async ({ cart_id }) => {
-    const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: 1 });
-    if(result.success) {
-      window.location.reload();
+    if(no_api()) {
+        setAllCarts(allCarts.map((value) => {
+            return {
+                id: value.id,
+                product_name: value.product_name,
+                product_price: value.product_price,
+                product_stock: value.product_stock,
+                product_image_url: value.product_image_url,
+                created_at: value.created_at,
+                quantity: value.quantity + (value.id == cart_id ? 1 : 0)
+            }
+        }));
     }
     else {
-      console.error(result.error);
+        const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: 1 });
+        if(result.success) {
+          window.location.reload();
+        }
+        else {
+          console.error(result.error);
+        }
     }
   };
 
   // Fungsi untuk mengurangi jumlah
   const handleDecrement = async ({ cart_id }) => {
-    const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: -1 });
-    if(result.success) {
-      window.location.reload();
+    if(no_api()) {
+        setAllCarts(allCarts.map((value) => {
+            return {
+                id: value.id,
+                product_name: value.product_name,
+                product_price: value.product_price,
+                product_stock: value.product_stock,
+                product_image_url: value.product_image_url,
+                created_at: value.created_at,
+                quantity: value.quantity - (value.id == cart_id ? 1 : 0)
+            }
+        }));
     }
     else {
-      console.error(result.error);
+        const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: -1 });
+        if(result.success) {
+          window.location.reload();
+        }
+        else {
+          console.error(result.error);
+        }
     }
   };
 
   // Fungsi untuk mengubah jumlah
   const handleChangeQuantity = async ({ cart_id }) => {
-    const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: quantity, is_set: true });
-    if(result.success) {
-      window.location.reload();
+    if(no_api()) {
+        setAllCarts(allCarts.map((value) => {
+            return {
+                id: value.id,
+                product_name: value.product_name,
+                product_price: value.product_price,
+                product_stock: value.product_stock,
+                product_image_url: value.product_image_url,
+                created_at: value.created_at,
+                quantity: value.id == cart_id ? quantity : value.quantity
+            }
+        }));
     }
     else {
-      console.error(result.error);
+        const result = await changeQuantityCartAPI({ cart_id: cart_id, quantity_changes: quantity, is_set: true });
+        if(result.success) {
+          window.location.reload();
+        }
+        else {
+          console.error(result.error);
+        }
     }
   }
 
   // Fungsi untuk membuang produk dari keranjang 
   const handleDelete = async ({ cart_id }) => {
-    const result = await deleteCartAPI({ cart_id: cart_id });
-    if(result.success) {
-      window.location.reload();
+    console.log("TEST");
+    if(no_api()) {
+        setAllCarts(allCarts.filter((value) => value != cart_id))
     }
     else {
-      console.error(result.error);
+        const result = await deleteCartAPI({ cart_id: cart_id });
+        if(result.success) {
+            window.location.reload();
+        }
+        else {
+            console.error(result.error);
+        }
     }
   }
   
@@ -85,17 +136,23 @@ const KeranjangBelanja = () => {
 
   // Update allCarts data
   useEffect(() => {
-    getCartAPI().then(result => {
-      if(result.success) {
-        setQuantity(result.result.quantity);
-        setAllCarts(result.result);
-      }
-      else {
-        console.error(`There's an error from server when trying to get cart data. Error: ${result.error}`);
-      }
-    }).catch(error => {
-      console.error(`There's an error from client when trying to get cart data. Error: ${result.error}`);
-    });
+    if(no_api()) {
+        setQuantity(0),
+        setAllCarts(carts_data)
+    }
+    else {
+        getCartAPI().then(result => {
+            if(result.success) {
+              setQuantity(result.result.quantity);
+              setAllCarts(result.result);
+            }
+            else {
+              console.error(`There's an error from server when trying to get cart data. Error: ${result.error}`);
+            }
+        }).catch(error => {
+            console.error(`There's an error from client when trying to get cart data. Error: ${result.error}`);
+        });
+    }
   }, []);
 
 
@@ -148,7 +205,7 @@ const KeranjangBelanja = () => {
                         <button onClick={() => {
                             handleDelete({ cart_id: cart.id });
                         }}> 
-                        <FaTrashCan className="cursor-pointer hover:text-red-500" />
+                            <FaTrashCan className="cursor-pointer hover:text-red-500" />
                         </button>
                         <div className="bg-white/10 backdrop-blur-md rounded-full w-full flex items-center justify-between p-2">
                         <button
@@ -162,8 +219,21 @@ const KeranjangBelanja = () => {
                         <input
                             type="text"
                             inputMode="number"
-                            defaultValue={Number.parseInt(cart.quantity)}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
+                            value={cart.quantity == "" ? "" : Number.parseInt(cart.quantity)}
+                            onChange={(e) => {
+                                setQuantity(e.target.value);
+                                setAllCarts(allCarts.map((value) => {
+                                    return {
+                                        id: value.id,
+                                        product_name: value.product_name,
+                                        product_price: value.product_price,
+                                        product_stock: value.product_stock,
+                                        product_image_url: value.product_image_url,
+                                        created_at: value.created_at,
+                                        quantity: (value.id == cart.id ? e.target.value : value.quantity)
+                                    }
+                                }));
+                            }}
                             className="bg-transparent text-white text-center w-16 focus:outline-none"
                             min="0"
                             onBlur={() => {

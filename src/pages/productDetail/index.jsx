@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import NavigateBar from "../components/navbar";
 import { useSearchParams } from "next/navigation";
 import { toggleProductFavorite, getWishlistProducts, getProductById } from "../api/product";
-import { number_to_rp } from "../../javascript/client_function";
+import { no_api, number_to_rp } from "../../javascript/client_function";
 import strftime from "strftime";
 import { FaHeart } from "react-icons/fa";
+import { dummy_products } from "../variables/allProduct";
 
 const ProductDetail = () => {
     const searchParams = useSearchParams();
@@ -22,21 +23,28 @@ const ProductDetail = () => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        getProductById({ product_id: productId }).then(response => {
-            if(response.success) {
-                setProductData(response.result);
-            }
-            else {
-                console.error(response.error);
-                alert("There's an unexpected error occured. please contact developer");
-            }
-        });
-        
-        getWishlistProducts().then(response => {
-            if(response.success) {
-                setIsFavorite(response.result.map(value => value.id).includes(productId));
-            }
-        })
+        if(no_api()) {
+            setProductData(dummy_products.find(value => {
+                return value.id == productId
+            }))
+        }
+        else {
+            getProductById({ product_id: productId }).then(response => {
+                if(response.success) {
+                    setProductData(response.result);
+                }
+                else {
+                    console.error(response.error);
+                    alert("There's an unexpected error occured. please contact developer");
+                }
+            });
+            
+            getWishlistProducts().then(response => {
+                if(response.success) {
+                    setIsFavorite(response.result.map(value => value.id).includes(productId));
+                }
+            })
+        }
     }, []);
 
     async function handleToggleFavorite() {

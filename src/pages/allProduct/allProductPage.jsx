@@ -3,11 +3,11 @@ import { category } from "../variables/kategori";
 // import { allProduct } from "../variables/products";
 import { FaSearch, FaChevronDown, FaCheck } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { getAllProductsAPI } from "../api/product";
 import { addToCartAPI } from "../api/cart";
-import { orderProductAPI } from "../api/student";
+import { dummy_products } from "../variables/allProduct";
+import { no_api } from "../../javascript/client_function";
 
 const AllProductPage = () => {
   const [allProduct, setAllProduct] = useState([]);
@@ -18,15 +18,20 @@ const AllProductPage = () => {
 
   //? Get All Product Through API
   useEffect(() => {
-    getAllProductsAPI().then(result => {
-      if(result.success) {
-        setAllProduct(result.result);
-      }
-    }).catch(error => {
-      console.error(error);
-      alert("Sorry but, There's an error when trying to get product!");
-      window.location.href = "/home";
-    });
+    if(no_api()) {
+        setAllProduct(dummy_products);
+    }
+    else {
+        getAllProductsAPI().then(result => {
+          if(result.success) {
+            setAllProduct(result.result);
+          }
+        }).catch(error => {
+          console.error(error);
+          alert("Sorry but, There's an error when trying to get product!");
+          window.location.href = "/home";
+        });
+    }
   }, []);
 
   //? Functions Handler

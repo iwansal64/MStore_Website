@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { cancel_student_order, confirm_student_order, get_student_order_history } from "../../api/order";
-import { number_to_rp } from "../../../javascript/client_function";
+import { no_api, number_to_rp } from "../../../javascript/client_function";
 import Loader from "../../components/loader";
+import { order_histories } from "../../variables/orderHistories";
 
 const StudentOrderList = () => {
   const [orderHistory, setOrderHistory] = useState([]);
@@ -9,17 +10,25 @@ const StudentOrderList = () => {
     
   //? Get order history
   useEffect(() => {
-    get_student_order_history().then(response => {
-      if(response.success) {
-        setOrderHistory(response.result);
-      }
-      else {
-        console.error(response);
-      }
-      setIsLoaded(true);
-    }).catch(error => {
-      console.error(error);
-    })
+    if(no_api()) {
+        setOrderHistory(order_histories);
+        setTimeout(() => {
+            setIsLoaded(true);
+        }, Math.random() * 3000 + 500);
+    }
+    else {
+        get_student_order_history().then(response => {
+          if(response.success) {
+            setOrderHistory(response.result);
+          }
+          else {
+            console.error(response);
+          }
+          setIsLoaded(true);
+        }).catch(error => {
+          console.error(error);
+        })
+    }
   }, [])
 
   async function handleCancel({ order_id }) {

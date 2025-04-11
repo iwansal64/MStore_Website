@@ -14,6 +14,7 @@ import { getNotificationAPI, logoutAPI } from "../../api/student";
 import { getCartAPI } from "../../api/cart";
 import CheckLogin from "../loginComponents/checkLogin";
 import CheckMustLogin from "../loginComponents/checkMustLogin";
+import { no_api } from "../../../javascript/client_function";
 
 const NavigateBar = ({ is_must_login = false }) => {
   const [itemsCart, setItemsCart] = useState([]);
@@ -84,26 +85,36 @@ const NavigateBar = ({ is_must_login = false }) => {
 
   //? Update Items Cart
   useEffect(() => {
-    getCartAPI().then(cartData => {
-        if(cartData.success) {
-            setItemsCart(cartData.result);
-        }
-        else {
-            console.error(`There's an error when trying to get cart data. Error: ${cartData.error}`);
-        }
-    });
+    if(no_api()) {
+
+    }
+    else {
+        getCartAPI().then(cartData => {
+            if(cartData.success) {
+                setItemsCart(cartData.result);
+            }
+            else {
+                console.error(`There's an error when trying to get cart data. Error: ${cartData.error}`);
+            }
+        });
+    }
   }, [])
 
   //? Update Notifcation Data
   useEffect(() => {
-    getNotificationAPI().then(notificationResult => {
-        if(notificationResult.success) {
-            setNotifications(notificationResult.result);
-        }
-        else {
-            console.error(`There's an error when trying to get cart data. Error: ${notificationResult.error}`);
-        }
-    })
+    if(no_api()) {
+
+    }
+    else {
+        getNotificationAPI().then(notificationResult => {
+            if(notificationResult.success) {
+                setNotifications(notificationResult.result);
+            }
+            else {
+                console.error(`There's an error when trying to get cart data. Error: ${notificationResult.error}`);
+            }
+        })
+    }
   }, [])
 
   return (

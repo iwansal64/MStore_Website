@@ -2,9 +2,10 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { get_order_group_by_id } from "../api/order";
 import strftime from "strftime";
-import { number_to_rp } from "../../javascript/client_function";
+import { no_api, number_to_rp } from "../../javascript/client_function";
 import Loader from "../components/loader";
 import CheckMustLogin from "../components/loginComponents/checkMustLogin";
+import { order_histories } from "../variables/orderHistories";
 
 
 const OrderDetail = () => {
@@ -39,37 +40,51 @@ const OrderDetail = () => {
     useEffect(() => {
         const orderId = searchParams.get("id");
         
-        get_order_group_by_id({ order_group_id: orderId }).then(response => {
-            if(response.success) {
-                setOrdersData(Array.from(response.result.orders_data).map(order_data => {
-                    return {
-                        product_name: order_data.product_name,
-                        product_price: order_data.product_price,
-                        order_quantity: order_data.order_quantity,
-                        product_image_url: order_data.product_image_url,
-                    }
-                }));
-                setPriceDetail(Array.from(response.result.orders_data).map(order_data => {
-                    return {
-                        info: `Subtotal harga barang: ${order_data.product_name}`,
-                        price: order_data.product_price*order_data.order_quantity
-                    }
-                }));
-                setOrderCreated(response.result.order_group_data.created_at);
-                setOrderId(response.result.order_group_data.id);
-                setOrderStatus(response.result.order_group_data.status_code)
-                setStudentName(response.result.order_group_data.student_name);
-                setPickupPlace(response.result.order_group_data.pickup_place);
-                setPickupTime(response.result.order_group_data.pickup_time);
-                setStudentClass("X ELIND 3");
+        if(no_api()) {
+            const order_data = order_histories.find((value) => value.id == orderId);
+            setOrderCreated(order_data.created_at);
+            setOrderId(order_data.id);
+            setOrderStatus(order_data.status_code)
+            setStudentName(order_data.student_name);
+            setPickupPlace(order_data.pickup_place);
+            setPickupTime(order_data.pickup_time);
+            setStudentClass(order_data.class);
+            setTimeout(() => {
                 setIsLoaded(true);
-                setStudentClass(response.result.student_data.class);
-                console.log(response.result.order_group_data.pickup_place);
-            }
-            else {
-                alert("There's an error. Please contact developer.");
-            }
-        })
+            }, Math.random() * 3000 + 500);
+        }
+        else {
+            get_order_group_by_id({ order_group_id: orderId }).then(response => {
+                if(response.success) {
+                    setOrdersData(Array.from(response.result.orders_data).map(order_data => {
+                        return {
+                            product_name: order_data.product_name,
+                            product_price: order_data.product_price,
+                            order_quantity: order_data.order_quantity,
+                            product_image_url: order_data.product_image_url,
+                        }
+                    }));
+                    setPriceDetail(Array.from(response.result.orders_data).map(order_data => {
+                        return {
+                            info: `Subtotal harga barang: ${order_data.product_name}`,
+                            price: order_data.product_price*order_data.order_quantity
+                        }
+                    }));
+                    setOrderCreated(response.result.order_group_data.created_at);
+                    setOrderId(response.result.order_group_data.id);
+                    setOrderStatus(response.result.order_group_data.status_code)
+                    setStudentName(response.result.order_group_data.student_name);
+                    setPickupPlace(response.result.order_group_data.pickup_place);
+                    setPickupTime(response.result.order_group_data.pickup_time);
+                    setStudentClass(response.result.student_data.class);
+                    setIsLoaded(true);
+                    console.log(response.result.order_group_data.pickup_place);
+                }
+                else {
+                    alert("There's an error. Please contact developer.");
+                }
+            })
+        }
     }, [])
     
     return <>
