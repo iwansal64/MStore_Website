@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { getAccountData } from "../../api/account";
-import { no_api } from "../../../javascript/client_function";
+import { get_development_mode } from "../../../javascript/client_function";
 
 export default function CheckLogin() {
     const previous_data = localStorage.getItem("userData");
     
     useEffect(() =>{
-        if(no_api()) {
+        if(get_development_mode()) {
             localStorage.setItem("userData", JSON.stringify({
                 "id":"0",
                 "email":"dummy@dummy.dummy",

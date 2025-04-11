@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { getAllProductsAPI } from "../api/product";
 import { addToCartAPI } from "../api/cart";
 import { dummy_products } from "../variables/allProduct";
-import { no_api } from "../../javascript/client_function";
+import { get_development_mode } from "../../javascript/client_function";
 
 const AllProductPage = () => {
   const [allProduct, setAllProduct] = useState([]);
@@ -18,7 +18,7 @@ const AllProductPage = () => {
 
   //? Get All Product Through API
   useEffect(() => {
-    if(no_api()) {
+    if(get_development_mode()) {
         setAllProduct(dummy_products);
     }
     else {

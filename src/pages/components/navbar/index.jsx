@@ -14,7 +14,9 @@ import { getNotificationAPI, logoutAPI } from "../../api/student";
 import { getCartAPI } from "../../api/cart";
 import CheckLogin from "../loginComponents/checkLogin";
 import CheckMustLogin from "../loginComponents/checkMustLogin";
-import { no_api } from "../../../javascript/client_function";
+import { get_development_mode } from "../../../javascript/client_function";
+import { carts_data } from "../../variables/itemsCart";
+import { dummy_notifications } from "../../variables/notifications";
 
 const NavigateBar = ({ is_must_login = false }) => {
   const [itemsCart, setItemsCart] = useState([]);
@@ -27,6 +29,7 @@ const NavigateBar = ({ is_must_login = false }) => {
     coin: -1
   });
   const navigate = useNavigate();
+  const is_development_mode = get_development_mode();
 
   //? Handle scroll
   useEffect(() => {
@@ -85,8 +88,8 @@ const NavigateBar = ({ is_must_login = false }) => {
 
   //? Update Items Cart
   useEffect(() => {
-    if(no_api()) {
-
+    if(is_development_mode) {
+        setItemsCart(carts_data);
     }
     else {
         getCartAPI().then(cartData => {
@@ -102,8 +105,8 @@ const NavigateBar = ({ is_must_login = false }) => {
 
   //? Update Notifcation Data
   useEffect(() => {
-    if(no_api()) {
-
+    if(is_development_mode) {
+        setNotifications(dummy_notifications);
     }
     else {
         getNotificationAPI().then(notificationResult => {
@@ -159,7 +162,7 @@ const NavigateBar = ({ is_must_login = false }) => {
               </MenuButton>
               <MenuItems className="absolute top-[100%] mt-2 w-[20rem] p-2 text-white rounded-lg bg-zinc-900 shadow-inner shadow-zinc-800">
                 {itemsCart.length > 0 ? (
-                  itemsCart.map((produkCart) => (
+                  itemsCart.slice(0, Math.min(itemsCart.length, 3)).map((produkCart) => (
                     <MenuItem key={produkCart.id} as="div">
                       <div className="flex items-center gap-4 p-2 hover:bg-zinc-800 rounded-lg">
                         <img
@@ -205,7 +208,7 @@ const NavigateBar = ({ is_must_login = false }) => {
               </MenuButton>
               <MenuItems className="absolute top-[100%] mt-2 w-80 p-4 text-white rounded-lg bg-zinc-900 shadow-inner shadow-zinc-800">
                 {notifications ? <>
-                    {notifications.slice(0, Math.min(notifications.length, 5)).map(notification_data => {
+                    {notifications.slice(0, Math.min(notifications.length, 3)).map(notification_data => {
                         return (<MenuItem key={notification_data.id} as="div">
                                     <button className={`flex flex-col gap-1 justify-center w-full bg-[#555] p-4 opacity-${notification_data.read?"25":"100"}`}>
                                         <p className="text-[14px] font-bold truncate">

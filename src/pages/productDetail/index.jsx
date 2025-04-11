@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavigateBar from "../components/navbar";
 import { useSearchParams } from "next/navigation";
 import { toggleProductFavorite, getWishlistProducts, getProductById } from "../api/product";
-import { no_api, number_to_rp } from "../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../javascript/client_function";
 import strftime from "strftime";
 import { FaHeart } from "react-icons/fa";
 import { dummy_products } from "../variables/allProduct";
@@ -23,7 +23,7 @@ const ProductDetail = () => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        if(no_api()) {
+        if(get_development_mode()) {
             setProductData(dummy_products.find(value => {
                 return value.id == productId
             }))

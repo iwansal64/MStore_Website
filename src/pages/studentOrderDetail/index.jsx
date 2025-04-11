@@ -4,7 +4,7 @@ import { get_order_group_by_id } from "../api/order";
 import CheckMustLogin from "../components/loginComponents/checkMustLogin";
 import Loader from "../components/loader";
 import strftime from "strftime";
-import { no_api, number_to_rp } from "../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../javascript/client_function";
 import { useRouter } from "next/router";
 import { order_histories } from "../variables/orderHistories";
 
@@ -40,7 +40,7 @@ const StudentOrderDetail = () => {
     
     useEffect(() => {
         const orderId = searchParams.get("id");
-        if(no_api()) {
+        if(get_development_mode()) {
             const order_data = order_histories.find((value) => value.id == orderId);
             setOrdersData(order_data.products_data.map(order_data => {
                 return {

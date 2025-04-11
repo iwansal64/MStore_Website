@@ -2,7 +2,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { get_order_group_by_id } from "../api/order";
 import strftime from "strftime";
-import { no_api, number_to_rp } from "../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../javascript/client_function";
 import Loader from "../components/loader";
 import CheckMustLogin from "../components/loginComponents/checkMustLogin";
 import { order_histories } from "../variables/orderHistories";
@@ -40,7 +40,7 @@ const OrderDetail = () => {
     useEffect(() => {
         const orderId = searchParams.get("id");
         
-        if(no_api()) {
+        if(get_development_mode()) {
             const order_data = order_histories.find((value) => value.id == orderId);
             setOrderCreated(order_data.created_at);
             setOrderId(order_data.id);

@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import NavigateBar from "../components/navbar";
 import usePreventBackNavigation from "../hooks/usePreventNavigation";
-import { number_to_rp } from "../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../javascript/client_function";
 import { getWishlistProducts } from "../api/product";
 import { Link } from "react-router-dom";
+import { dummy_wishlist } from "../variables/wishlist";
 
 const WishlistPage = () => {
     usePreventBackNavigation();
 
     const [wishlist, setWishlist] = useState([]);
+    const is_development_mode = get_development_mode();
 
     useEffect(() => {
-        getWishlistProducts().then(response => {
-            if(response.success) {
-                setWishlist(response.result);
-            }
-            else {
-                console.error(response.error);
-                alert("There's an error occured. Please contact developer");
-            }
-        })
+        if(is_development_mode) {
+            setWishlist(dummy_wishlist);
+        }
+        else {
+            getWishlistProducts().then(response => {
+                if(response.success) {
+                    setWishlist(response.result);
+                }
+                else {
+                    console.error(response.error);
+                    alert("There's an error occured. Please contact developer");
+                }
+            })
+        }
     }, []);
 
 

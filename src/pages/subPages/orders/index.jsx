@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { cancel_student_order, confirm_student_order, get_student_order_history } from "../../api/order";
-import { no_api, number_to_rp } from "../../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../../javascript/client_function";
 import Loader from "../../components/loader";
 import { order_histories } from "../../variables/orderHistories";
 
@@ -10,7 +10,7 @@ const StudentOrderList = () => {
     
   //? Get order history
   useEffect(() => {
-    if(no_api()) {
+    if(get_development_mode()) {
         setOrderHistory(order_histories);
         setTimeout(() => {
             setIsLoaded(true);

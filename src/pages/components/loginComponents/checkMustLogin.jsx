@@ -2,13 +2,13 @@
 import { useNavigate } from "react-router-dom";
 import { getAccountData } from "../../api/account";
 import { useEffect } from "react";
-import { no_api } from "../../../javascript/client_function";
+import { get_development_mode } from "../../../javascript/client_function";
 
 export default function CheckMustLogin() {
     const navigate = useNavigate();
     
     useEffect(() => {
-        if(no_api()) {
+        if(get_development_mode()) {
             localStorage.setItem("userData", JSON.stringify({
                 "id":"0",
                 "email":"dummy@dummy.dummy",

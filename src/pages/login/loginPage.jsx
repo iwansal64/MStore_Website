@@ -4,19 +4,26 @@ import { Link } from "react-router-dom";
 import GoogleButton from "../components/loginComponents/googleLogin";
 import LoginTrigger from "../components/loginComponents/loginTrigger";
 import { SessionProvider, signIn } from "next-auth/react";
-import { no_api } from "../../javascript/client_function";
+import { get_development_mode } from "../../javascript/client_function";
 
 const LoginPage = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isProcess, setIsProcess] = useState(false);
 
+  const is_development_mode = get_development_mode();
+
   const handleLogin = async () => {
     //? Set process state to true
     setIsProcess(true);
 
-    if(no_api()) {
-        window.location.href = "/home";
+    if(is_development_mode) {
+        if((usernameOrEmail == "test" || usernameOrEmail == "test@test.test") && password == "test") {
+            window.location.href = "/home";
+        }
+        else {
+            alert("Email/Username or password is wrong.");
+        }
     }
     else {
         //? Sign in to credentials manager from next-auth
@@ -28,10 +35,10 @@ const LoginPage = () => {
     
         //? If there's no error try to logging in and get token from server
         if(!result.error) {
-          window.location.href = "/?login";
+            window.location.href = "/?login";
         }
         else {
-          alert("Email/Username or password is wrong.");
+            alert("Email/Username or password is wrong.");
         }
     }
     
@@ -67,7 +74,7 @@ const LoginPage = () => {
               </label>
               <input
               type="text"
-              placeholder="Masukkan Email/Username"
+              placeholder={is_development_mode ? "Username: test atau Email: test@test.test" : "Masukkan Email/Username"}
               value={usernameOrEmail}
               onChange={(e) => setUsernameOrEmail(e.target.value)}
               className="loginInput outline-none px-4 py-3 w-full bg-white/10 backdrop-blur-md rounded-lg placeholder:text-white/60 "
@@ -78,7 +85,7 @@ const LoginPage = () => {
               </label>
               <input
               type="password"
-              placeholder="Masukkan Passwordmu..."
+              placeholder={is_development_mode ? "Password: test" : "Masukkan Passwordmu..."}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="off"
@@ -107,7 +114,7 @@ const LoginPage = () => {
           </form>
           </div>
           <div className="w-full flex items-center justify-center mt-4">
-            <button className="bg-white px-8 py-2 text-md rounded-xl text-black border-white border-2 duration-200 hover:bg-black hover:text-white" onClick={() => { (localStorage.getItem("development") ? localStorage.removeItem("development") : localStorage.setItem("development", "true")); window.location.reload(); }}>{localStorage.getItem("development") ? "Deactivate Development Mode" : "Activate Development Mode"}</button>
+            <button className="bg-white px-8 py-2 text-md rounded-xl text-black border-white border-2 duration-200 hover:bg-black hover:text-white" onClick={() => { (is_development_mode ? localStorage.removeItem("development") : localStorage.setItem("development", "true")); window.location.reload(); }}>{is_development_mode ? "Deactivate Development Mode" : "Activate Development Mode"}</button>
           </div>
       </div>
     </>

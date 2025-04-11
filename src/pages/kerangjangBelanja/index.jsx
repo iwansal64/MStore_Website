@@ -2,7 +2,7 @@ import { FaTrashCan, FaMinus, FaPlus } from "react-icons/fa6";
 import NavigateBar from "../components/navbar";
 import { useEffect, useState } from "react";
 import { changeQuantityCartAPI, deleteCartAPI, getCartAPI } from "../api/cart";
-import { no_api, number_to_rp } from "../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../javascript/client_function";
 import { carts_data } from "../variables/itemsCart";
 
 const KeranjangBelanja = () => {
@@ -14,7 +14,7 @@ const KeranjangBelanja = () => {
 
   // Fungsi untuk menambah jumlah
   const handleIncrement = async ({ cart_id }) => {
-    if(no_api()) {
+    if(get_development_mode()) {
         setAllCarts(allCarts.map((value) => {
             return {
                 id: value.id,
@@ -40,7 +40,7 @@ const KeranjangBelanja = () => {
 
   // Fungsi untuk mengurangi jumlah
   const handleDecrement = async ({ cart_id }) => {
-    if(no_api()) {
+    if(get_development_mode()) {
         setAllCarts(allCarts.map((value) => {
             return {
                 id: value.id,
@@ -66,7 +66,7 @@ const KeranjangBelanja = () => {
 
   // Fungsi untuk mengubah jumlah
   const handleChangeQuantity = async ({ cart_id }) => {
-    if(no_api()) {
+    if(get_development_mode()) {
         setAllCarts(allCarts.map((value) => {
             return {
                 id: value.id,
@@ -93,7 +93,7 @@ const KeranjangBelanja = () => {
   // Fungsi untuk membuang produk dari keranjang 
   const handleDelete = async ({ cart_id }) => {
     console.log("TEST");
-    if(no_api()) {
+    if(get_development_mode()) {
         setAllCarts(allCarts.filter((value) => value != cart_id))
     }
     else {
@@ -136,7 +136,7 @@ const KeranjangBelanja = () => {
 
   // Update allCarts data
   useEffect(() => {
-    if(no_api()) {
+    if(get_development_mode()) {
         setQuantity(0),
         setAllCarts(carts_data)
     }

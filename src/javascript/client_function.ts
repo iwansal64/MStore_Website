@@ -7,6 +7,6 @@ export function number_to_rp(num: number|undefined, with_rp: boolean = false): s
     return (with_rp?"Rp. ":"")+result;
 }
 
-export function no_api(): boolean {
-    return ((localStorage.getItem("development") || localStorage.getItem("no_api")) ? true : false);
+export function get_development_mode(): boolean {
+    return (localStorage.getItem("development") ? true : false);
 }

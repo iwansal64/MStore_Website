@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import NavigateBar from "../navbar";
 import strftime from "strftime";
 import { getNotificationAPI } from "../../api/student";
-import { Link } from "react-router-dom";
 import Loader from "../loader";
+import { get_development_mode } from "../../../javascript/client_function";
+import { dummy_notifications } from "../../variables/notifications";
 
 const NotificationPage = () => {
     const [notifications, setNotifications] = useState([
@@ -17,20 +18,29 @@ const NotificationPage = () => {
     ]);
     const [isLoaded, setIsLoaded] = useState(false);
     const today_date = (new Date()).getDate();
+    const is_development_mode = get_development_mode();
 
 
     //? Get notification data
     useEffect(() => {
-        getNotificationAPI().then(response => {
-            if(response.success) {
-                setNotifications(response.result);
+        if(is_development_mode) {
+            setNotifications(dummy_notifications);
+            setTimeout(() => {
                 setIsLoaded(true);
-            }
-            else {
-                alert("There's something wrong. Please contact developer");
-                console.error(response.error);
-            }
-        });
+            }, Math.random() * 1000 + 500);
+        }
+        else {
+            getNotificationAPI().then(response => {
+                if(response.success) {
+                    setNotifications(response.result);
+                    setIsLoaded(true);
+                }
+                else {
+                    alert("There's something wrong. Please contact developer");
+                    console.error(response.error);
+                }
+            });
+        }
     }, []);
     
     return <>
