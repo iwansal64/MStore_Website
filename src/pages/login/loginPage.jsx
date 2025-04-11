@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import GoogleButton from "../components/loginComponents/googleLogin";
 import LoginTrigger from "../components/loginComponents/loginTrigger";
 import { SessionProvider, signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { no_api } from "../../javascript/client_function";
 
 const LoginPage = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -14,22 +14,27 @@ const LoginPage = () => {
   const handleLogin = async () => {
     //? Set process state to true
     setIsProcess(true);
-    
-    //? Sign in to credentials manager from next-auth
-    const result = await signIn("credentials", {
-        username_or_email: usernameOrEmail,
-        password: password,
-        redirect: false,
-    });
 
-    //? If there's no error try to logging in and get token from server
-    if(!result.error) {
-      window.location.href = "/?login";
+    if(no_api()) {
+        window.location.href = "/home";
     }
     else {
-      alert("Email/Username or password is wrong.");
+        //? Sign in to credentials manager from next-auth
+        const result = await signIn("credentials", {
+            username_or_email: usernameOrEmail,
+            password: password,
+            redirect: false,
+        });
+    
+        //? If there's no error try to logging in and get token from server
+        if(!result.error) {
+          window.location.href = "/?login";
+        }
+        else {
+          alert("Email/Username or password is wrong.");
+        }
     }
-
+    
     setIsProcess(false);
   };
 
@@ -100,6 +105,9 @@ const LoginPage = () => {
               </Link>
               </span>
           </form>
+          </div>
+          <div className="w-full flex items-center justify-center mt-4">
+            <button className="bg-white px-8 py-2 text-md rounded-xl text-black border-white border-2 duration-200 hover:bg-black hover:text-white" onClick={() => { (localStorage.getItem("development") ? localStorage.removeItem("development") : localStorage.setItem("development", "true")); window.location.reload(); }}>{localStorage.getItem("development") ? "Deactivate Development Mode" : "Activate Development Mode"}</button>
           </div>
       </div>
     </>

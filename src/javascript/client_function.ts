@@ -8,5 +8,5 @@ export function number_to_rp(num: number|undefined, with_rp: boolean = false): s
 }
 
 export function no_api(): boolean {
-    return ((localStorage.getItem("no_api") || localStorage.getItem("no_api")) ? true : false);
+    return ((localStorage.getItem("development") || localStorage.getItem("no_api")) ? true : false);
 }
