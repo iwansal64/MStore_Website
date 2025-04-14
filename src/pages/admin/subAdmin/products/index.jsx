@@ -12,6 +12,7 @@ const AdminProducts = () => {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(-1);
   const [productStock, setProductStock] = useState(-1);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
     getAdminProductsAPI().then(result => {
@@ -69,6 +70,9 @@ const AdminProducts = () => {
                 type="text"
                 placeholder="Cari Produk..."
                 className="py-2 pl-10 pr-4 w-full rounded-xl bg-zinc-900 shadow-inner shadow-white/10 text-white outline-none"
+                onChange={(e) => {
+                    setSearchKeyword(e.target.value);
+                }}
               />
             </div>
             <div id="filter" className="flex flex-row gap-4 w-full">
@@ -142,7 +146,7 @@ const AdminProducts = () => {
           id="containerItems"
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          {allProduct.map((product) => (
+          {allProduct.filter(value => value.name.toLowerCase().includes(searchKeyword.toLowerCase())).map((product) => (
             <div
               key={product.id}
               className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl"
