@@ -95,7 +95,7 @@ const OrderList = () => {
               <th>Action</th>
             </tr>
             {/* Body Table */}
-            {currentItems.map((orderData, index) => (
+            {currentItems.length > 0 ? currentItems.map((orderData, index) => (
               <tr
                 key={orderData.id}
                 className="min-w-full border-b border-zinc-700 hover:bg-zinc-700 hover:cursor-pointer *:px-4 *:py-3 *:min-w-max"
@@ -152,7 +152,7 @@ const OrderList = () => {
                   </div>
                 </td>
               </tr>
-            ))}
+            )) : <>No order</>}
           </table>
 
           {/* Pagination Controls */}

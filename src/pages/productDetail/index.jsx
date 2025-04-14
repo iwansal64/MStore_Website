@@ -74,8 +74,9 @@ const ProductDetail = () => {
                 </div>
             </div>
             <div className="actions flex gap-4">
-                <button className="bg-[#ccc] text-black px-7 py-3 rounded-2xl ">Add To Cart</button>
-                <button className="bg-[#ccc] text-black px-7 py-3 rounded-2xl ">Buy Now</button>
+                <button className="bg-[#ccc] text-black px-7 py-3 rounded-2xl">Add To Cart</button>
+                <button className="bg-[#ccc] text-black px-7 py-3 rounded-2xl">Buy Now</button>
+                <button className="bg-[#ccc] text-black px-7 py-3 rounded-2xl" onClick={() => { window.location.href = `https://wa.me/${productData.admin_phone_number}` }}>Chat Admin</button>
                 <button className="bg-[#ccc] text-black px-7 py-3 rounded-2xl aspect-square w-fit" onClick={handleToggleFavorite}><FaHeart className="w-full h-full" color={isFavorite?"red":"black"} /></button>
             </div>
         </div>
