@@ -62,10 +62,15 @@ const NavigateBar = ({ is_must_login = false }) => {
 
   //? Handle logout
   const handleLogout = async () => {
-    const response = await logoutAPI();
-    if(!response.success) {
-      alert("There's internal server error when trying to logout. Please contact developer.");
-      return;
+    if(is_development_mode) {
+        window.location.href = "/";
+    }
+    else {
+        const response = await logoutAPI();
+        if(!response.success) {
+          alert("There's internal server error when trying to logout. Please contact developer.");
+          return;
+        }
     }
   };
 

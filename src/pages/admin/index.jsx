@@ -12,8 +12,11 @@ import { Link, Outlet } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { logoutAPI } from "../api/student";
 import CheckMustLogin from "../components/loginComponents/checkMustLogin";
+import { get_development_mode } from "../../javascript/client_function";
 const AdminPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const is_development_mode = get_development_mode();
 
   const handleLogout = async () => {
     localStorage.removeItem("total_orders");
@@ -22,10 +25,15 @@ const AdminPage = () => {
     localStorage.removeItem("total_revenue");
     localStorage.removeItem("total_revenue_today");
     localStorage.removeItem("total_students_ordered");
-    const response = await logoutAPI();
-    if(!response.success) {
-        alert("There's internal server error when trying to logout. Please contact developer.");
-        return;
+    if(is_development_mode) {
+      window.location.href = "/";
+    }
+    else {
+      const response = await logoutAPI();
+      if(!response.success) {
+          alert("There's internal server error when trying to logout. Please contact developer.");
+          return;
+      }
     }
   };
 

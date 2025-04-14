@@ -18,8 +18,11 @@ const LoginPage = () => {
     setIsProcess(true);
 
     if(is_development_mode) {
-        if((usernameOrEmail == "test" || usernameOrEmail == "test@test.test") && password == "test") {
+        if(usernameOrEmail == "student" && password == "student") {
             window.location.href = "/home";
+        }
+        else if(usernameOrEmail == "admin" && password == "admin") {
+            window.location.href = "/admin";
         }
         else {
             alert("Email/Username or password is wrong.");
@@ -74,7 +77,7 @@ const LoginPage = () => {
               </label>
               <input
               type="text"
-              placeholder={is_development_mode ? "Username: test atau Email: test@test.test" : "Masukkan Email/Username"}
+              placeholder={is_development_mode ? "Username: student (atau) Username: admin" : "Masukkan Email/Username"}
               value={usernameOrEmail}
               onChange={(e) => setUsernameOrEmail(e.target.value)}
               className="loginInput outline-none px-4 py-3 w-full bg-white/10 backdrop-blur-md rounded-lg placeholder:text-white/60 "
@@ -85,7 +88,7 @@ const LoginPage = () => {
               </label>
               <input
               type="password"
-              placeholder={is_development_mode ? "Password: test" : "Masukkan Passwordmu..."}
+              placeholder={is_development_mode ? "Password: student (atau) Password: admin" : "Masukkan Passwordmu..."}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="off"
