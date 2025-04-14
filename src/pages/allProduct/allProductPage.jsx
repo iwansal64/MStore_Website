@@ -1,13 +1,14 @@
 import NavigateBar from "../components/navbar";
-import { category } from "../variables/kategori";
+import { dummy_categories } from "../variables/kategori";
 // import { allProduct } from "../variables/products";
 import { FaSearch, FaChevronDown, FaCheck } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import { getAllProductsAPI } from "../api/product";
+import { getAllProductsAPI, getCategoriesAPI } from "../api/product";
 import { addToCartAPI } from "../api/cart";
 import { dummy_products } from "../variables/allProduct";
 import { get_development_mode } from "../../javascript/client_function";
+import Loader from "../components/loader";
 
 const AllProductPage = () => {
   const [allProduct, setAllProduct] = useState([]);
@@ -15,21 +16,45 @@ const AllProductPage = () => {
   const [reloadNavbar, setReloadNavbar] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [keyword, setKeyword] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  const is_development_mode = get_development_mode();
+  
   //? Get All Product Through API
   useEffect(() => {
-    if(get_development_mode()) {
+    if(is_development_mode) {
         setAllProduct(dummy_products);
+        setTimeout(() => {
+            setIsLoaded(true);
+        }, Math.random() * 1000 + 500);
     }
     else {
         getAllProductsAPI().then(result => {
-          if(result.success) {
-            setAllProduct(result.result);
-          }
+            if(result.success) {
+                setAllProduct(result.result);
+            }
+            setIsLoaded(true);
         }).catch(error => {
-          console.error(error);
-          alert("Sorry but, There's an error when trying to get product!");
-          window.location.href = "/home";
+            console.error(error);
+            alert("Sorry but, There's an error when trying to get product!");
+            window.location.href = "/home";
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if(is_development_mode) {
+        setCategories(dummy_categories);
+    }
+    else {
+        getCategoriesAPI().then(result => {
+            if(result.success) {
+                setCategories(result.result);
+            }
+        }).catch(error => {
+            console.error("Sorry but, There's an error when trying to get categories data")
+            console.error(error);
         });
     }
   }, []);
@@ -91,7 +116,7 @@ const AllProductPage = () => {
                   as="div"
                   className="absolute right-0 mt-2 w-52 border border-white/5 bg-black p-1 text-white rounded-xl shadow-lg z-50"
                 >
-                  {category.map((itemsCategory) => (
+                  {categories.map((itemsCategory) => (
                     <MenuItem key={itemsCategory.name}>
                       {({ active }) => (
                         <button
@@ -114,7 +139,7 @@ const AllProductPage = () => {
           id="containerItems"
           className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          {allProduct.filter(product => product.name.toLowerCase().includes(keyword.toLowerCase())).map((product) => (
+          {isLoaded ? (allProduct.filter(product => product.name.toLowerCase().includes(keyword.toLowerCase())).map((product) => (
             <div
               key={product.id}
               className="p-4 flex flex-col justify-between shadow-inner shadow-white/10 bg-zinc-900 rounded-xl duration-200 hover:scale-[1.05]"
@@ -151,7 +176,7 @@ const AllProductPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))) : <Loader />}
         </div>
       </div>
     </>

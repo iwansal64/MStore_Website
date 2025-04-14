@@ -211,3 +211,26 @@ export async function getAdminProductsAPI() {
         };
     }
 }
+
+export async function getCategoriesAPI() {
+    const response = await (await fetch(Product.GetCategories, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Authorization": authorization_string,
+        },
+    })).json();
+
+    if(response.result && Array.isArray(response.result)) {
+        return {
+            success: true,
+            result: response.result,
+        };
+    }
+    else {
+        return {
+            success: false,
+            error: response.error || response.error_code,
+        };
+    }
+}

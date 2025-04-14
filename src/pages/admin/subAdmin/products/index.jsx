@@ -1,4 +1,4 @@
-import { category } from "../../../variables/kategori";
+import { dummy_categories } from "../../../variables/kategori";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { addProductAPI, deleteProductAPI, editProductAPI, getAdminProductsAPI } from "../../../api/product";
@@ -84,7 +84,7 @@ const AdminProducts = () => {
                   as="div"
                   className="absolute right-0 mt-2 w-52 border border-white/5 bg-black p-1 text-white rounded-xl shadow-lg z-50"
                 >
-                  {category.map((itemsCategory) => (
+                  {dummy_categories.map((itemsCategory) => (
                     <MenuItem key={itemsCategory.name}>
                       {({ active }) => (
                         <button

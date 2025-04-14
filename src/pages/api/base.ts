@@ -37,4 +37,5 @@ export class Product {
     static UpdateProductEndpoint: string = "http://localhost:5500/api/product/update";
     static DeleteProduct: string = "http://localhost:5500/api/product/delete";
     static GetProductById: string = "http://localhost:5500/api/product/get_by_id";
+    static GetCategories: string = "http://localhost:5500/api/product/get_categories";
 }

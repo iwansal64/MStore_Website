@@ -1,4 +1,4 @@
-export const category = [
+export const dummy_categories = [
     { id: 1, name: "Seragam" },
     { id: 2, name: "Celana" },
     { id: 3, name: "Wearpack" },
