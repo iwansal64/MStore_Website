@@ -38,4 +38,5 @@ export class Product {
     static DeleteProduct: string = "http://localhost:5500/api/product/delete";
     static GetProductById: string = "http://localhost:5500/api/product/get_by_id";
     static GetCategories: string = "http://localhost:5500/api/product/get_categories";
+    static GetProductByCategory: string = "http://localhost:5500/api/product/get_by_category";
 }
