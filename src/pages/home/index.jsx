@@ -1,6 +1,6 @@
 import usePreventBackNavigation from "../hooks/usePreventNavigation";
 import NavigateBar from "../components/navbar";
-import { itemSlider } from "../variables/itemsSlider";
+import { dummy_categories } from "../variables/kategori";
 
 // Swiper
 // Import Swiper React components
@@ -13,9 +13,35 @@ import "swiper/css/pagination";
 
 // Import required Swiper modules
 import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
+import { useEffect, useState } from "react";
+import { get_development_mode } from "../../javascript/client_function";
+import { getCategoriesAPI } from "../api/product";
 
 const HomePage = () => {
   usePreventBackNavigation();
+
+  const [itemSlider, setItemSlider] = useState([]);
+  
+  const is_development_mode = get_development_mode();
+
+  useEffect(() => {
+    if(is_development_mode) {
+        setItemSlider(dummy_categories);
+    }
+    else {
+        getCategoriesAPI().then(result => {
+            if(result.success) {
+                setItemSlider(result.result);
+            }
+            else {
+                console.error("There's an error when trying to get category data");
+            }
+        }).catch(error => {
+            console.error("There's an error when trying to get category data");
+            console.error(error);
+        })
+    }
+  }, []);
 
   if(localStorage.getItem("mitra-register")) {
     alert("Account successfully registered!");
@@ -65,7 +91,7 @@ const HomePage = () => {
                   <SwiperSlide key={item.id}>
                     <div className="border border-white/60 sm:w-[300px] sm:h-[350px] w-[250px] h-[350px] p-8 mx-auto flex flex-col justify-between rounded-xl">
                       <img
-                        src={item.imgUrl}
+                        src={item.image_url}
                         alt={item.name}
                         className="mx-auto aspect-4/3 object-contain rounded-lg w-44"
                       />
@@ -73,7 +99,9 @@ const HomePage = () => {
                         <p className="text-white text-center text-xl font-semibold p-4">
                           {item.name}
                         </p>
-                        <button className="text-white border px-3 py-2 rounded-lg hover:bg-white hover:text-black duration-300">
+                        <button className="text-white border px-3 py-2 rounded-lg hover:bg-white hover:text-black duration-300" onClick={() => {
+                            window.location.href = `/products?category=${encodeURIComponent(item.name)}`;
+                        }}>
                           Check Now!
                         </button>
                       </div>

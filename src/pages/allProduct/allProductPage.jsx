@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import { getAllProductsAPI, getCategoriesAPI, getProductByCategoryAPI } from "../api/product";
 import { addToCartAPI } from "../api/cart";
 import { dummy_products } from "../variables/allProduct";
-import { get_development_mode } from "../../javascript/client_function";
+import { get_development_mode, number_to_rp } from "../../javascript/client_function";
 import Loader from "../components/loader";
+import { useSearchParams } from "next/navigation";
 
 const AllProductPage = () => {
+  const searchParams = useSearchParams();
+  const param_category = searchParams.get("category");
+  
   const [allProduct, setAllProduct] = useState([]);
   const [successToAddId, setSuccessToAddId] = useState("");
   const [reloadNavbar, setReloadNavbar] = useState(false);
@@ -18,7 +22,7 @@ const AllProductPage = () => {
   const [categories, setCategories] = useState([]);
   
   const [keyword, setKeyword] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(param_category ? param_category : "");
   
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -26,18 +30,6 @@ const AllProductPage = () => {
   
   //? Get All Product Through API
   function get_all_product() {
-    getAllProductsAPI().then(result => {
-        if(result.success) {
-            setAllProduct(result.result);
-        }
-        setIsLoaded(true);
-    }).catch(error => {
-        console.error(error);
-        alert("Sorry but, There's an error when trying to get product!");
-        window.location.href = "/home";
-    });
-  }
-  useEffect(() => {
     if(is_development_mode) {
         setAllProduct(dummy_products);
         setTimeout(() => {
@@ -45,23 +37,65 @@ const AllProductPage = () => {
         }, Math.random() * 1000 + 500);
     }
     else {
-        get_all_product();
+      getAllProductsAPI().then(result => {
+          if(result.success) {
+              setAllProduct(result.result);
+          }
+          setIsLoaded(true);
+      }).catch(error => {
+          console.error(error);
+          alert("Sorry but, There's an error when trying to get product!");
+          window.location.href = "/home";
+      });
+    }
+  }
+
+  function get_product_by_category(category_name) {
+    if(is_development_mode) {
+      setAllProduct(dummy_products.filter((value) => value.category == category_name));
+      setTimeout(() => {
+          setIsLoaded(true);
+      }, Math.random() * 1000 + 500);
+    }
+    else {
+      getProductByCategoryAPI({ category: category_name }).then(result => {
+        if(result.success) {
+          setAllProduct(result.result);
+          setIsLoaded(true);
+        }
+        else {
+          console.error("There's an error when trying to get product by category");
+          console.error(`Response: ${result}`);
+        }
+      }).catch(() => {
+        alert("Sorry but, There's an error when trying to get product!");
+        window.location.href = "/home";
+      })
+    }
+  }
+  
+  useEffect(() => {
+    if(param_category) {
+      get_product_by_category(param_category)
+    }
+    else {
+      get_all_product();
     }
   }, []);
 
   useEffect(() => {
     if(is_development_mode) {
-        setCategories(dummy_categories);
+      setCategories(dummy_categories);
     }
     else {
-        getCategoriesAPI().then(result => {
-            if(result.success) {
-                setCategories(result.result);
-            }
-        }).catch(error => {
-            console.error("Sorry but, There's an error when trying to get categories data")
-            console.error(error);
-        });
+      getCategoriesAPI().then(result => {
+        if(result.success) {
+          setCategories(result.result);
+        }
+      }).catch(error => {
+        console.error("Sorry but, There's an error when trying to get categories data")
+        console.error(error);
+      });
     }
   }, []);
 
@@ -101,19 +135,7 @@ const AllProductPage = () => {
 
     if(selectedCategory != category_name) {
         setSelectedCategory(category_name);
-        getProductByCategoryAPI({ category: category_name }).then(result => {
-            if(result.success) {
-                setAllProduct(result.result);
-                setIsLoaded(true);
-            }
-            else {
-                console.error("There's an error when trying to get product by category");
-                console.error(`Response: ${result}`);
-            }
-        }).catch(() => {
-            alert("Sorry but, There's an error when trying to get product!");
-            window.location.href = "/home";
-        })
+        get_product_by_category(category_name)
     }
     else {
         setSelectedCategory("");
@@ -196,7 +218,7 @@ const AllProductPage = () => {
                     {product.name}
                   </h1>
                   <p className="text-md text-gray-200">
-                    Price: Rp {product.price}
+                    Price: {number_to_rp(product.price, true)}
                   </p>
                 </div>
 
