@@ -102,7 +102,7 @@ const AllProductPage = () => {
   //? Functions Handler
   async function order_product({ product_id }) {
     localStorage.setItem("checkout_product_id", product_id);
-    localStorage.removeItem("checkout_carts_id", product_id);
+    localStorage.removeItem("checkout_carts_id");
     window.location.href = `/checkout`;
   }
   
